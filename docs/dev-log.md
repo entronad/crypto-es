@@ -54,3 +54,6 @@ Hasher 中的 cfg，cfg是base的对象，传入的普通对象能混入
 
 _createHelper传入的应该是一个类
 
+
+
+内部结构采用modules的结构

@@ -1,18 +1,7 @@
 /**
- * Crypto namespace.
- */
-const C = {};
-
-/**
- * Library namespace.
- */
-const C_lib = {};
-C.lib = C_lib;
-
-/**
  * Base class for inheritance.
  */
-class Base {
+export class Base {
   /**
    * Extends this object and runs the init method.
    * Arguments to create() will be passed to init().
@@ -44,7 +33,6 @@ class Base {
     return clone;
   }
 }
-C_lib.Base = Base;
 
 /**
  * An array of 32-bit words.
@@ -52,7 +40,7 @@ C_lib.Base = Base;
  * @property {Array} words The array of 32-bit words.
  * @property {number} sigBytes The number of significant bytes in this word array.
  */
-class WordArray extends Base {
+export class WordArray extends Base {
   /**
    * Initializes a newly created word array.
    *
@@ -67,6 +55,7 @@ class WordArray extends Base {
    */
   constructor(words = [], sigBytes = words.length * 4) {
     super();
+
     this.words = words;
     this.sigBytes = sigBytes;
   }
@@ -201,18 +190,11 @@ class WordArray extends Base {
     return new WordArray(words, nBytes);
   }
 }
-C_lib.WordArray = WordArray;
-
-/**
- * Encoder namespace.
- */
-const C_enc = {};
-C.enc = C_enc;
 
 /**
  * Hex encoding strategy.
  */
-const Hex = {
+export const Hex = {
   /**
    * Converts a word array to a hex string.
    *
@@ -267,12 +249,11 @@ const Hex = {
     return new WordArray(words, hexStrLength / 2);
   },
 };
-C_enc.Hex = Hex;
 
 /**
  * Latin1 encoding strategy.
  */
-const Latin1 = {
+export const Latin1 = {
   /**
    * Converts a word array to a Latin1 string.
    *
@@ -326,12 +307,11 @@ const Latin1 = {
     return new WordArray(words, latin1StrLength);
   },
 };
-C_enc.Latin1 = Latin1;
 
 /**
  * UTF-8 encoding strategy.
  */
-const Utf8 = {
+export const Utf8 = {
   /**
    * Converts a word array to a UTF-8 string.
    *
@@ -368,7 +348,6 @@ const Utf8 = {
    */
   parse: utf8Str => Latin1.parse(unescape(encodeURIComponent(utf8Str))),
 };
-C_enc.Utf8 = Utf8;
 
 /**
  * Abstract buffered block algorithm template.
@@ -379,7 +358,7 @@ C_enc.Utf8 = Utf8;
  *
  *     The number of blocks that should be kept unprocessed in the buffer. Default: 0
  */
-class BufferedBlockAlgorithm extends Base {
+export class BufferedBlockAlgorithm extends Base {
   constructor() {
     super();
     this._minBufferSize = 0;
@@ -495,7 +474,6 @@ class BufferedBlockAlgorithm extends Base {
     return clone;
   }
 }
-C_lib.BufferedBlockAlgorithm = BufferedBlockAlgorithm;
 
 /**
  * Abstract hasher template.
@@ -504,7 +482,7 @@ C_lib.BufferedBlockAlgorithm = BufferedBlockAlgorithm;
  *
  *     The number of 32-bit words this hasher operates on. Default: 16 (512 bits)
  */
-class Hasher extends BufferedBlockAlgorithm {
+export class Hasher extends BufferedBlockAlgorithm {
   constructor(cfg) {
     super();
 
@@ -589,7 +567,7 @@ class Hasher extends BufferedBlockAlgorithm {
   /**
    * Creates a shortcut function to a hasher's object interface.
    *
-   * @param {Hasher} hasher The hasher to create a helper for.
+   * @param {Hasher} SubHasher The hasher to create a helper for.
    *
    * @return {Function} The shortcut function.
    *
@@ -606,7 +584,7 @@ class Hasher extends BufferedBlockAlgorithm {
   /**
    * Creates a shortcut function to the HMAC's object interface.
    *
-   * @param {Hasher} hasher The hasher to use in this HMAC helper.
+   * @param {Hasher} SubHasher The hasher to use in this HMAC helper.
    *
    * @return {Function} The shortcut function.
    *
@@ -617,15 +595,128 @@ class Hasher extends BufferedBlockAlgorithm {
    *     var HmacSHA256 = CryptoJS.lib.Hasher._createHmacHelper(CryptoJS.algo.SHA256);
    */
   _createHmacHelper(SubHasher) {
-    return (message, key) => new C_algo.HMAC(SubHasher, key).finalize(message);
+    return (message, key) => new HMAC(SubHasher, key).finalize(message);
   }
 }
-C_enc.Hasher = Hasher;
 
 /**
- * Algorithm namespace.
+ * HMAC algorithm.
  */
-const C_algo = {};
-C.algo = C_algo;
+export class HMAC extends Base {
+  /**
+   * Initializes a newly created HMAC.
+   *
+   * @param {Hasher} SubHasher The hash algorithm to use.
+   * @param {WordArray|string} key The secret key.
+   *
+   * @example
+   *
+   *     var hmacHasher = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, key);
+   */
+  constructor(SubHasher, key) {
+    super();
 
-export default C;
+    const hasher = new SubHasher();
+    this._hasher = hasher;
+
+    // Convert string to WordArray, else assume WordArray already
+    let _key = key;
+    if (typeof _key === 'string') {
+      _key = Utf8.parse(_key);
+    }
+
+    // Shortcuts
+    const hasherBlockSize = hasher.blockSize;
+    const hasherBlockSizeBytes = hasherBlockSize * 4;
+
+    // Allow arbitrary length keys
+    if (_key.sigBytes > hasherBlockSizeBytes) {
+      _key = hasher.finalize(key);
+    }
+
+    // Clamp excess bits
+    _key.clamp();
+
+    // Clone key for inner and outer pads
+    const oKey = _key.clone();
+    this._oKey = oKey;
+    const iKey = _key.clone();
+    this._iKey = iKey;
+
+    // Shortcuts
+    const oKeyWords = oKey.words;
+    const iKeyWords = iKey.words;
+
+    // XOR keys with pad constants
+    for (let i = 0; i < hasherBlockSize; i += 1) {
+      oKeyWords[i] ^= 0x5c5c5c5c;
+      iKeyWords[i] ^= 0x36363636;
+    }
+    oKey.sigBytes = hasherBlockSizeBytes;
+    iKey.sigBytes = hasherBlockSizeBytes;
+
+    // Set initial values
+    this.reset();
+  }
+
+  /**
+   * Resets this HMAC to its initial state.
+   *
+   * @example
+   *
+   *     hmacHasher.reset();
+   */
+  reset() {
+    // Shortcut
+    const hasher = this._hasher;
+
+    // Reset
+    hasher.reset();
+    hasher.update(this._iKey);
+  }
+
+  /**
+   * Updates this HMAC with a message.
+   *
+   * @param {WordArray|string} messageUpdate The message to append.
+   *
+   * @return {HMAC} This HMAC instance.
+   *
+   * @example
+   *
+   *     hmacHasher.update('message');
+   *     hmacHasher.update(wordArray);
+   */
+  update(messageUpdate) {
+    this._hasher.update(messageUpdate);
+
+    // Chainable
+    return this;
+  }
+
+  /**
+   * Finalizes the HMAC computation.
+   * Note that the finalize operation is effectively a destructive, read-once operation.
+   *
+   * @param {WordArray|string} messageUpdate (Optional) A final message update.
+   *
+   * @return {WordArray} The HMAC.
+   *
+   * @example
+   *
+   *     var hmac = hmacHasher.finalize();
+   *     var hmac = hmacHasher.finalize('message');
+   *     var hmac = hmacHasher.finalize(wordArray);
+   */
+  finalize(messageUpdate) {
+    // Shortcut
+    const hasher = this._hasher;
+
+    // Compute HMAC
+    const innerHash = hasher.finalize(messageUpdate);
+    hasher.reset();
+    const hmac = hasher.finalize(this._oKey.clone().concat(innerHash));
+
+    return hmac;
+  }
+}
