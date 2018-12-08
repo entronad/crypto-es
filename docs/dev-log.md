@@ -1,3 +1,5 @@
+参考基线是 brix/crypto-js 3.1.9
+
 使用jest单元测试
 
 调查TypedArray使用情况
@@ -17,6 +19,14 @@ Base.create()其实就是构造函数，但为了保持API不变，保留此函�
 > constructor返回的是实例，但constructor属于实例而不是类；静态方法的this指的是类而不是实例，可通过new this返回实例；子类继承后，成员方法this指子实例，静态方法this指子类
 
 采用静态方法的办法处理Base，保持API不变
+
+
+
+mixIn还是需要的，省了Object.assign，仅在cipher中有使用，外部API中没有使用
+
+测试中mixIn可以是类方法，但从实际使用中是实例方法，原来的架构中类和实例概念不清
+
+好像可以实现中途给类添加方法，但这不是好的实践（其实mixIn也不是好的实践，反正动态类型）
 
 
 

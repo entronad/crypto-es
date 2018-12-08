@@ -19,6 +19,21 @@ export class Base {
   }
 
   /**
+   * Copies properties into this object.
+   *
+   * @param {Object} properties The properties to mix in.
+   *
+   * @example
+   *
+   *     MyType.mixIn({
+   *         field: 'value'
+   *     });
+   */
+  mixIn(properties) {
+    return Object.assign(this, properties);
+  }
+
+  /**
    * Creates a copy of this object.
    *
    * @return {Object} The clone.
