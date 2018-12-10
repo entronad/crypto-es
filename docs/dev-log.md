@@ -67,3 +67,17 @@ _createHelper传入的应该是一个类
 
 
 内部结构采用modules的结构
+
+由于jest中使用cjm，所以测试环境下使用一个@babel/plugin-transform-modules-commonjs统一转换成cjm
+
+
+
+关于wordarray
+
+一个word指一个32位有符号整数，等价于8个16进制数（4bit)或4个byte（8bit）【一个字节2个16进制数】
+
+sigBytes 指前多少个byte有效，默认全有效，即array长度*4
+
+clamp指只保留有效的byte
+
+concat前会先clamp

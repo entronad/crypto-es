@@ -8,12 +8,21 @@ import {
   Hasher,
 } from './core';
 
+import {
+  X64Word,
+  X64WordArray,
+} from './x64-core';
+
 export default {
   lib: {
     Base,
     WordArray,
     BufferedBlockAlgorithm,
     Hasher,
+  },
+  x64: {
+    Word: X64Word,
+    WordArray: X64WordArray,
   },
   enc: {
     Hex,

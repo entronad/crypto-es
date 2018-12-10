@@ -76,6 +76,47 @@ export class WordArray extends Base {
   }
 
   /**
+   * Creates a word array filled with random bytes.
+   *
+   * @param {number} nBytes The number of random bytes to generate.
+   *
+   * @return {WordArray} The random word array.
+   *
+   * @static
+   *
+   * @example
+   *
+   *     var wordArray = CryptoJS.lib.WordArray.random(16);
+   */
+  static random(nBytes) {
+    const words = [];
+
+    const r = (w) => {
+      let m_w = w;
+      let m_z = 0x3ade68b1;
+      const mask = 0xffffffff;
+
+      return () => {
+        m_z = (0x9069 * (m_z & 0xFFFF) + (m_z >> 0x10)) & mask;
+        m_w = (0x4650 * (m_w & 0xFFFF) + (m_w >> 0x10)) & mask;
+        let result = ((m_z << 0x10) + m_w) & mask;
+        result /= 0x100000000;
+        result += 0.5;
+        return result * (Math.random() > 0.5 ? 1 : -1);
+      };
+    };
+
+    for (let i = 0, rcache; i < nBytes; i += 4) {
+      const _r = r((rcache || Math.random()) * 0x100000000);
+
+      rcache = _r() * 0x3ade67b7;
+      words.push((_r() * 0x100000000) | 0);
+    }
+
+    return new WordArray(words, nBytes);
+  }
+
+  /**
    * Converts this word array to a string.
    *
    * @param {Encoder} encoder (Optional) The encoding strategy to use. Default: CryptoJS.enc.Hex
@@ -162,47 +203,6 @@ export class WordArray extends Base {
     clone.words = this.words.slice(0);
 
     return clone;
-  }
-
-  /**
-   * Creates a word array filled with random bytes.
-   *
-   * @param {number} nBytes The number of random bytes to generate.
-   *
-   * @return {WordArray} The random word array.
-   *
-   * @static
-   *
-   * @example
-   *
-   *     var wordArray = CryptoJS.lib.WordArray.random(16);
-   */
-  random(nBytes) {
-    const words = [];
-
-    const r = (w) => {
-      let m_w = w;
-      let m_z = 0x3ade68b1;
-      const mask = 0xffffffff;
-
-      return () => {
-        m_z = (0x9069 * (m_z & 0xFFFF) + (m_z >> 0x10)) & mask;
-        m_w = (0x4650 * (m_w & 0xFFFF) + (m_w >> 0x10)) & mask;
-        let result = ((m_z << 0x10) + m_w) & mask;
-        result /= 0x100000000;
-        result += 0.5;
-        return result * (Math.random() > 0.5 ? 1 : -1);
-      };
-    };
-
-    for (let i = 0, rcache; i < nBytes; i += 4) {
-      const _r = r((rcache || Math.random()) * 0x100000000);
-
-      rcache = _r() * 0x3ade67b7;
-      words.push((_r() * 0x100000000) | 0);
-    }
-
-    return new WordArray(words, nBytes);
   }
 }
 

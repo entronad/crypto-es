@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import Crypto from '../src';
+import C from '../src';
 
 const data = {};
 
@@ -8,7 +8,7 @@ beforeAll(() => {
     mixinMethod: () => {},
   };
 
-  data.Obj = class Obj extends Crypto.lib.Base {
+  data.Obj = class Obj extends C.lib.Base {
     constructor(arg) {
       super();
       this.initFired = true;
@@ -16,6 +16,7 @@ beforeAll(() => {
     }
 
     toString() {
+      return 'ObjToString';
     }
   };
 
@@ -23,11 +24,45 @@ beforeAll(() => {
 
   data.obj.mixIn(data.mixins);
 
-  data.objClone = this.data.obj.clone();
+  data.objClone = data.obj.clone();
 });
 
 describe('lib-base', () => {
-  it('extend super', () => {
-    expect(Crypto.lib.Base).toBe(data.Obj.super);
+  it('class inheritance', () => {
+    /* eslint-disable no-proto */
+    expect(data.Obj.__proto__).toBe(C.lib.Base);
+    /* eslint-enable no-proto */
+  });
+
+  it('object inheritance', () => {
+    /* eslint-disable no-proto */
+    expect(data.obj.__proto__.__proto__).toBe(C.lib.Base.prototype);
+    /* eslint-enable no-proto */
+  });
+
+  it('override', () => {
+    expect(data.obj.toString()).toBe('ObjToString');
+  });
+
+  it('create', () => {
+    expect(data.obj.initFired).toBeTruthy();
+    expect(data.obj.initArg).toBe('argValue');
+  });
+
+  it('create', () => {
+    expect(data.obj.mixinMethod).toBe(data.mixins.mixinMethod);
+  });
+
+  it('clone distinct', () => {
+    expect(data.objClone).not.toBe(data.obj);
+  });
+
+  it('clone copy', () => {
+    expect(data.objClone.initArg).toBe(data.obj.initArg);
+  });
+
+  it('clone independent', () => {
+    data.obj.initArg = 'newValue';
+    expect(data.objClone.initArg).not.toBe(data.obj.initArg);
   });
 });
