@@ -13,6 +13,16 @@ import {
   X64WordArray,
 } from './x64-core';
 
+import {
+  Utf16,
+  Utf16BE,
+  Utf16LE,
+} from './enc-utf16';
+
+import {
+  Base64,
+} from './enc-base64';
+
 export default {
   lib: {
     Base,
@@ -28,5 +38,9 @@ export default {
     Hex,
     Latin1,
     Utf8,
+    Utf16,
+    Utf16BE,
+    Utf16LE,
+    Base64,
   },
 };

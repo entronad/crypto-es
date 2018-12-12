@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+
 /**
  * Base class for inheritance.
  */
@@ -223,7 +225,7 @@ export const Hex = {
    *
    *     var hexString = CryptoJS.enc.Hex.stringify(wordArray);
    */
-  stringify: (wordArray) => {
+  stringify(wordArray) {
     // Shortcuts
     const { words, sigBytes } = wordArray;
 
@@ -251,7 +253,7 @@ export const Hex = {
    *
    *     var wordArray = CryptoJS.enc.Hex.parse(hexString);
    */
-  parse: (hexStr) => {
+  parse(hexStr) {
     // Shortcut
     const hexStrLength = hexStr.length;
 
@@ -282,7 +284,7 @@ export const Latin1 = {
    *
    *     var latin1String = CryptoJS.enc.Latin1.stringify(wordArray);
    */
-  stringify: (wordArray) => {
+  stringify(wordArray) {
     // Shortcuts
     const { words, sigBytes } = wordArray;
 
@@ -309,7 +311,7 @@ export const Latin1 = {
    *
    *     var wordArray = CryptoJS.enc.Latin1.parse(latin1String);
    */
-  parse: (latin1Str) => {
+  parse(latin1Str) {
     // Shortcut
     const latin1StrLength = latin1Str.length;
 
@@ -340,7 +342,7 @@ export const Utf8 = {
    *
    *     var utf8String = CryptoJS.enc.Utf8.stringify(wordArray);
    */
-  stringify: (wordArray) => {
+  stringify(wordArray) {
     try {
       return decodeURIComponent(escape(Latin1.stringify(wordArray)));
     } catch (e) {
@@ -361,7 +363,9 @@ export const Utf8 = {
    *
    *     var wordArray = CryptoJS.enc.Utf8.parse(utf8String);
    */
-  parse: utf8Str => Latin1.parse(unescape(encodeURIComponent(utf8Str))),
+  parse(utf8Str) {
+    return Latin1.parse(unescape(encodeURIComponent(utf8Str)));
+  },
 };
 
 /**

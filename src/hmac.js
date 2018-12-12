@@ -1,5 +1,3 @@
-import {
+export {
   HMAC,
 } from './core';
-
-export default HMAC;
