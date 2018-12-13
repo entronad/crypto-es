@@ -87,8 +87,8 @@ export const Base64 = {
     let reverseMap = this._reverseMap;
 
     if (!reverseMap) {
-      reverseMap = [];
       this._reverseMap = [];
+      reverseMap = this._reverseMap;
       for (let j = 0; j < map.length; j += 1) {
         reverseMap[map.charCodeAt(j)] = j;
       }

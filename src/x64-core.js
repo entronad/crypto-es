@@ -99,8 +99,8 @@ export class X64WordArray extends Base {
     const clone = Base.clone.call(this);
 
     // Clone "words" array
-    const words = this.words.slice(0);
-    clone.words = words;
+    clone.words = this.words.slice(0);
+    const { words } = clone;
 
     // Clone each X64Word object
     const wordsLength = words.length;
