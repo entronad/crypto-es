@@ -85,3 +85,7 @@ sigBytes 指前多少个byte有效，默认全有效，即array长度*4
 clamp指只保留有效的byte
 
 concat前会先clamp
+
+
+
+_createHelper好像返回的是个构造函数，所以不用箭头函数

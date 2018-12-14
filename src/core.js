@@ -520,6 +520,44 @@ export class Hasher extends BufferedBlockAlgorithm {
   }
 
   /**
+   * Creates a shortcut function to a hasher's object interface.
+   *
+   * @param {Hasher} SubHasher The hasher to create a helper for.
+   *
+   * @return {Function} The shortcut function.
+   *
+   * @static
+   *
+   * @example
+   *
+   *     var SHA256 = CryptoJS.lib.Hasher._createHelper(CryptoJS.algo.SHA256);
+   */
+  static _createHelper(SubHasher) {
+    return function SubHasherConstructor(message, cfg) {
+      return new SubHasher(cfg).finalize(message);
+    };
+  }
+
+  /**
+   * Creates a shortcut function to the HMAC's object interface.
+   *
+   * @param {Hasher} SubHasher The hasher to use in this HMAC helper.
+   *
+   * @return {Function} The shortcut function.
+   *
+   * @static
+   *
+   * @example
+   *
+   *     var HmacSHA256 = CryptoJS.lib.Hasher._createHmacHelper(CryptoJS.algo.SHA256);
+   */
+  static _createHmacHelper(SubHasher) {
+    return function SubHasherConstructor(message, key) {
+      return new HMAC(SubHasher, key).finalize(message);
+    };
+  }
+
+  /**
    * Resets this hasher to its initial state.
    *
    * @example
@@ -581,40 +619,6 @@ export class Hasher extends BufferedBlockAlgorithm {
     const hash = this._doFinalize();
 
     return hash;
-  }
-
-  /**
-   * Creates a shortcut function to a hasher's object interface.
-   *
-   * @param {Hasher} SubHasher The hasher to create a helper for.
-   *
-   * @return {Function} The shortcut function.
-   *
-   * @static
-   *
-   * @example
-   *
-   *     var SHA256 = CryptoJS.lib.Hasher._createHelper(CryptoJS.algo.SHA256);
-   */
-  _createHelper(SubHasher) {
-    return (message, cfg) => new SubHasher(cfg).finalize(message);
-  }
-
-  /**
-   * Creates a shortcut function to the HMAC's object interface.
-   *
-   * @param {Hasher} SubHasher The hasher to use in this HMAC helper.
-   *
-   * @return {Function} The shortcut function.
-   *
-   * @static
-   *
-   * @example
-   *
-   *     var HmacSHA256 = CryptoJS.lib.Hasher._createHmacHelper(CryptoJS.algo.SHA256);
-   */
-  _createHmacHelper(SubHasher) {
-    return (message, key) => new HMAC(SubHasher, key).finalize(message);
   }
 }
 
