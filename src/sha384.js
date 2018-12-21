@@ -7,7 +7,7 @@ import { SHA512 } from './sha512';
 /**
  * SHA-384 hash algorithm.
  */
-class _SHA384 extends SHA512 {
+export class SHA384 extends SHA512 {
   _doReset() {
     this._hash = new X64WordArray([
       new X64Word(0xcbbb9d5d, 0xc1059ed8),
@@ -44,7 +44,7 @@ class _SHA384 extends SHA512 {
  *     var hash = CryptoJS.SHA384('message');
  *     var hash = CryptoJS.SHA384(wordArray);
  */
-export const SHA384 = SHA512._createHelper(_SHA384);
+export const SHA384Func = SHA512._createHelper(SHA384);
 
 /**
  * Shortcut function to the HMAC's object interface.
@@ -60,4 +60,4 @@ export const SHA384 = SHA512._createHelper(_SHA384);
  *
  *     var hmac = CryptoJS.HmacSHA384(message, key);
  */
-export const HmacSHA384 = SHA512._createHmacHelper(_SHA384);
+export const HmacSHA384Func = SHA512._createHmacHelper(SHA384);

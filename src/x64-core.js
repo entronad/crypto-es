@@ -96,7 +96,7 @@ export class X64WordArray extends Base {
    *     var clone = x64WordArray.clone();
    */
   clone() {
-    const clone = Base.clone.call(this);
+    const clone = super.clone.call(this);
 
     // Clone "words" array
     clone.words = this.words.slice(0);

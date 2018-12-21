@@ -24,38 +24,49 @@ import {
 } from './enc-base64';
 
 import {
+  HMAC,
+} from './hmac';
+
+import {
   MD5,
-  HmacMD5,
+  MD5Func,
+  HmacMD5Func,
 } from './md5';
 
 import {
   SHA1,
-  HmacSHA1,
+  SHA1Func,
+  HmacSHA1Func,
 } from './sha1';
 
 import {
   SHA224,
-  HmacSHA224,
+  SHA224Func,
+  HmacSHA224Func,
 } from './sha224';
 
 import {
   SHA256,
-  HmacSHA256,
+  SHA256Func,
+  HmacSHA256Func,
 } from './sha256';
 
 import {
   SHA384,
-  HmacSHA384,
+  SHA384Func,
+  HmacSHA384Func,
 } from './sha384';
 
 import {
   SHA512,
-  HmacSHA512,
+  SHA512Func,
+  HmacSHA512Func,
 } from './sha512';
 
 import {
   SHA3,
-  HmacSHA3,
+  SHA3Func,
+  HmacSHA3Func,
 } from './sha3';
 
 export default {
@@ -79,19 +90,27 @@ export default {
     Base64,
   },
   algo: {
+    HMAC,
     MD5,
-    HmacMD5,
     SHA1,
-    HmacSHA1,
     SHA224,
-    HmacSHA224,
     SHA256,
-    HmacSHA256,
     SHA384,
-    HmacSHA384,
     SHA512,
-    HmacSHA512,
     SHA3,
-    HmacSHA3,
   },
+  MD5: MD5Func,
+  HmacMD5: HmacMD5Func,
+  SHA1: SHA1Func,
+  HmacSHA1: HmacSHA1Func,
+  SHA224: SHA224Func,
+  HmacSHA224: HmacSHA224Func,
+  SHA256: SHA256Func,
+  HmacSHA256: HmacSHA256Func,
+  SHA384: SHA384Func,
+  HmacSHA384: HmacSHA384Func,
+  SHA512: SHA512Func,
+  HmacSHA512: HmacSHA512Func,
+  SHA3: SHA3Func,
+  HmacSHA3: HmacSHA3Func,
 };

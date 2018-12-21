@@ -66,7 +66,7 @@ for (let i = 0; i < 25; i += 1) {
 /**
  * SHA-3 hash algorithm.
  */
-class _SHA3 extends Hasher {
+export class SHA3 extends Hasher {
   /**
    * Configuration options.
    *
@@ -273,7 +273,7 @@ class _SHA3 extends Hasher {
  *     var hash = CryptoJS.SHA3('message');
  *     var hash = CryptoJS.SHA3(wordArray);
  */
-export const SHA3 = Hasher._createHelper(_SHA3);
+export const SHA3Func = Hasher._createHelper(SHA3);
 
 /**
  * Shortcut function to the HMAC's object interface.
@@ -289,4 +289,4 @@ export const SHA3 = Hasher._createHelper(_SHA3);
  *
  *     var hmac = CryptoJS.HmacSHA3(message, key);
  */
-export const HmacSHA3 = Hasher._createHmacHelper(_SHA3);
+export const HmacSHA3Func = Hasher._createHmacHelper(SHA3);

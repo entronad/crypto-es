@@ -7,9 +7,9 @@ import {
 const W = [];
 
 /**
-     * SHA-1 hash algorithm.
-     */
-class _SHA1 extends Hasher {
+ * SHA-1 hash algorithm.
+ */
+export class SHA1 extends Hasher {
   _doReset() {
     this._hash = new WordArray([
       0x67452301,
@@ -109,7 +109,7 @@ class _SHA1 extends Hasher {
  *     var hash = CryptoJS.SHA1('message');
  *     var hash = CryptoJS.SHA1(wordArray);
  */
-export const SHA1 = Hasher._createHelper(_SHA1);
+export const SHA1Func = Hasher._createHelper(SHA1);
 
 /**
  * Shortcut function to the HMAC's object interface.
@@ -125,4 +125,4 @@ export const SHA1 = Hasher._createHelper(_SHA1);
  *
  *     var hmac = CryptoJS.HmacSHA1(message, key);
  */
-export const HmacSHA1 = Hasher._createHmacHelper(_SHA1);
+export const HmacSHA1Func = Hasher._createHmacHelper(SHA1);

@@ -34,7 +34,7 @@ const II = (a, b, c, d, x, s, t) => {
 /**
  * MD5 hash algorithm.
  */
-class _MD5 extends Hasher {
+export class MD5 extends Hasher {
   _doReset() {
     this._hash = new WordArray([
       0x67452301,
@@ -227,7 +227,7 @@ class _MD5 extends Hasher {
  *     var hash = CryptoJS.MD5('message');
  *     var hash = CryptoJS.MD5(wordArray);
  */
-export const MD5 = Hasher._createHelper(_MD5);
+export const MD5Func = Hasher._createHelper(MD5);
 
 /**
  * Shortcut function to the HMAC's object interface.
@@ -243,4 +243,4 @@ export const MD5 = Hasher._createHelper(_MD5);
  *
  *     var hmac = CryptoJS.HmacMD5(message, key);
  */
-export const HmacMD5 = Hasher._createHmacHelper(_MD5);
+export const HmacMD5Func = Hasher._createHmacHelper(MD5);

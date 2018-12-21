@@ -95,9 +95,9 @@ for (let i = 0; i < 80; i += 1) {
 }
 
 /**
-     * SHA-512 hash algorithm.
-     */
-class _SHA512 extends Hasher {
+ * SHA-512 hash algorithm.
+ */
+export class SHA512 extends Hasher {
   constructor() {
     super();
 
@@ -350,7 +350,7 @@ class _SHA512 extends Hasher {
  *     var hash = CryptoJS.SHA512('message');
  *     var hash = CryptoJS.SHA512(wordArray);
  */
-export const SHA512 = Hasher._createHelper(_SHA512);
+export const SHA512Func = Hasher._createHelper(SHA512);
 
 /**
  * Shortcut function to the HMAC's object interface.
@@ -366,4 +366,4 @@ export const SHA512 = Hasher._createHelper(_SHA512);
  *
  *     var hmac = CryptoJS.HmacSHA512(message, key);
  */
-export const HmacSHA512 = Hasher._createHmacHelper(_SHA512);
+export const HmacSHA512Func = Hasher._createHmacHelper(SHA512);

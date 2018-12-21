@@ -2,9 +2,9 @@ import { WordArray } from './core';
 import { SHA256 } from './sha256';
 
 /**
-     * SHA-224 hash algorithm.
-     */
-class _SHA224 extends SHA256 {
+ * SHA-224 hash algorithm.
+ */
+export class SHA224 extends SHA256 {
   _doReset() {
     this._hash = new WordArray([
       0xc1059ed8,
@@ -41,7 +41,7 @@ class _SHA224 extends SHA256 {
  *     var hash = CryptoJS.SHA224('message');
  *     var hash = CryptoJS.SHA224(wordArray);
  */
-export const SHA224 = SHA256._createHelper(_SHA224);
+export const SHA224Func = SHA256._createHelper(SHA224);
 
 /**
  * Shortcut function to the HMAC's object interface.
@@ -57,4 +57,4 @@ export const SHA224 = SHA256._createHelper(_SHA224);
  *
  *     var hmac = CryptoJS.HmacSHA224(message, key);
  */
-export const HmacSHA224 = SHA256._createHmacHelper(_SHA224);
+export const HmacSHA224Func = SHA256._createHmacHelper(SHA224);

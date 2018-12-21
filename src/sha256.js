@@ -42,7 +42,7 @@ const W = [];
 /**
  * SHA-256 hash algorithm.
  */
-class _SHA256 extends Hasher {
+export class SHA256 extends Hasher {
   _doReset() {
     this._hash = new WordArray(H.slice(0));
   }
@@ -152,7 +152,7 @@ class _SHA256 extends Hasher {
  *     var hash = CryptoJS.SHA256('message');
  *     var hash = CryptoJS.SHA256(wordArray);
  */
-export const SHA256 = Hasher._createHelper(_SHA256);
+export const SHA256Func = Hasher._createHelper(SHA256);
 
 /**
  * Shortcut function to the HMAC's object interface.
@@ -168,4 +168,4 @@ export const SHA256 = Hasher._createHelper(_SHA256);
  *
  *     var hmac = CryptoJS.HmacSHA256(message, key);
  */
-export const HmacSHA256 = Hasher._createHmacHelper(_SHA256);
+export const HmacSHA256Func = Hasher._createHmacHelper(SHA256);
