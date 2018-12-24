@@ -510,10 +510,7 @@ export class Hasher extends BufferedBlockAlgorithm {
     /**
      * Configuration options.
      */
-    this.cfg = new Base();
-
-    // Apply config defaults
-    Object.assign(this.cfg, cfg);
+    this.cfg = Object.assign(new Base(), cfg);
 
     // Set initial values
     this.reset();
@@ -533,9 +530,7 @@ export class Hasher extends BufferedBlockAlgorithm {
    *     var SHA256 = CryptoJS.lib.Hasher._createHelper(CryptoJS.algo.SHA256);
    */
   static _createHelper(SubHasher) {
-    return function SubHasherConstructor(message, cfg) {
-      return new SubHasher(cfg).finalize(message);
-    };
+    return (message, cfg) => new SubHasher(cfg).finalize(message);
   }
 
   /**
@@ -552,9 +547,7 @@ export class Hasher extends BufferedBlockAlgorithm {
    *     var HmacSHA256 = CryptoJS.lib.Hasher._createHmacHelper(CryptoJS.algo.SHA256);
    */
   static _createHmacHelper(SubHasher) {
-    return function SubHasherConstructor(message, key) {
-      return new HMAC(SubHasher, key).finalize(message);
-    };
+    return (message, key) => new HMAC(SubHasher, key).finalize(message);
   }
 
   /**

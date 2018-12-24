@@ -67,16 +67,19 @@ for (let i = 0; i < 25; i += 1) {
  * SHA-3 hash algorithm.
  */
 export class SHA3 extends Hasher {
-  /**
-   * Configuration options.
-   *
-   * @property {number} outputLength
-   *   The desired number of bits in the output hash.
-   *   Only values permitted are: 224, 256, 384, 512.
-   *   Default: 512
-   */
-  constructor(cfg = { outputLength: 512 }) {
-    super(cfg);
+  constructor(cfg) {
+    /**
+     * Configuration options.
+     *
+     * @property {number} outputLength
+     *   The desired number of bits in the output hash.
+     *   Only values permitted are: 224, 256, 384, 512.
+     *   Default: 512
+     */
+    super(Object.assign(
+      { outputLength: 512 },
+      cfg,
+    ));
   }
 
   _doReset() {

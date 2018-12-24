@@ -88,10 +88,12 @@ concat前会先clamp
 
 
 
-_createHelper好像返回的是个构造函数，所以不用箭头函数
+_createHelper返回的不是构造函数，是Hasher的快捷方式，可以使用箭头函数
 
 Hasher 通过_createHelper，结果为一个函数，输入文本，返回一个Wordarray （源码中称为hash）
 
 _createHelper本身传入一个hasher，新建此hasher实例，并调用其finalize，因此finalize函数为实例函数，返回计算出的Wordarray
 
 C.Hasher 是函数，C.algo.Hasher是类
+
+Cipher. _createHelper中注意，对象的方法不用箭头函数
