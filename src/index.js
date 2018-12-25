@@ -65,6 +65,19 @@ import {
   EvpKDF,
   EvpKDFFunc,
 } from './evpkdf';
+import {
+  Cipher,
+  StreamCipher,
+  BlockCipherMode,
+  CBC,
+  Pkcs7,
+  BlockCipher,
+  CipherParams,
+  OpenSSLFormatter,
+  SerializableCipher,
+  OpenSSLKdf,
+  PasswordBasedCipher,
+} from './cipher-core';
 
 export default {
   lib: {
@@ -72,6 +85,13 @@ export default {
     WordArray,
     BufferedBlockAlgorithm,
     Hasher,
+    Cipher,
+    StreamCipher,
+    BlockCipherMode,
+    BlockCipher,
+    CipherParams,
+    SerializableCipher,
+    PasswordBasedCipher,
   },
   x64: {
     Word: X64Word,
@@ -97,6 +117,18 @@ export default {
     SHA3,
     PBKDF2,
     EvpKDF,
+  },
+  mode: {
+    CBC,
+  },
+  pad: {
+    Pkcs7,
+  },
+  format: {
+    OpenSSL: OpenSSLFormatter,
+  },
+  kdf: {
+    OpenSSL: OpenSSLKdf,
   },
   MD5: MD5Func,
   HmacMD5: HmacMD5Func,

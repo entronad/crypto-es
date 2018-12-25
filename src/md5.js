@@ -44,15 +44,16 @@ export class MD5 extends Hasher {
     ]);
   }
 
-  /* eslint-disable no-param-reassign */
   _doProcessBlock(M, offset) {
+    const _M = M;
+
     // Swap endian
     for (let i = 0; i < 16; i += 1) {
       // Shortcuts
       const offset_i = offset + i;
       const M_offset_i = M[offset_i];
 
-      M[offset_i] = (
+      _M[offset_i] = (
         (((M_offset_i << 8) | (M_offset_i >>> 24)) & 0x00ff00ff)
           | (((M_offset_i << 24) | (M_offset_i >>> 8)) & 0xff00ff00)
       );
@@ -61,22 +62,22 @@ export class MD5 extends Hasher {
     // Shortcuts
     const H = this._hash.words;
 
-    const M_offset_0 = M[offset + 0];
-    const M_offset_1 = M[offset + 1];
-    const M_offset_2 = M[offset + 2];
-    const M_offset_3 = M[offset + 3];
-    const M_offset_4 = M[offset + 4];
-    const M_offset_5 = M[offset + 5];
-    const M_offset_6 = M[offset + 6];
-    const M_offset_7 = M[offset + 7];
-    const M_offset_8 = M[offset + 8];
-    const M_offset_9 = M[offset + 9];
-    const M_offset_10 = M[offset + 10];
-    const M_offset_11 = M[offset + 11];
-    const M_offset_12 = M[offset + 12];
-    const M_offset_13 = M[offset + 13];
-    const M_offset_14 = M[offset + 14];
-    const M_offset_15 = M[offset + 15];
+    const M_offset_0 = _M[offset + 0];
+    const M_offset_1 = _M[offset + 1];
+    const M_offset_2 = _M[offset + 2];
+    const M_offset_3 = _M[offset + 3];
+    const M_offset_4 = _M[offset + 4];
+    const M_offset_5 = _M[offset + 5];
+    const M_offset_6 = _M[offset + 6];
+    const M_offset_7 = _M[offset + 7];
+    const M_offset_8 = _M[offset + 8];
+    const M_offset_9 = _M[offset + 9];
+    const M_offset_10 = _M[offset + 10];
+    const M_offset_11 = _M[offset + 11];
+    const M_offset_12 = _M[offset + 12];
+    const M_offset_13 = _M[offset + 13];
+    const M_offset_14 = _M[offset + 14];
+    const M_offset_15 = _M[offset + 15];
 
     // Working varialbes
     let a = H[0];
