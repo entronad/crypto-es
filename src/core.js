@@ -93,15 +93,15 @@ export class WordArray extends Base {
   static random(nBytes) {
     const words = [];
 
-    const r = (w) => {
-      let m_w = w;
-      let m_z = 0x3ade68b1;
+    const r = (m_w) => {
+      let _m_w = m_w;
+      let _m_z = 0x3ade68b1;
       const mask = 0xffffffff;
 
       return () => {
-        m_z = (0x9069 * (m_z & 0xFFFF) + (m_z >> 0x10)) & mask;
-        m_w = (0x4650 * (m_w & 0xFFFF) + (m_w >> 0x10)) & mask;
-        let result = ((m_z << 0x10) + m_w) & mask;
+        _m_z = (0x9069 * (_m_z & 0xFFFF) + (_m_z >> 0x10)) & mask;
+        _m_w = (0x4650 * (_m_w & 0xFFFF) + (_m_w >> 0x10)) & mask;
+        let result = ((_m_z << 0x10) + _m_w) & mask;
         result /= 0x100000000;
         result += 0.5;
         return result * (Math.random() > 0.5 ? 1 : -1);
