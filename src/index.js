@@ -12,60 +12,6 @@ import {
   X64WordArray,
 } from './x64-core';
 import {
-  Utf16,
-  Utf16BE,
-  Utf16LE,
-} from './enc-utf16';
-import {
-  Base64,
-} from './enc-base64';
-import {
-  HMAC,
-} from './hmac';
-import {
-  MD5,
-  MD5Func,
-  HmacMD5Func,
-} from './md5';
-import {
-  SHA1,
-  SHA1Func,
-  HmacSHA1Func,
-} from './sha1';
-import {
-  SHA224,
-  SHA224Func,
-  HmacSHA224Func,
-} from './sha224';
-import {
-  SHA256,
-  SHA256Func,
-  HmacSHA256Func,
-} from './sha256';
-import {
-  SHA384,
-  SHA384Func,
-  HmacSHA384Func,
-} from './sha384';
-import {
-  SHA512,
-  SHA512Func,
-  HmacSHA512Func,
-} from './sha512';
-import {
-  SHA3,
-  SHA3Func,
-  HmacSHA3Func,
-} from './sha3';
-import {
-  PBKDF2,
-  PBKDF2Func,
-} from './pbkdf2';
-import {
-  EvpKDF,
-  EvpKDFFunc,
-} from './evpkdf';
-import {
   Cipher,
   StreamCipher,
   BlockCipherMode,
@@ -78,6 +24,34 @@ import {
   OpenSSLKdf,
   PasswordBasedCipher,
 } from './cipher-core';
+
+import { Utf16, Utf16BE, Utf16LE } from './enc-utf16';
+import { Base64 } from './enc-base64';
+import { HMAC } from './hmac';
+import { MD5, MD5Func, HmacMD5Func } from './md5';
+import { SHA1, SHA1Func, HmacSHA1Func } from './sha1';
+import { SHA224, SHA224Func, HmacSHA224Func } from './sha224';
+import { SHA256, SHA256Func, HmacSHA256Func } from './sha256';
+import { SHA384, SHA384Func, HmacSHA384Func } from './sha384';
+import { SHA512, SHA512Func, HmacSHA512Func } from './sha512';
+import { SHA3, SHA3Func, HmacSHA3Func } from './sha3';
+import { PBKDF2, PBKDF2Func } from './pbkdf2';
+import { EvpKDF, EvpKDFFunc } from './evpkdf';
+import { AES, AESFunc } from './aes';
+import {
+  DES,
+  DESFunc,
+  TripleDES,
+  TripleDESFunc,
+} from './tripledes';
+import { Rabbit, RabbitFunc } from './rabbit';
+import { RabbitLegacy, RabbitLegacyFunc } from './rabbit-legacy';
+import {
+  RC4,
+  RC4Func,
+  RC4Drop,
+  RC4DropFunc,
+} from './rc4';
 
 export default {
   lib: {
@@ -93,10 +67,12 @@ export default {
     SerializableCipher,
     PasswordBasedCipher,
   },
+
   x64: {
     Word: X64Word,
     WordArray: X64WordArray,
   },
+
   enc: {
     Hex,
     Latin1,
@@ -106,6 +82,7 @@ export default {
     Utf16LE,
     Base64,
   },
+
   algo: {
     HMAC,
     MD5,
@@ -115,21 +92,35 @@ export default {
     SHA384,
     SHA512,
     SHA3,
+
     PBKDF2,
     EvpKDF,
+
+    AES,
+    DES,
+    TripleDES,
+    Rabbit,
+    RabbitLegacy,
+    RC4,
+    RC4Drop,
   },
+
   mode: {
     CBC,
   },
+
   pad: {
     Pkcs7,
   },
+
   format: {
     OpenSSL: OpenSSLFormatter,
   },
+
   kdf: {
     OpenSSL: OpenSSLKdf,
   },
+
   MD5: MD5Func,
   HmacMD5: HmacMD5Func,
   SHA1: SHA1Func,
@@ -144,6 +135,15 @@ export default {
   HmacSHA512: HmacSHA512Func,
   SHA3: SHA3Func,
   HmacSHA3: HmacSHA3Func,
+
   PBKDF2: PBKDF2Func,
   EvpKDF: EvpKDFFunc,
+
+  AES: AESFunc,
+  DES: DESFunc,
+  TripleDES: TripleDESFunc,
+  Rabbit: RabbitFunc,
+  RabbitLegacy: RabbitLegacyFunc,
+  RC4: RC4Func,
+  RC4Drop: RC4DropFunc,
 };

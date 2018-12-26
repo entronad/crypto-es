@@ -3,12 +3,12 @@ import {
 } from './cipher-core';
 
 // Lookup tables
-const SBOX = [];
+const _SBOX = [];
 const INV_SBOX = [];
-const SUB_MIX_0 = [];
-const SUB_MIX_1 = [];
-const SUB_MIX_2 = [];
-const SUB_MIX_3 = [];
+const _SUB_MIX_0 = [];
+const _SUB_MIX_1 = [];
+const _SUB_MIX_2 = [];
+const _SUB_MIX_3 = [];
 const INV_SUB_MIX_0 = [];
 const INV_SUB_MIX_1 = [];
 const INV_SUB_MIX_2 = [];
@@ -33,7 +33,7 @@ for (let i = 0; i < 256; i += 1) {
   // Compute sbox
   let sx = xi ^ (xi << 1) ^ (xi << 2) ^ (xi << 3) ^ (xi << 4);
   sx = (sx >>> 8) ^ (sx & 0xff) ^ 0x63;
-  SBOX[x] = sx;
+  _SBOX[x] = sx;
   INV_SBOX[sx] = x;
 
   // Compute multiplication
@@ -43,10 +43,10 @@ for (let i = 0; i < 256; i += 1) {
 
   // Compute sub bytes, mix columns tables
   let t = (d[sx] * 0x101) ^ (sx * 0x1010100);
-  SUB_MIX_0[x] = (t << 24) | (t >>> 8);
-  SUB_MIX_1[x] = (t << 16) | (t >>> 16);
-  SUB_MIX_2[x] = (t << 8) | (t >>> 24);
-  SUB_MIX_3[x] = t;
+  _SUB_MIX_0[x] = (t << 24) | (t >>> 8);
+  _SUB_MIX_1[x] = (t << 16) | (t >>> 16);
+  _SUB_MIX_2[x] = (t << 8) | (t >>> 24);
+  _SUB_MIX_3[x] = t;
 
   // Compute inv sub bytes, inv mix columns tables
   t = (x8 * 0x1010101) ^ (x4 * 0x10001) ^ (x2 * 0x101) ^ (x * 0x1010100);
@@ -113,19 +113,19 @@ export class AES extends BlockCipher {
           t = (t << 8) | (t >>> 24);
 
           // Sub word
-          t = (SBOX[t >>> 24] << 24)
-            | (SBOX[(t >>> 16) & 0xff] << 16)
-            | (SBOX[(t >>> 8) & 0xff] << 8)
-            | SBOX[t & 0xff];
+          t = (_SBOX[t >>> 24] << 24)
+            | (_SBOX[(t >>> 16) & 0xff] << 16)
+            | (_SBOX[(t >>> 8) & 0xff] << 8)
+            | _SBOX[t & 0xff];
 
           // Mix Rcon
           t ^= RCON[(ksRow / keySize) | 0] << 24;
         } else if (keySize > 6 && ksRow % keySize === 4) {
           // Sub word
-          t = (SBOX[t >>> 24] << 24)
-            | (SBOX[(t >>> 16) & 0xff] << 16)
-            | (SBOX[(t >>> 8) & 0xff] << 8)
-            | SBOX[t & 0xff];
+          t = (_SBOX[t >>> 24] << 24)
+            | (_SBOX[(t >>> 16) & 0xff] << 16)
+            | (_SBOX[(t >>> 8) & 0xff] << 8)
+            | _SBOX[t & 0xff];
         }
 
         keySchedule[ksRow] = keySchedule[ksRow - keySize] ^ t;
@@ -147,17 +147,17 @@ export class AES extends BlockCipher {
       if (invKsRow < 4 || ksRow <= 4) {
         invKeySchedule[invKsRow] = t;
       } else {
-        invKeySchedule[invKsRow] = INV_SUB_MIX_0[SBOX[t >>> 24]]
-          ^ INV_SUB_MIX_1[SBOX[(t >>> 16) & 0xff]]
-          ^ INV_SUB_MIX_2[SBOX[(t >>> 8) & 0xff]]
-          ^ INV_SUB_MIX_3[SBOX[t & 0xff]];
+        invKeySchedule[invKsRow] = INV_SUB_MIX_0[_SBOX[t >>> 24]]
+          ^ INV_SUB_MIX_1[_SBOX[(t >>> 16) & 0xff]]
+          ^ INV_SUB_MIX_2[_SBOX[(t >>> 8) & 0xff]]
+          ^ INV_SUB_MIX_3[_SBOX[t & 0xff]];
       }
     }
   }
 
   encryptBlock(M, offset) {
     this._doCryptBlock(
-      M, offset, this._keySchedule, SUB_MIX_0, SUB_MIX_1, SUB_MIX_2, SUB_MIX_3, SBOX,
+      M, offset, this._keySchedule, _SUB_MIX_0, _SUB_MIX_1, _SUB_MIX_2, _SUB_MIX_3, _SBOX,
     );
   }
 
@@ -187,43 +187,89 @@ export class AES extends BlockCipher {
   }
 
   _doCryptBlock(M, offset, keySchedule, SUB_MIX_0, SUB_MIX_1, SUB_MIX_2, SUB_MIX_3, SBOX) {
+    const _M = M;
+
     // Shortcut
-    var nRounds = this._nRounds;
+    const nRounds = this._nRounds;
 
     // Get input, add round key
-    var s0 = M[offset]     ^ keySchedule[0];
-    var s1 = M[offset + 1] ^ keySchedule[1];
-    var s2 = M[offset + 2] ^ keySchedule[2];
-    var s3 = M[offset + 3] ^ keySchedule[3];
+    let s0 = M[offset] ^ keySchedule[0];
+    let s1 = M[offset + 1] ^ keySchedule[1];
+    let s2 = M[offset + 2] ^ keySchedule[2];
+    let s3 = M[offset + 3] ^ keySchedule[3];
 
     // Key schedule row counter
-    var ksRow = 4;
+    let ksRow = 4;
 
     // Rounds
-    for (var round = 1; round < nRounds; round++) {
-        // Shift rows, sub bytes, mix columns, add round key
-        var t0 = SUB_MIX_0[s0 >>> 24] ^ SUB_MIX_1[(s1 >>> 16) & 0xff] ^ SUB_MIX_2[(s2 >>> 8) & 0xff] ^ SUB_MIX_3[s3 & 0xff] ^ keySchedule[ksRow++];
-        var t1 = SUB_MIX_0[s1 >>> 24] ^ SUB_MIX_1[(s2 >>> 16) & 0xff] ^ SUB_MIX_2[(s3 >>> 8) & 0xff] ^ SUB_MIX_3[s0 & 0xff] ^ keySchedule[ksRow++];
-        var t2 = SUB_MIX_0[s2 >>> 24] ^ SUB_MIX_1[(s3 >>> 16) & 0xff] ^ SUB_MIX_2[(s0 >>> 8) & 0xff] ^ SUB_MIX_3[s1 & 0xff] ^ keySchedule[ksRow++];
-        var t3 = SUB_MIX_0[s3 >>> 24] ^ SUB_MIX_1[(s0 >>> 16) & 0xff] ^ SUB_MIX_2[(s1 >>> 8) & 0xff] ^ SUB_MIX_3[s2 & 0xff] ^ keySchedule[ksRow++];
+    for (let round = 1; round < nRounds; round += 1) {
+      // Shift rows, sub bytes, mix columns, add round key
+      const t0 = SUB_MIX_0[s0 >>> 24]
+        ^ SUB_MIX_1[(s1 >>> 16) & 0xff]
+        ^ SUB_MIX_2[(s2 >>> 8) & 0xff]
+        ^ SUB_MIX_3[s3 & 0xff]
+        ^ keySchedule[ksRow += 1];
+      const t1 = SUB_MIX_0[s1 >>> 24]
+        ^ SUB_MIX_1[(s2 >>> 16) & 0xff]
+        ^ SUB_MIX_2[(s3 >>> 8) & 0xff]
+        ^ SUB_MIX_3[s0 & 0xff]
+        ^ keySchedule[ksRow += 1];
+      const t2 = SUB_MIX_0[s2 >>> 24]
+        ^ SUB_MIX_1[(s3 >>> 16) & 0xff]
+        ^ SUB_MIX_2[(s0 >>> 8) & 0xff]
+        ^ SUB_MIX_3[s1 & 0xff]
+        ^ keySchedule[ksRow += 1];
+      const t3 = SUB_MIX_0[s3 >>> 24]
+        ^ SUB_MIX_1[(s0 >>> 16) & 0xff]
+        ^ SUB_MIX_2[(s1 >>> 8) & 0xff]
+        ^ SUB_MIX_3[s2 & 0xff]
+        ^ keySchedule[ksRow += 1];
 
-        // Update state
-        s0 = t0;
-        s1 = t1;
-        s2 = t2;
-        s3 = t3;
+      // Update state
+      s0 = t0;
+      s1 = t1;
+      s2 = t2;
+      s3 = t3;
     }
 
     // Shift rows, sub bytes, add round key
-    var t0 = ((SBOX[s0 >>> 24] << 24) | (SBOX[(s1 >>> 16) & 0xff] << 16) | (SBOX[(s2 >>> 8) & 0xff] << 8) | SBOX[s3 & 0xff]) ^ keySchedule[ksRow++];
-    var t1 = ((SBOX[s1 >>> 24] << 24) | (SBOX[(s2 >>> 16) & 0xff] << 16) | (SBOX[(s3 >>> 8) & 0xff] << 8) | SBOX[s0 & 0xff]) ^ keySchedule[ksRow++];
-    var t2 = ((SBOX[s2 >>> 24] << 24) | (SBOX[(s3 >>> 16) & 0xff] << 16) | (SBOX[(s0 >>> 8) & 0xff] << 8) | SBOX[s1 & 0xff]) ^ keySchedule[ksRow++];
-    var t3 = ((SBOX[s3 >>> 24] << 24) | (SBOX[(s0 >>> 16) & 0xff] << 16) | (SBOX[(s1 >>> 8) & 0xff] << 8) | SBOX[s2 & 0xff]) ^ keySchedule[ksRow++];
+    const t0 = (
+      (SBOX[s0 >>> 24] << 24)
+        | (SBOX[(s1 >>> 16) & 0xff] << 16)
+        | (SBOX[(s2 >>> 8) & 0xff] << 8)
+        | SBOX[s3 & 0xff]
+    ) ^ keySchedule[ksRow += 1];
+    const t1 = (
+      (SBOX[s1 >>> 24] << 24)
+        | (SBOX[(s2 >>> 16) & 0xff] << 16)
+        | (SBOX[(s3 >>> 8) & 0xff] << 8)
+        | SBOX[s0 & 0xff]
+    ) ^ keySchedule[ksRow += 1];
+    const t2 = (
+      (SBOX[s2 >>> 24] << 24)
+        | (SBOX[(s3 >>> 16) & 0xff] << 16)
+        | (SBOX[(s0 >>> 8) & 0xff] << 8)
+        | SBOX[s1 & 0xff]
+    ) ^ keySchedule[ksRow += 1];
+    const t3 = (
+      (SBOX[s3 >>> 24] << 24)
+        | (SBOX[(s0 >>> 16) & 0xff] << 16) | (SBOX[(s1 >>> 8) & 0xff] << 8) | SBOX[s2 & 0xff]
+    ) ^ keySchedule[ksRow += 1];
 
     // Set output
-    M[offset]     = t0;
-    M[offset + 1] = t1;
-    M[offset + 2] = t2;
-    M[offset + 3] = t3;
+    _M[offset] = t0;
+    _M[offset + 1] = t1;
+    _M[offset + 2] = t2;
+    _M[offset + 3] = t3;
   }
 }
+
+/**
+ * Shortcut functions to the cipher's object interface.
+ *
+ * @example
+ *
+ *     var ciphertext = CryptoJS.AES.encrypt(message, key, cfg);
+ *     var plaintext  = CryptoJS.AES.decrypt(ciphertext, key, cfg);
+ */
+export const AESFunc = BlockCipher._createHelper(AES);
