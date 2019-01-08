@@ -191,8 +191,8 @@ Cipher._DEC_XFORM_MODE = 2;
  *     The number of 32-bit words this cipher operates on. Default: 1 (32 bits)
  */
 export class StreamCipher extends Cipher {
-  constructor() {
-    super();
+  constructor(...args) {
+    super(...args);
 
     this.blockSize = 1;
   }
@@ -404,7 +404,7 @@ export const Pkcs7 = {
     const _data = data;
 
     // Get number of padding bytes from last byte
-    const nPaddingBytes = _data.words[(data.sigBytes - 1) >>> 2] & 0xff;
+    const nPaddingBytes = _data.words[(_data.sigBytes - 1) >>> 2] & 0xff;
 
     // Remove padding
     _data.sigBytes -= nPaddingBytes;
@@ -419,17 +419,20 @@ export const Pkcs7 = {
  *    The number of 32-bit words this cipher operates on. Default: 4 (128 bits)
  */
 export class BlockCipher extends Cipher {
-  constructor() {
+  constructor(xformMode, key, cfg) {
     /**
      * Configuration options.
      *
      * @property {Mode} mode The block mode to use. Default: CBC
      * @property {Padding} padding The padding strategy to use. Default: Pkcs7
      */
-    super({
-      mode: CBC,
-      padding: Pkcs7,
-    });
+    super(xformMode, key, Object.assign(
+      {
+        mode: CBC,
+        padding: Pkcs7,
+      },
+      cfg,
+    ));
 
     this.blockSize = 128 / 32;
   }
@@ -438,7 +441,7 @@ export class BlockCipher extends Cipher {
     let modeCreator;
 
     // Reset cipher
-    Cipher.reset.call(this);
+    super.reset.call(this);
 
     // Shortcuts
     const { cfg } = this;

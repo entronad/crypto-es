@@ -97,3 +97,7 @@ _createHelper本身传入一个hasher，新建此hasher实例，并调用其fina
 C.Hasher 是函数，C.algo.Hasher是类
 
 Cipher. _createHelper中注意，对象的方法不用箭头函数
+
+
+
+注意Cipher的构造函数有参数，所以所有子元素都需要传入参数

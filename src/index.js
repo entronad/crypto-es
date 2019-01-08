@@ -52,6 +52,16 @@ import {
   RC4Drop,
   RC4DropFunc,
 } from './rc4';
+import { CFB } from './mode-cfb';
+import { CTR } from './mode-ctr';
+import { CTRGladman } from './mode-ctr-gladman';
+import { ECB } from './mode-ecb';
+import { OFB } from './mode-ofb';
+import { AnsiX923 } from './pad-ansix923';
+import { Iso10126 } from './pad-iso10126';
+import { Iso97971 } from './pad-iso97971';
+import { NoPadding } from './pad-nopadding';
+import { ZeroPadding } from './pad-zeropadding';
 
 export default {
   lib: {
@@ -107,10 +117,20 @@ export default {
 
   mode: {
     CBC,
+    CFB,
+    CTR,
+    CTRGladman,
+    ECB,
+    OFB,
   },
 
   pad: {
     Pkcs7,
+    AnsiX923,
+    Iso10126,
+    Iso97971,
+    NoPadding,
+    ZeroPadding,
   },
 
   format: {

@@ -63,8 +63,8 @@ function nextState() {
  * but it does affect its compatibility with other implementations.
  */
 export class RabbitLegacy extends StreamCipher {
-  constructor() {
-    super();
+  constructor(...args) {
+    super(...args);
 
     this.blockSize = 128 / 32;
     this.ivSize = 64 / 32;

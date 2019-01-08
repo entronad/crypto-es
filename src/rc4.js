@@ -33,8 +33,8 @@ function generateKeystreamWord() {
  * RC4 stream cipher algorithm.
  */
 export class RC4 extends StreamCipher {
-  constructor() {
-    super();
+  constructor(...args) {
+    super(...args);
 
     this.keySize = 256 / 32;
     this.ivSize = 0;

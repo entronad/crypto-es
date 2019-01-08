@@ -586,8 +586,8 @@ function exchangeRL(offset, mask) {
  * DES block cipher algorithm.
  */
 export class DES extends BlockCipher {
-  constructor() {
-    super();
+  constructor(...args) {
+    super(...args);
 
     this.keySize = 64 / 32;
     this.ivSize = 64 / 32;
@@ -716,8 +716,8 @@ export const DESFunc = BlockCipher._createHelper(DES);
  * Triple-DES block cipher algorithm.
  */
 export class TripleDES extends BlockCipher {
-  constructor() {
-    super();
+  constructor(...args) {
+    super(...args);
 
     this.keySize = 192 / 32;
     this.ivSize = 64 / 32;

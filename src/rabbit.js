@@ -59,8 +59,8 @@ function nextState() {
  * Rabbit stream cipher algorithm
  */
 export class Rabbit extends StreamCipher {
-  constructor() {
-    super();
+  constructor(...args) {
+    super(...args);
 
     this.blockSize = 128 / 32;
     this.ivSize = 64 / 32;
