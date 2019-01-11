@@ -4,7 +4,8 @@
   "description": "A crypto-js written in ES.",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "debug": "node --experimental-modules --loader ./loader.mjs __tests__/debug.js"
   },
   "repository": {
     "type": "git",

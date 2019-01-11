@@ -101,3 +101,15 @@ Cipher. _createHelper中注意，对象的方法不用箭头函数
 
 
 注意Cipher的构造函数有参数，所以所有子元素都需要传入参数
+
+
+
+mode
+
+基类BlockCipherMode，类方法createEncryptor和createDecryptor，返回Encryptor和Decryptor的实例，还有一个构造函数，供Encryptor和Decryptor继承
+
+mode类比如CBC本身是空的，有Encryptor和Decryptor两个成语变量，CBC本身供两个成员变量继承
+
+Encryptor和Decryptor都只有一个方法processBlock,它供BlockCipher的\_doProcessBlock使用：this.\_mode.processBlock(words, offset)
+
+Cipher 的createEncryptor和Mode的createEncryptor是没有关系的
