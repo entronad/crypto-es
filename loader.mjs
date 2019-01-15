@@ -2,6 +2,7 @@
 import path from 'path';
 import process from 'process';
 import Module from 'module';
+import fs from 'fs';
 
 const builtins = Module.builtinModules;
 const JS_EXTENSIONS = new Set(['.js', '.mjs']);
@@ -17,6 +18,9 @@ const allDependencies = {
   ...PKG_JSON.dependencies || {},
   ...PKG_JSON.devDependencies || {}
 }
+
+// default module index file name
+const INDEX = 'index.js'
 
 export function resolve(specifier, parentModuleURL = baseURL, defaultResolve) {
   if (builtins.includes(specifier)) {
@@ -36,6 +40,26 @@ export function resolve(specifier, parentModuleURL = baseURL, defaultResolve) {
   }
   const resolved = new URL(specifier, parentModuleURL);
   const ext = path.extname(resolved.pathname);
+  // Default extension .js
+  // For dir retrun dir/index.js
+  if (!ext) {
+    let isDir;
+    try {
+      isDir = fs.existsSync(path.parse(`${resolved.href}/${INDEX}`));
+    } catch (error) {
+      isDir = false;
+    }
+    if (isDir) {
+      return {
+        url: `${resolved.href}/${INDEX}`,
+        format: 'esm'
+      };
+    }
+    return {
+      url: resolved.href,
+      format: 'esm'
+    };
+  }
   if (!JS_EXTENSIONS.has(ext)) {
     throw new Error(
       `Cannot load file with non-JavaScript file extension ${ext}.`);
