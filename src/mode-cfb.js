@@ -1,6 +1,6 @@
 import {
   BlockCipherMode,
-} from './cipher-core';
+} from './cipher-core.js';
 
 const generateKeystreamAndEncrypt = (words, offset, blockSize, cipher) => {
   const _words = words;

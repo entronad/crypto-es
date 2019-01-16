@@ -6,11 +6,11 @@ import {
   Utf8,
   BufferedBlockAlgorithm,
   Hasher,
-} from './core';
+} from './core.js';
 import {
   X64Word,
   X64WordArray,
-} from './x64-core';
+} from './x64-core.js';
 import {
   Cipher,
   StreamCipher,
@@ -23,45 +23,45 @@ import {
   SerializableCipher,
   OpenSSLKdf,
   PasswordBasedCipher,
-} from './cipher-core';
+} from './cipher-core.js';
 
-import { Utf16, Utf16BE, Utf16LE } from './enc-utf16';
-import { Base64 } from './enc-base64';
-import { HMAC } from './hmac';
-import { MD5, MD5Func, HmacMD5Func } from './md5';
-import { SHA1, SHA1Func, HmacSHA1Func } from './sha1';
-import { SHA224, SHA224Func, HmacSHA224Func } from './sha224';
-import { SHA256, SHA256Func, HmacSHA256Func } from './sha256';
-import { SHA384, SHA384Func, HmacSHA384Func } from './sha384';
-import { SHA512, SHA512Func, HmacSHA512Func } from './sha512';
-import { SHA3, SHA3Func, HmacSHA3Func } from './sha3';
-import { PBKDF2, PBKDF2Func } from './pbkdf2';
-import { EvpKDF, EvpKDFFunc } from './evpkdf';
-import { AES, AESFunc } from './aes';
+import { Utf16, Utf16BE, Utf16LE } from './enc-utf16.js';
+import { Base64 } from './enc-base64.js';
+import { HMAC } from './hmac.js';
+import { MD5, MD5Func, HmacMD5Func } from './md5.js';
+import { SHA1, SHA1Func, HmacSHA1Func } from './sha1.js';
+import { SHA224, SHA224Func, HmacSHA224Func } from './sha224.js';
+import { SHA256, SHA256Func, HmacSHA256Func } from './sha256.js';
+import { SHA384, SHA384Func, HmacSHA384Func } from './sha384.js';
+import { SHA512, SHA512Func, HmacSHA512Func } from './sha512.js';
+import { SHA3, SHA3Func, HmacSHA3Func } from './sha3.js';
+import { PBKDF2, PBKDF2Func } from './pbkdf2.js';
+import { EvpKDF, EvpKDFFunc } from './evpkdf.js';
+import { AES, AESFunc } from './aes.js';
 import {
   DES,
   DESFunc,
   TripleDES,
   TripleDESFunc,
-} from './tripledes';
-import { Rabbit, RabbitFunc } from './rabbit';
-import { RabbitLegacy, RabbitLegacyFunc } from './rabbit-legacy';
+} from './tripledes.js';
+import { Rabbit, RabbitFunc } from './rabbit.js';
+import { RabbitLegacy, RabbitLegacyFunc } from './rabbit-legacy.js';
 import {
   RC4,
   RC4Func,
   RC4Drop,
   RC4DropFunc,
-} from './rc4';
-import { CFB } from './mode-cfb';
-import { CTR } from './mode-ctr';
-import { CTRGladman } from './mode-ctr-gladman';
-import { ECB } from './mode-ecb';
-import { OFB } from './mode-ofb';
-import { AnsiX923 } from './pad-ansix923';
-import { Iso10126 } from './pad-iso10126';
-import { Iso97971 } from './pad-iso97971';
-import { NoPadding } from './pad-nopadding';
-import { ZeroPadding } from './pad-zeropadding';
+} from './rc4.js';
+import { CFB } from './mode-cfb.js';
+import { CTR } from './mode-ctr.js';
+import { CTRGladman } from './mode-ctr-gladman.js';
+import { ECB } from './mode-ecb.js';
+import { OFB } from './mode-ofb.js';
+import { AnsiX923 } from './pad-ansix923.js';
+import { Iso10126 } from './pad-iso10126.js';
+import { Iso97971 } from './pad-iso97971.js';
+import { NoPadding } from './pad-nopadding.js';
+import { ZeroPadding } from './pad-zeropadding.js';
 
 export default {
   lib: {

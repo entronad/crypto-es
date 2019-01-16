@@ -1,8 +1,8 @@
 import {
   X64Word,
   X64WordArray,
-} from './x64-core';
-import { SHA512 } from './sha512';
+} from './x64-core.js';
+import { SHA512 } from './sha512.js';
 
 /**
  * SHA-384 hash algorithm.

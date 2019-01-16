@@ -1,6 +1,6 @@
 import {
   StreamCipher,
-} from './cipher-core';
+} from './cipher-core.js';
 
 function generateKeystreamWord() {
   // Shortcuts

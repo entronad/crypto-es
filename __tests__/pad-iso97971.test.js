@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import C from '../src';
+import C from '../src/index.js';
 
 describe('pad-iso97971', () => {
   it('pad 1', () => {

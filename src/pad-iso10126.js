@@ -1,6 +1,6 @@
 import {
   WordArray,
-} from './core';
+} from './core.js';
 
 /**
  * ISO 10126 padding strategy.

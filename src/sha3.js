@@ -1,8 +1,8 @@
 import {
   WordArray,
   Hasher,
-} from './core';
-import { X64Word } from './x64-core';
+} from './core.js';
+import { X64Word } from './x64-core.js';
 
 // Constants tables
 const RHO_OFFSETS = [];

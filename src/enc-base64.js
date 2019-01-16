@@ -1,6 +1,6 @@
 import {
   WordArray,
-} from './core';
+} from './core.js';
 
 const parseLoop = (base64Str, base64StrLength, reverseMap) => {
   const words = [];

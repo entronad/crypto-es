@@ -4,9 +4,9 @@ import {
   Base,
   WordArray,
   BufferedBlockAlgorithm,
-} from './core';
-import { Base64 } from './enc-base64';
-import { EvpKDF } from './evpkdf';
+} from './core.js';
+import { Base64 } from './enc-base64.js';
+import { EvpKDF } from './evpkdf.js';
 
 /**
  * Abstract base cipher template.

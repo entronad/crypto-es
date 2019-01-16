@@ -1,9 +1,9 @@
 import {
   Base,
   WordArray,
-} from './core';
-import { SHA1 } from './sha1';
-import { HMAC } from './hmac';
+} from './core.js';
+import { SHA1 } from './sha1.js';
+import { HMAC } from './hmac.js';
 
 /**
  * Password-Based Key Derivation Function 2 algorithm.

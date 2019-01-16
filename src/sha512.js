@@ -1,8 +1,8 @@
-import { Hasher } from './core';
+import { Hasher } from './core.js';
 import {
   X64Word,
   X64WordArray,
-} from './x64-core';
+} from './x64-core.js';
 
 // Constants
 const K = [

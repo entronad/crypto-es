@@ -113,3 +113,11 @@ mode类比如CBC本身是空的，有Encryptor和Decryptor两个成语变量，C
 Encryptor和Decryptor都只有一个方法processBlock,它供BlockCipher的\_doProcessBlock使用：this.\_mode.processBlock(words, offset)
 
 Cipher 的createEncryptor和Mode的createEncryptor是没有关系的
+
+
+
+import语句中的省略后缀名与默认入口文件并不是语言标准，有争议，浏览器未实现，因此暂不使用
+
+
+
+Cipher类中reset是在构造函数中使用

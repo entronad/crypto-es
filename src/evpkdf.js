@@ -1,8 +1,8 @@
 import {
   Base,
   WordArray,
-} from './core';
-import { MD5 } from './md5';
+} from './core.js';
+import { MD5 } from './md5.js';
 
 /**
  * This key derivation function is meant to conform with EVP_BytesToKey.

@@ -1,5 +1,5 @@
-import { WordArray } from './core';
-import { SHA256 } from './sha256';
+import { WordArray } from './core.js';
+import { SHA256 } from './sha256.js';
 
 /**
  * SHA-224 hash algorithm.

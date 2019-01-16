@@ -1,7 +1,7 @@
 import {
   WordArray,
   Hasher,
-} from './core';
+} from './core.js';
 
 // Constants table
 const T = [];

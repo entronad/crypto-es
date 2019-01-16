@@ -1,7 +1,7 @@
 import {
   WordArray,
   Hasher,
-} from './core';
+} from './core.js';
 
 // Reusable object
 const W = [];

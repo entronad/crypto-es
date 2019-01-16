@@ -1,6 +1,6 @@
 import {
   BlockCipher,
-} from './cipher-core';
+} from './cipher-core.js';
 
 // Lookup tables
 const _SBOX = [];
@@ -67,6 +67,8 @@ for (let i = 0; i < 256; i += 1) {
 
 // Precomputed Rcon lookup
 const RCON = [0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36];
+
+// console.log('begin', _SUB_MIX_0, _SUB_MIX_1, _SUB_MIX_2, _SUB_MIX_3, _SBOX);
 
 /**
  * AES block cipher algorithm.
@@ -153,6 +155,8 @@ export class AES extends BlockCipher {
           ^ INV_SUB_MIX_3[_SBOX[t & 0xff]];
       }
     }
+    console.log('rest: ', 'this._key', this._key);
+    console.log('rest: ', 'this._keySchedule', this._keySchedule);
   }
 
   encryptBlock(M, offset) {
@@ -165,12 +169,12 @@ export class AES extends BlockCipher {
     const _M = M;
 
     // Swap 2nd and 4th rows
-    let t = M[offset + 1];
+    let t = _M[offset + 1];
     _M[offset + 1] = _M[offset + 3];
     _M[offset + 3] = t;
 
     this._doCryptBlock(
-      M,
+      _M,
       offset,
       this._invKeySchedule,
       INV_SUB_MIX_0,
@@ -181,22 +185,24 @@ export class AES extends BlockCipher {
     );
 
     // Inv swap 2nd and 4th rows
-    t = M[offset + 1];
-    _M[offset + 1] = M[offset + 3];
+    t = _M[offset + 1];
+    _M[offset + 1] = _M[offset + 3];
     _M[offset + 3] = t;
   }
 
   _doCryptBlock(M, offset, keySchedule, SUB_MIX_0, SUB_MIX_1, SUB_MIX_2, SUB_MIX_3, SBOX) {
+    console.log('crypt start', M, offset, keySchedule, SUB_MIX_0, SUB_MIX_1, SUB_MIX_2, SUB_MIX_3, SBOX);
+    console.log('const',SUB_MIX_0,_SUB_MIX_0)
     const _M = M;
 
     // Shortcut
     const nRounds = this._nRounds;
 
     // Get input, add round key
-    let s0 = M[offset] ^ keySchedule[0];
-    let s1 = M[offset + 1] ^ keySchedule[1];
-    let s2 = M[offset + 2] ^ keySchedule[2];
-    let s3 = M[offset + 3] ^ keySchedule[3];
+    let s0 = _M[offset] ^ keySchedule[0];
+    let s1 = _M[offset + 1] ^ keySchedule[1];
+    let s2 = _M[offset + 2] ^ keySchedule[2];
+    let s3 = _M[offset + 3] ^ keySchedule[3];
 
     // Key schedule row counter
     let ksRow = 4;

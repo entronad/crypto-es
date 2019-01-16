@@ -1,7 +1,7 @@
 import {
   Base,
   WordArray,
-} from './core';
+} from './core.js';
 
 const X32WordArray = WordArray;
 

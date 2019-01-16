@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import C from '../src';
+import C from '../src/index.js';
 
 describe('sha384', () => {
   it('vector 1', () => {

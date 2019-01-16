@@ -1,9 +1,9 @@
 import {
   WordArray,
-} from './core';
+} from './core.js';
 import {
   BlockCipher,
-} from './cipher-core';
+} from './cipher-core.js';
 
 // Permuted Choice 1 constants
 const PC1 = [

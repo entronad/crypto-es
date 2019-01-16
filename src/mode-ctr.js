@@ -3,7 +3,7 @@
  */
 import {
   BlockCipherMode,
-} from './cipher-core';
+} from './cipher-core.js';
 
 export class CTR extends BlockCipherMode {
 }

@@ -1,9 +1,9 @@
 import {
   WordArray,
-} from './core';
+} from './core.js';
 import {
   ZeroPadding,
-} from './pad-zeropadding';
+} from './pad-zeropadding.js';
 
 /**
  * ISO/IEC 9797-1 Padding Method 2.
