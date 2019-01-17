@@ -448,7 +448,7 @@ export class BlockCipher extends Cipher {
     const { iv, mode } = cfg;
 
     // Reset block mode
-    if (this._xformMode === this._ENC_XFORM_MODE) {
+    if (this._xformMode === this.constructor._ENC_XFORM_MODE) {
       modeCreator = mode.createEncryptor;
     } else /* if (this._xformMode == this._DEC_XFORM_MODE) */ {
       modeCreator = mode.createDecryptor;
@@ -456,12 +456,8 @@ export class BlockCipher extends Cipher {
       this._minBufferSize = 1;
     }
 
-    if (this._mode && this._mode.__creator === modeCreator) {
-      this._mode.init(this, iv && iv.words);
-    } else {
-      this._mode = modeCreator.call(mode, this, iv && iv.words);
-      this._mode.__creator = modeCreator;
-    }
+    this._mode = modeCreator.call(mode, this, iv && iv.words);
+    this._mode.__creator = modeCreator;
   }
 
   _doProcessBlock(words, offset) {
@@ -475,7 +471,7 @@ export class BlockCipher extends Cipher {
     const { padding } = this.cfg;
 
     // Finalize
-    if (this._xformMode === this._ENC_XFORM_MODE) {
+    if (this._xformMode === this.constructor._ENC_XFORM_MODE) {
       // Pad data
       padding.pad(this._data, this.blockSize);
 

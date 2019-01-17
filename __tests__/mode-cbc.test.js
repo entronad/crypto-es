@@ -42,16 +42,16 @@ describe('mode-cbc', () => {
 
   it('decryptor', () => {
     const encrypted = C.AES.encrypt(
-      this.data.message,
-      this.data.key,
-      { iv: this.data.iv, mode: C.mode.CBC, padding: C.pad.NoPadding },
+      data.message,
+      data.key,
+      { iv: data.iv, mode: C.mode.CBC, padding: C.pad.NoPadding },
     );
     const decrypted = C.AES.decrypt(
       encrypted,
-      this.data.key,
-      { iv: this.data.iv, mode: C.mode.CBC, padding: C.pad.NoPadding },
+      data.key,
+      { iv: data.iv, mode: C.mode.CBC, padding: C.pad.NoPadding },
     );
 
-    expect(decrypted.toString()).toBe(this.data.message.toString());
+    expect(decrypted.toString()).toBe(data.message.toString());
   });
 });

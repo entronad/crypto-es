@@ -18,11 +18,15 @@
 
 
 
-Base.create()其实就是构造函数，但为了保持API不变，保留此函数
+Base.create()，其实就是构造函数，但为了保持API不变，保留此函数
 
 > constructor返回的是实例，但constructor属于实例而不是类；静态方法的this指的是类而不是实例，可通过new this返回实例；子类继承后，成员方法this指子实例，静态方法this指子类
 
 采用静态方法的办法处理Base，保持API不变
+
+
+
+Base.init() 也是构造函数的一部分，不再保留
 
 
 
@@ -121,3 +125,13 @@ import语句中的省略后缀名与默认入口文件并不是语言标准，�
 
 
 Cipher类中reset是在构造函数中使用
+
+###Cipher与Mode debug
+
+已经进入了BlockCipher._doProcessBlock
+
+问题可能出在reset中mode的构造上，首先不再有init了
+
+en de 反了，注意类成员要用this.constructor.调用
+
+去除BlockCipher.reset中是否有_mode的判断，一律新建
