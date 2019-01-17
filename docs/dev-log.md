@@ -135,3 +135,7 @@ Cipher类中reset是在构造函数中使用
 en de 反了，注意类成员要用this.constructor.调用
 
 去除BlockCipher.reset中是否有_mode的判断，一律新建
+
+
+
+CryptoJs中的WordArray虽然走了一遍TypedArray版的了，但其实全部回滚到原来的WordArray（本身逻辑也是一定会回滚的）

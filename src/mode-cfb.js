@@ -2,7 +2,7 @@ import {
   BlockCipherMode,
 } from './cipher-core.js';
 
-const generateKeystreamAndEncrypt = (words, offset, blockSize, cipher) => {
+function generateKeystreamAndEncrypt(words, offset, blockSize, cipher) {
   const _words = words;
   let keystream;
 
@@ -24,7 +24,7 @@ const generateKeystreamAndEncrypt = (words, offset, blockSize, cipher) => {
   for (let i = 0; i < blockSize; i += 1) {
     _words[offset + i] ^= keystream[i];
   }
-};
+}
 
 /**
  * Cipher Feedback block mode.

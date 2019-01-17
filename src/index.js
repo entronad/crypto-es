@@ -62,6 +62,7 @@ import { Iso10126 } from './pad-iso10126.js';
 import { Iso97971 } from './pad-iso97971.js';
 import { NoPadding } from './pad-nopadding.js';
 import { ZeroPadding } from './pad-zeropadding.js';
+import { HexFormatter } from './format-hex.js';
 
 export default {
   lib: {
@@ -135,6 +136,7 @@ export default {
 
   format: {
     OpenSSL: OpenSSLFormatter,
+    Hex: HexFormatter,
   },
 
   kdf: {

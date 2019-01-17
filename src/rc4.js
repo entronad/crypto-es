@@ -92,8 +92,8 @@ export const RC4Func = StreamCipher._createHelper(RC4);
  * Modified RC4 stream cipher algorithm.
  */
 export class RC4Drop extends RC4 {
-  constructor() {
-    super();
+  constructor(...args) {
+    super(...args);
 
     /**
      * Configuration options.
@@ -104,7 +104,7 @@ export class RC4Drop extends RC4 {
   }
 
   _doReset() {
-    RC4._doReset.call(this);
+    super._doReset.call(this);
 
     // Drop
     for (let i = this.cfg.drop; i > 0; i -= 1) {
