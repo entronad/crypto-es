@@ -35,6 +35,7 @@ import { SHA256, SHA256Func, HmacSHA256Func } from './sha256.js';
 import { SHA384, SHA384Func, HmacSHA384Func } from './sha384.js';
 import { SHA512, SHA512Func, HmacSHA512Func } from './sha512.js';
 import { SHA3, SHA3Func, HmacSHA3Func } from './sha3.js';
+import { RIPEMD160, RIPEMD160Func, HmacRIPEMD160Func } from './ripemd160.js';
 import { PBKDF2, PBKDF2Func } from './pbkdf2.js';
 import { EvpKDF, EvpKDFFunc } from './evpkdf.js';
 import { AES, AESFunc } from './aes.js';
@@ -103,6 +104,7 @@ export default {
     SHA384,
     SHA512,
     SHA3,
+    RIPEMD160,
 
     PBKDF2,
     EvpKDF,
@@ -157,6 +159,8 @@ export default {
   HmacSHA512: HmacSHA512Func,
   SHA3: SHA3Func,
   HmacSHA3: HmacSHA3Func,
+  RIPEMD160: RIPEMD160Func,
+  HmacRIPEMD160: HmacRIPEMD160Func,
 
   PBKDF2: PBKDF2Func,
   EvpKDF: EvpKDFFunc,

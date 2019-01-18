@@ -56,30 +56,187 @@ const _hr = WordArray.create([0x50A28BE6, 0x5C4DD124, 0x6D703EF3, 0x7A6D76E9, 0x
 
 const f1 = (x, y, z) => (x) ^ (y) ^ (z);
 
-function f2(x, y, z) {
-  return (((x)&(y)) | ((~x)&(z)));
-}
+const f2 = (x, y, z) => ((x) & (y)) | ((~x) & (z));
 
-function f3(x, y, z) {
-  return (((x) | (~(y))) ^ (z));
-}
+const f3 = (x, y, z) => ((x) | (~(y))) ^ (z);
 
-function f4(x, y, z) {
-  return (((x) & (z)) | ((y)&(~(z))));
-}
+const f4 = (x, y, z) => ((x) & (z)) | ((y) & (~(z)));
 
-function f5(x, y, z) {
-  return ((x) ^ ((y) |(~(z))));
+const f5 = (x, y, z) => (x) ^ ((y) | (~(z)));
 
-}
-
-function rotl(x,n) {
-  return (x<<n) | (x>>>(32-n));
-}
+const rotl = (x, n) => (x << n) | (x >>> (32 - n));
 
 /**
  * RIPEMD160 hash algorithm.
  */
 export class RIPEMD160 extends Hasher {
+  _doReset() {
+    this._hash = WordArray.create([0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]);
+  }
 
+  _doProcessBlock(M, offset) {
+    const _M = M;
+
+    // Swap endian
+    for (let i = 0; i < 16; i += 1) {
+      // Shortcuts
+      const offset_i = offset + i;
+      const M_offset_i = _M[offset_i];
+
+      // Swap
+      _M[offset_i] = (
+        (((M_offset_i << 8) | (M_offset_i >>> 24)) & 0x00ff00ff)
+          | (((M_offset_i << 24) | (M_offset_i >>> 8)) & 0xff00ff00)
+      );
+    }
+    // Shortcut
+    const H = this._hash.words;
+    const hl = _hl.words;
+    const hr = _hr.words;
+    const zl = _zl.words;
+    const zr = _zr.words;
+    const sl = _sl.words;
+    const sr = _sr.words;
+
+    // Working variables
+    let al = H[0];
+    let bl = H[1];
+    let cl = H[2];
+    let dl = H[3];
+    let el = H[4];
+    let ar = H[0];
+    let br = H[1];
+    let cr = H[2];
+    let dr = H[3];
+    let er = H[4];
+
+    // Computation
+    let t;
+    for (let i = 0; i < 80; i += 1) {
+      t = (al + _M[offset + zl[i]]) | 0;
+      if (i < 16) {
+        t += f1(bl, cl, dl) + hl[0];
+      } else if (i < 32) {
+        t += f2(bl, cl, dl) + hl[1];
+      } else if (i < 48) {
+        t += f3(bl, cl, dl) + hl[2];
+      } else if (i < 64) {
+        t += f4(bl, cl, dl) + hl[3];
+      } else { // if (i<80) {
+        t += f5(bl, cl, dl) + hl[4];
+      }
+      t |= 0;
+      t = rotl(t, sl[i]);
+      t = (t + el) | 0;
+      al = el;
+      el = dl;
+      dl = rotl(cl, 10);
+      cl = bl;
+      bl = t;
+
+      t = (ar + _M[offset + zr[i]]) | 0;
+      if (i < 16) {
+        t += f5(br, cr, dr) + hr[0];
+      } else if (i < 32) {
+        t += f4(br, cr, dr) + hr[1];
+      } else if (i < 48) {
+        t += f3(br, cr, dr) + hr[2];
+      } else if (i < 64) {
+        t += f2(br, cr, dr) + hr[3];
+      } else { // if (i<80) {
+        t += f1(br, cr, dr) + hr[4];
+      }
+      t |= 0;
+      t = rotl(t, sr[i]);
+      t = (t + er) | 0;
+      ar = er;
+      er = dr;
+      dr = rotl(cr, 10);
+      cr = br;
+      br = t;
+    }
+    // Intermediate hash value
+    t = (H[1] + cl + dr) | 0;
+    H[1] = (H[2] + dl + er) | 0;
+    H[2] = (H[3] + el + ar) | 0;
+    H[3] = (H[4] + al + br) | 0;
+    H[4] = (H[0] + bl + cr) | 0;
+    H[0] = t;
+  }
+
+  _doFinalize() {
+    // Shortcuts
+    const data = this._data;
+    const dataWords = data.words;
+
+    const nBitsTotal = this._nDataBytes * 8;
+    const nBitsLeft = data.sigBytes * 8;
+
+    // Add padding
+    dataWords[nBitsLeft >>> 5] |= 0x80 << (24 - (nBitsLeft % 32));
+    dataWords[(((nBitsLeft + 64) >>> 9) << 4) + 14] = (
+      (((nBitsTotal << 8) | (nBitsTotal >>> 24)) & 0x00ff00ff)
+        | (((nBitsTotal << 24) | (nBitsTotal >>> 8)) & 0xff00ff00)
+    );
+    data.sigBytes = (dataWords.length + 1) * 4;
+
+    // Hash final blocks
+    this._process();
+
+    // Shortcuts
+    const hash = this._hash;
+    const H = hash.words;
+
+    // Swap endian
+    for (let i = 0; i < 5; i += 1) {
+      // Shortcut
+      const H_i = H[i];
+
+      // Swap
+      H[i] = (((H_i << 8) | (H_i >>> 24)) & 0x00ff00ff)
+        | (((H_i << 24) | (H_i >>> 8)) & 0xff00ff00);
+    }
+
+    // Return final computed hash
+    return hash;
+  }
+
+  clone() {
+    const clone = super.clone.call(this);
+    clone._hash = this._hash.clone();
+
+    return clone;
+  }
 }
+
+/**
+ * Shortcut function to the hasher's object interface.
+ *
+ * @param {WordArray|string} message The message to hash.
+ *
+ * @return {WordArray} The hash.
+ *
+ * @static
+ *
+ * @example
+ *
+ *     var hash = CryptoJS.RIPEMD160('message');
+ *     var hash = CryptoJS.RIPEMD160(wordArray);
+ */
+export const RIPEMD160Func = Hasher._createHelper(RIPEMD160);
+
+/**
+ * Shortcut function to the HMAC's object interface.
+ *
+ * @param {WordArray|string} message The message to hash.
+ * @param {WordArray|string} key The secret key.
+ *
+ * @return {WordArray} The HMAC.
+ *
+ * @static
+ *
+ * @example
+ *
+ *     var hmac = CryptoJS.HmacRIPEMD160(message, key);
+ */
+export const HmacRIPEMD160Func = Hasher._createHmacHelper(RIPEMD160);
