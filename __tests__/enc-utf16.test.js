@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import C from '../src/index.js';
+import C from '../lib/index.js';
 
 describe('enc-utf16', () => {
   it('stringify 1', () => {
