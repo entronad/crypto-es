@@ -3,7 +3,7 @@
 A cryptography algorithms library:
 
 - Inspired by and has the same API with [CryptoJS](https://code.google.com/archive/p/crypto-js/)
-- Witten in newest ECMAScript Standard
+- Witten in latest ECMAScript Standard
 
 ## Usage
 
