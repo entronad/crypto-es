@@ -21,7 +21,7 @@ npm i crypto-es --save
 
 As It's written in ECMAScript, including the ECMAScript Module, you may need [Babel](https://babeljs.io/) and [Webpack](https://webpack.js.org/) for browser, or [Loader hook](https://nodejs.org/dist/latest-v10.x/docs/api/esm.html#esm_loader_hooks) for node.
 
-You can then import it as a regular ECMAScript module:
+Then you can import CryptoES as a regular ECMAScript module:
 
 ```
 import CryptoES from 'crypto-es';
@@ -278,7 +278,44 @@ You can define your own formats in order to be compatible with other crypto impl
 Here's how you might write a JSON formatter:
 
 ```
-const JsonFormatter = { stringify: function (cipherParams) { // create json object with ciphertext const jsonObj = { ct: cipherParams.ciphertext.toString(CryptoES.enc.Base64) }; // optionally add iv and salt if (cipherParams.iv) { jsonObj.iv = cipherParams.iv.toString(); } if (cipherParams.salt) { jsonObj.s = cipherParams.salt.toString(); } // stringify json object return JSON.stringify(jsonObj); }, parse: function (jsonStr) { // parse json string const jsonObj = JSON.parse(jsonStr); // extract ciphertext from json object, and create cipher params object const cipherParams = CryptoES.lib.CipherParams.create({ ciphertext: CryptoES.enc.Base64.parse(jsonObj.ct) }); // optionally extract iv and salt if (jsonObj.iv) { cipherParams.iv = CryptoES.enc.Hex.parse(jsonObj.iv) } if (jsonObj.s) { cipherParams.salt = CryptoES.enc.Hex.parse(jsonObj.s) } return cipherParams; } }; const encrypted = CryptoES.AES.encrypt("Message", "Secret Passphrase", { format: JsonFormatter }); alert(encrypted); // {"ct":"tZ4MsEnfbcDOwqau68aOrQ==","iv":"8a8c8fd8fe33743d3638737ea4a00698","s":"ba06373c8f57179c"} const decrypted = CryptoES.AES.decrypt(encrypted, "Secret Passphrase", { format: JsonFormatter }); alert(decrypted.toString(CryptoES.enc.Utf8)); // Message
+const JsonFormatter = { 
+  stringify: function (cipherParams) { // create json object with ciphertext
+    const jsonObj = { ct: cipherParams.ciphertext.toString(CryptoES.enc.Base64) }; // optionally add iv and salt
+    if (cipherParams.iv) {
+      jsonObj.iv = cipherParams.iv.toString();
+    }
+    if (cipherParams.salt) {
+      jsonObj.s = cipherParams.salt.toString();
+    }
+    // stringify json object
+    return JSON.stringify(jsonObj);
+  },
+  parse: function (jsonStr) { // parse json string
+    const jsonObj = JSON.parse(jsonStr); // extract ciphertext from json object, and create cipher params object
+    const cipherParams = CryptoES.lib.CipherParams.create(
+      { ciphertext: CryptoES.enc.Base64.parse(jsonObj.ct) },
+    ); // optionally extract iv and salt
+    if (jsonObj.iv) {
+      cipherParams.iv = CryptoES.enc.Hex.parse(jsonObj.iv)
+    }
+    if (jsonObj.s) {
+      cipherParams.salt = CryptoES.enc.Hex.parse(jsonObj.s)
+    }
+    return cipherParams;
+  },
+};
+const encrypted = CryptoES.AES.encrypt(
+  "Message",
+  "Secret Passphrase",
+  { format: JsonFormatter },
+);
+alert(encrypted); // {"ct":"tZ4MsEnfbcDOwqau68aOrQ==","iv":"8a8c8fd8fe33743d3638737ea4a00698","s":"ba06373c8f57179c"}
+const decrypted = CryptoES.AES.decrypt(
+  encrypted,
+  "Secret Passphrase",
+  { format: JsonFormatter },
+);
+alert(decrypted.toString(CryptoES.enc.Utf8)); // Message
 ```
 
 #### Progressive Ciphering
