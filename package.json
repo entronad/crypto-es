@@ -1,11 +1,14 @@
 {
   "name": "crypto-es",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A cryptography algorithms library",
   "keywords": [
     "security",
     "crypto",
     "cipher",
+    "ArrayBuffer",
+    "TypedArray",
+    "file",
     "ECMAScript",
     "ES6",
     "Hash",
@@ -48,14 +51,13 @@
   },
   "homepage": "https://github.com/entronad/crypto-es#readme",
   "devDependencies": {
-    "@babel/core": "^7.2.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.2.0",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^23.6.0",
-    "eslint": "5.3.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "2.14.0",
-    "jest": "^23.6.0"
+    "@babel/core": "^7.5.4",
+    "@babel/plugin-transform-modules-commonjs": "^7.5.0",
+    "babel-jest": "^24.8.0",
+    "eslint": "^6.0.1",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.18.0",
+    "jest": "^24.8.0"
   },
   "jest": {
     "testRegex": "(/__tests__/.*\\.test\\.js)$"

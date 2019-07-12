@@ -1,3 +1,19 @@
 import C from '../lib/index.js';
 
-console.log('Resault: ', C.AES.encrypt(C.enc.Hex.parse('00112233445566778899aabbccddeeff'), C.enc.Hex.parse('000102030405060708090a0b0c0d0e0f'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext.toString());
+const data = {};
+
+data.buffer = new ArrayBuffer(8);
+
+const uint8View = new Uint8Array(data.buffer);
+uint8View[0] = 0x01;
+uint8View[1] = 0x23;
+uint8View[2] = 0x45;
+uint8View[3] = 0x67;
+uint8View[4] = 0x89;
+uint8View[5] = 0xab;
+uint8View[6] = 0xcd;
+uint8View[7] = 0xef;
+
+const wordArray = C.lib.WordArray.create(data.buffer);
+
+console.log('Resault: ', C.AES.encrypt(wordArray, 'Secret Passphrase'));

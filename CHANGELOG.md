@@ -16,3 +16,11 @@
 **2019-01-20**
 
 - Update README.md.
+
+## 1.1.0
+
+**2019-07-12**
+
+- Add support for ArrayBuffer and TypedArray.
+
+- Change some inner object names in case of confusion for partially import. 

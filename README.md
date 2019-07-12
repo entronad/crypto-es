@@ -4,6 +4,7 @@ A cryptography algorithms library:
 
 - Inspired by and has the same API with [CryptoJS](https://code.google.com/archive/p/crypto-js/)
 - Witten in latest ECMAScript Standard
+- Support partially import
 
 ## Usage
 
@@ -19,12 +20,20 @@ or
 npm i crypto-es --save
 ```
 
-As It's written in ECMAScript, including the ECMAScript Module, you may need [Babel](https://babeljs.io/) and [Webpack](https://webpack.js.org/) for browser, or [Loader hook](https://nodejs.org/dist/latest-v10.x/docs/api/esm.html#esm_loader_hooks) for node.
+You may need [Babel](https://babeljs.io/) and [Webpack](https://webpack.js.org/) for old IE browsers, or [Loader hook](https://nodejs.org/dist/latest-v10.x/docs/api/esm.html#esm_loader_hooks) for Node.js.
 
-Then you can import CryptoES as a regular ECMAScript module:
+Then you can import CryptoES:
 
 ```
 import CryptoES from 'crypto-es';
+const hash = CryptoES.MD5("Message");
+```
+
+Or partially import the functions to reduce the package weight:
+
+```
+import { MD5 } from 'crypto-es/md5.js';
+const hash = MD5("Message");
 ```
 
 ## Quick-start Guide
@@ -370,3 +379,30 @@ const utf16 = CryptoES.enc.Utf16.stringify(words);
 const words = CryptoES.enc.Utf16LE.parse('Hello, World!');
 const utf16 = CryptoES.enc.Utf16LE.stringify(words);
 ```
+
+### ArrayBuffer and TypedArray
+
+WordArray creator could recive an ArrayBuffer or TypedArray so that CryptoES algorisms could apply to them:
+
+```
+const words = CryptoES.lib.WordArray.create(new ArrayBuffer(8));
+const rst = CryptoES.AES.encrypt(words, 'Secret Passphrase')
+```
+
+**NOTE**: ArrayBuffer could not directly passed to algorisms, you should change them to WordArray first.
+
+With this, encrypting files would be easier:
+
+```
+const fileInput = document.getElementById('fileInput');
+const file = fileInput.files[0];
+const reader = new FileReader();
+reader.readAsArrayBuffer(file);
+reader.onload = function () {
+  const arrayBuffer = reader.result;
+  const words = CryptoES.lib.WordArray.create(arrayBuffer);
+  const rst = CryptoES.AES.encrypt(words, 'Secret Passphrase')
+  ...
+};
+```
+

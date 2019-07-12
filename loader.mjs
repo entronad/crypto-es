@@ -1,4 +1,9 @@
 /* eslint-disable */
+
+/**
+ * Only for Node.js version >= 12.6.0
+ */
+
 import path from 'path';
 import process from 'process';
 import Module from 'module';
@@ -43,6 +48,6 @@ export function resolve(specifier, parentModuleURL = baseURL, defaultResolve) {
   }
   return {
     url: resolved.href,
-    format: 'esm'
+    format: 'module'
   };
 }
