@@ -64,7 +64,7 @@ const rst = MD5("Message").toString();
 - [HMAC](#HMAC)
 - [Ciphers](#Ciphers)
 - [Encoders](#Encoders)
-- [ArrayBuffer and TypedArray](#ArrayBuffer%20and%20TypedArray)
+- [ArrayBuffer and TypedArray](#ArrayBuffer-and-TypedArray)
 
 ---
 
