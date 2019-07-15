@@ -22,5 +22,11 @@
 **2019-07-12**
 
 - Add support for ArrayBuffer and TypedArray.
-
 - Change some inner object names in case of confusion for partially import. 
+
+## 1.1.1
+
+**2019-07-15**
+
+- Remove loader.mjs, insead using package.json type field for ECMAScript Modules.
+- Update README.md.

@@ -14,31 +14,59 @@ Installation:
 yarn add crypto-es
 ```
 
-or
+or:
 
 ```
 npm i crypto-es --save
 ```
 
-You may need [Babel](https://babeljs.io/) and [Webpack](https://webpack.js.org/) for old IE browsers, or [Loader hook](https://nodejs.org/dist/latest-v10.x/docs/api/esm.html#esm_loader_hooks) for Node.js.
+---
+
+In Node.js projects, we recommend you to use ECMAScript Modules insead of CommonJS:
+
+```
+// package.json
+{
+  "type": "module"
+}
+```
+
+```
+# In same folder as above package.json
+node --experimental-modules my-app.js # Runs as ES module
+```
+
+[See details](<https://nodejs.org/dist/latest-v12.x/docs/api/esm.html>)
+
+---
 
 Then you can import CryptoES:
 
 ```
 import CryptoES from 'crypto-es';
-const hash = CryptoES.MD5("Message");
+const rst = CryptoES.MD5("Message").toString();
 ```
 
-Or partially import the functions to reduce the package weight:
+Or partially import the function to reduce the package weight:
 
 ```
-import { MD5 } from 'crypto-es/md5.js';
-const hash = MD5("Message");
+import { MD5 } from 'crypto-es/lib/md5.js';
+const rst = MD5("Message").toString();
 ```
 
-## Quick-start Guide
+## Guide
 
 > Just the same as [CryptoJS](https://code.google.com/archive/p/crypto-js/)
+
+---
+
+- [Hashers](###Hashers)
+- [HMAC](#HMAC)
+- [Ciphers](#Ciphers)
+- [Encoders](#Encoders)
+- [ArrayBuffer and TypedArray](#ArrayBuffer and TypedArray)
+
+---
 
 ### Hashers
 
