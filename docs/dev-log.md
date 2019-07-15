@@ -138,6 +138,4 @@ en de 反了，注意类成员要用this.constructor.调用
 
 
 
-CryptoJs中的WordArray虽然走了一遍TypedArray版的了，但其实全部回滚到原来的WordArray（本身逻辑也是一定会回滚的）
-
 Cipher 的实例在构造函数中传入xformMode，决定此实例是encryptor还是decryptor，一般通过createEncryptor/createDecryptor创建实例
