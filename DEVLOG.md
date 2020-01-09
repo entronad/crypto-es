@@ -139,3 +139,19 @@ en de 反了，注意类成员要用this.constructor.调用
 
 
 Cipher 的实例在构造函数中传入xformMode，决定此实例是encryptor还是decryptor，一般通过createEncryptor/createDecryptor创建实例
+
+
+
+## 添加类型
+
+添加类型声明，以不改变目前API层级且满足使用为目的，目前采用类的方式
+
+所有的参数先都可选
+
+所有构造函数附上 static create 的声明，构造函数写下面，注释给create
+
+
+
+Mode即BlockCipherMode
+
+algo 中除HMAC外都是Hasher

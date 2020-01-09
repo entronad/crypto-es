@@ -30,3 +30,10 @@
 
 - Remove loader.mjs, insead using package.json type field for ECMAScript Modules.
 - Update README.md.
+
+## 1.2.0
+
+**2020-01-09**
+
+- Add types for TypeScript usage.
+- Update license to 2020.

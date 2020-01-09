@@ -1,10 +1,11 @@
 # CryptoES
 
-A cryptography algorithms library:
+*A cryptography algorithms library compatible with ES6 and TypeScript*
 
-- Inspired by and has the same API with [CryptoJS](https://code.google.com/archive/p/crypto-js/)
+- Inspired by and has the same API with [CryptoJS](https://code.google.com/archive/p/crypto-js/) 
+- With types for TypeScript usage
 - Witten in latest ECMAScript Standard
-- Support partially import
+- Support ES6 module import and partially import
 
 ## Usage
 
@@ -53,6 +54,12 @@ Or partially import the function to reduce the package weight:
 import { MD5 } from 'crypto-es/lib/md5.js';
 const rst = MD5("Message").toString();
 ```
+
+## Blogs
+
+[En](https://medium.com/front-end-weekly/refactoring-cryptojs-in-modern-ecmascript-1d4e1837c272) 
+
+[中文1](https://zhuanlan.zhihu.com/p/52165088)    [中文2](https://zhuanlan.zhihu.com/p/53411829) 
 
 ## Guide
 
