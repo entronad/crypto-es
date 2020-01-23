@@ -15,12 +15,6 @@ Installation:
 yarn add crypto-es
 ```
 
-or:
-
-```
-npm i crypto-es --save
-```
-
 ---
 
 In Node.js projects, we recommend you to use ECMAScript Modules insead of CommonJS:
@@ -55,11 +49,28 @@ import { MD5 } from 'crypto-es/lib/md5.js';
 const rst = MD5("Message").toString();
 ```
 
-## Blogs
+## TypeScript Usage
 
-[En](https://medium.com/front-end-weekly/refactoring-cryptojs-in-modern-ecmascript-1d4e1837c272) 
+Make sure to add this entry to your package.json:
 
-[中文1](https://zhuanlan.zhihu.com/p/52165088)    [中文2](https://zhuanlan.zhihu.com/p/53411829) 
+```
+{
+  "compilerOptions": {
+    ...
+    
+    "skipLibCheck": true,
+    
+    ...
+  }
+}
+
+```
+
+If you want to have type checks, make sure to use overall import:
+
+```
+import CryptoES from 'crypto-es';
+```
 
 ## Guide
 
@@ -441,3 +452,10 @@ reader.onload = function () {
 };
 ```
 
+## Blogs
+
+[Refactoring CryptoJS in Modern ECMAScript](https://medium.com/front-end-weekly/refactoring-cryptojs-in-modern-ecmascript-1d4e1837c272) 
+
+[【重写 CryptoJS】一、ECMAScript 类与继承](https://zhuanlan.zhihu.com/p/52165088)
+
+[【重写 CryptoJS】二、WordArray 与位操作](https://zhuanlan.zhihu.com/p/53411829) 

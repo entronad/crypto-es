@@ -37,3 +37,9 @@
 
 - Add types for TypeScript usage.
 - Update license to 2020.
+
+## 1.2.1
+
+**2020-01-23**
+
+- Add guides for TypeScript usage.
