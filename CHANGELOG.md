@@ -1,20 +1,27 @@
-## 1.0.0
+## 1.2.2
 
-**2019-01-19**
+**2020-02-21**
 
-- Initial version.
-- Impliment all CryptoJS APIs.
+- Fix guides for TypeScript usage.
 
-## 1.0.1
+## 1.2.1
 
-**2019-01-19**
+**2020-01-23**
 
-- Add keywords.
+- Add guides for TypeScript usage.
 
-## 1.0.2
+## 1.2.0
 
-**2019-01-20**
+**2020-01-09**
 
+- Add types for TypeScript usage.
+- Update license to 2020.
+
+## 1.1.1
+
+**2019-07-15**
+
+- Remove loader.mjs, insead using package.json type field for ECMAScript Modules.
 - Update README.md.
 
 ## 1.1.0
@@ -24,22 +31,21 @@
 - Add support for ArrayBuffer and TypedArray.
 - Change some inner object names in case of confusion for partially import. 
 
-## 1.1.1
+## 1.0.2
 
-**2019-07-15**
+**2019-01-20**
 
-- Remove loader.mjs, insead using package.json type field for ECMAScript Modules.
 - Update README.md.
 
-## 1.2.0
+## 1.0.1
 
-**2020-01-09**
+**2019-01-19**
 
-- Add types for TypeScript usage.
-- Update license to 2020.
+- Add keywords.
 
-## 1.2.1
+## 1.0.0
 
-**2020-01-23**
+**2019-01-19**
 
-- Add guides for TypeScript usage.
+- Initial version.
+- Impliment all CryptoJS APIs.

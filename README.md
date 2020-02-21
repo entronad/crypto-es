@@ -51,7 +51,7 @@ const rst = MD5("Message").toString();
 
 ## TypeScript Usage
 
-Make sure to add this entry to your package.json:
+Make sure to add this entry to your tsconfig.json:
 
 ```
 {
