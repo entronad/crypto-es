@@ -155,3 +155,21 @@ Cipher 的实例在构造函数中传入xformMode，决定此实例是encryptor�
 Mode即BlockCipherMode
 
 algo 中除HMAC外都是Hasher
+
+
+
+PasswordBasedCipher 和 SerializableCipher 不是实例化的对象，仅提供 encrypt 和 decrypt 方法，
+
+这两个方法中传入的cipher参数是实际的算法类XXXAlgo，为什么是对象而不是实例，是因为encrypt 和 decrypt 方法中它们会传给SerializableCipher.encrypt 和 decrypt 方法，这两个方法中会调用cipher的静态方法cipher.createEncryptor。
+
+因此结合PasswordBasedCipher 和 SerializableCipher中encrypt方法中kdf.execute的cipher.keySize, cipher.ivSize调用格式，这两个成员应该是静态成员而不是实例成员。
+
+
+
+2020-04-04 1.23 比对
+
+90884e679206162183b979067209d51668e4751d
+
+Merge pull request [#263](https://github.com/brix/crypto-js/pull/263) from astutejoe/patch-1
+
+但不包括secure random的内容，它问题很多

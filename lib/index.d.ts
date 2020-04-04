@@ -16,8 +16,8 @@ declare namespace CryptoES {
        *
        *     var instance = MyType.create();
        */
-      static create(...args?: Array<any>): Base;
-      constructor(...args?: Array<any>);
+      static create(...args: Array<any>): Base;
+      constructor(...args: Array<any>);
 
       /**
        * Copies properties into this object.
@@ -300,13 +300,13 @@ declare namespace CryptoES {
      * @property {number} _DEC_XFORM_MODE A constant representing decryption mode.
      */
     export class Cipher extends BufferedBlockAlgorithm {
-      keySize: number;
+      static keySize: number;
 
-      ivSize: number;
+      static ivSize: number;
 
-      _ENC_XFORM_MODE: number;
+      static _ENC_XFORM_MODE: number;
 
-      _DEC_XFORM_MODE: number;
+      static _DEC_XFORM_MODE: number;
 
       /**
        * Initializes a newly created cipher.
@@ -368,7 +368,7 @@ declare namespace CryptoES {
        *
        *     const AES = CryptoJS.lib.Cipher._createHelper(CryptoJS.algo.AES);
        */
-      static _createHelper(SubCipher?: Cipher): CipherObj;
+      static _createHelper(SubCipher?: Function): CipherObj;
 
       /**
        * Resets this cipher to its initial state.
@@ -420,8 +420,8 @@ declare namespace CryptoES {
     export class StreamCipher extends Cipher {
       blockSize: number;
 
-      static create(...args?: Array<any>): StreamCipher;
-      constructor(...args?: Array<any>);
+      static create(...args: Array<any>): StreamCipher;
+      constructor(...args: Array<any>);
 
       _doFinalize(): WordArray;
     }
@@ -583,7 +583,7 @@ declare namespace CryptoES {
        *     var ciphertextParams = CryptoJS.lib.SerializableCipher
        *       .encrypt(CryptoJS.algo.AES, message, key, { iv: iv, format: CryptoJS.format.OpenSSL });
        */
-      static encrypt(cipher?: Cipher, message?: WordArray | string, key?: WordArray, cfg?: object): CipherParams;
+      static encrypt(cipher?: Function, message?: WordArray | string, key?: WordArray | string, cfg?: object): CipherParams;
 
       /**
        * Decrypts serialized ciphertext.
@@ -606,7 +606,7 @@ declare namespace CryptoES {
        *       .decrypt(CryptoJS.algo.AES, ciphertextParams, key,
        *         { iv: iv, format: CryptoJS.format.OpenSSL });
        */
-      static decrypt(cipher?: Cipher, ciphertext?: WordArray | string, key?: WordArray, cfg?: object): WordArray;
+      static decrypt(cipher?: Function, ciphertext?: CipherParams | string, key?: WordArray | string, cfg?: object): WordArray;
 
       /**
        * Converts serialized ciphertext to CipherParams,
@@ -653,7 +653,7 @@ declare namespace CryptoES {
        *     var ciphertextParams = CryptoJS.lib.PasswordBasedCipher
        *       .encrypt(CryptoJS.algo.AES, message, 'password', { format: CryptoJS.format.OpenSSL });
        */
-      static encrypt(cipher?: Cipher, message?: WordArray | string, password?: string, cfg?: object): CipherParams;
+      static encrypt(cipher?: Function, message?: WordArray | string, password?: string, cfg?: object): CipherParams;
 
       /**
        * Decrypts serialized ciphertext using a password.
@@ -676,7 +676,7 @@ declare namespace CryptoES {
        *       .decrypt(CryptoJS.algo.AES, ciphertextParams, 'password',
        *         { format: CryptoJS.format.OpenSSL });
        */
-      static decrypt(cipher?: Cipher, ciphertext?: CipherParams | string, password?: string, cfg?: object): WordArray;
+      static decrypt(cipher?: Function, ciphertext?: CipherParams | string, password?: string, cfg?: object): WordArray;
     }
   }
 
@@ -709,7 +709,7 @@ declare namespace CryptoES {
      * @property {Array} words The array of CryptoJS.x64.Word objects.
      * @property {number} sigBytes The number of significant bytes in this word array.
      */
-    export class WordArray extends Base {
+    export class WordArray extends lib.Base {
       words: Array<Word>;
 
       sigBytes: number;
@@ -780,7 +780,7 @@ declare namespace CryptoES {
     /**
      * HMAC algorithm.
      */
-    export class HMAC extends Base {
+    export class HMAC extends lib.Base {
       /**
        * Initializes a newly created HMAC.
        *
@@ -834,44 +834,44 @@ declare namespace CryptoES {
       finalize(messageUpdate?: lib.WordArray | string): lib.WordArray;
     }
 
-    export class MD5 extends lib.Hasher {};
-    export class SHA1 extends lib.Hasher {};
-    export class SHA224 extends lib.Hasher {};
-    export class SHA256 extends lib.Hasher {};
-    export class SHA384 extends lib.Hasher {};
-    export class SHA512 extends lib.Hasher {};
-    export class SHA3 extends lib.Hasher {};
-    export class RIPEMD160 extends lib.Hasher {};
+    export class MD5 extends lib.Hasher {}
+    export class SHA1 extends lib.Hasher {}
+    export class SHA224 extends lib.Hasher {}
+    export class SHA256 extends lib.Hasher {}
+    export class SHA384 extends lib.Hasher {}
+    export class SHA512 extends lib.Hasher {}
+    export class SHA3 extends lib.Hasher {}
+    export class RIPEMD160 extends lib.Hasher {}
 
     export class PBKDF2 extends lib.Base {
       static create(cfg?: object): PBKDF2;
       constructor(cfg?: object);
 
       compute(password?: lib.WordArray | string, salt?: lib.WordArray | string): lib.WordArray;
-    };
+    }
     export class EvpKDF extends lib.Base {
       static create(cfg?: object): EvpKDF;
       constructor(cfg?: object);
 
       compute(password?: lib.WordArray | string, salt?: lib.WordArray | string): lib.WordArray;
-    };
+    }
 
-    export class AES extends lib.BlockCipher {};
-    export class DES extends lib.BlockCipher {};
-    export class TripleDES extends lib.BlockCipher {};
-    export class Rabbit extends lib.StreamCipher {};
-    export class RabbitLegacy extends lib.StreamCipher {};
-    export class RC4 extends lib.StreamCipher {};
-    export class RC4Drop extends lib.StreamCipher {};
+    export class AES extends lib.BlockCipher {}
+    export class DES extends lib.BlockCipher {}
+    export class TripleDES extends lib.BlockCipher {}
+    export class Rabbit extends lib.StreamCipher {}
+    export class RabbitLegacy extends lib.StreamCipher {}
+    export class RC4 extends lib.StreamCipher {}
+    export class RC4Drop extends lib.StreamCipher {}
   }
 
   namespace mode {
-    export class CBC extends lib.BlockCipherMode {};
-    export class CFB extends lib.BlockCipherMode {};
-    export class CTR extends lib.BlockCipherMode {};
-    export class CTRGladman extends lib.BlockCipherMode {};
-    export class ECB extends lib.BlockCipherMode {};
-    export class OFB extends lib.BlockCipherMode {};
+    export class CBC extends lib.BlockCipherMode {}
+    export class CFB extends lib.BlockCipherMode {}
+    export class CTR extends lib.BlockCipherMode {}
+    export class CTRGladman extends lib.BlockCipherMode {}
+    export class ECB extends lib.BlockCipherMode {}
+    export class OFB extends lib.BlockCipherMode {}
   }
 
   namespace pad {

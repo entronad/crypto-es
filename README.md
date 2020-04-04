@@ -452,10 +452,10 @@ reader.onload = function () {
 };
 ```
 
+## Change Log
+
+[Change Log](https://github.com/entronad/crypto-es/blob/master/CHANGELOG.md)
+
 ## Blogs
 
 [Refactoring CryptoJS in Modern ECMAScript](https://medium.com/front-end-weekly/refactoring-cryptojs-in-modern-ecmascript-1d4e1837c272) 
-
-[【重写 CryptoJS】一、ECMAScript 类与继承](https://zhuanlan.zhihu.com/p/52165088)
-
-[【重写 CryptoJS】二、WordArray 与位操作](https://zhuanlan.zhihu.com/p/53411829) 

@@ -1,3 +1,18 @@
+## 1.2.4
+
+**2020-04-04**
+
+- Add change logs link to readme.
+
+## 1.2.3
+
+**2020-04-04**
+
+- Impliment [this PR](https://github.com/brix/crypto-js/pull/211) of CryptoJS, witch is about TripleDES key.
+- We will not use secure random like CryptoJS for now, for it has some issues.
+- Change Cyphers' keySize and ivSize to static properties to Fix some issues.
+- Fix some issues in type file.
+
 ## 1.2.2
 
 **2020-02-21**
