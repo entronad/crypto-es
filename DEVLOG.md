@@ -173,3 +173,43 @@ PasswordBasedCipher 和 SerializableCipher 不是实例化的对象，仅提供 
 Merge pull request [#263](https://github.com/brix/crypto-js/pull/263) from astutejoe/patch-1
 
 但不包括secure random的内容，它问题很多
+
+
+
+类型改进
+
+将 object 类型的 cfg 参数尽量改为 XXCfg 的接口
+
+原则，1. 参考 @types/cryptojs; 2. 只给文档中暴露的接口添加
+
+按照 @types/cryptojs 添加如下类型
+
+BlockCipherCfg
+
+SerializableCipherCfg
+
+PasswordBasedCipherCfg
+
+SHA3Cfg
+
+EvpKDFCfg
+
+CipherParamsCfg
+
+凝练一下，只需要三个Cfg
+
+CipherCfg 放在Cipher 之前
+
+HasherCfg 放在 Hasher 之前
+
+DKFCfg 放在 DKF之前
+
+CipherParamsCfg 放在CipherParams之前
+
+对应三个函数的Cfg，在函数附近定义
+
+
+
+
+
+@types/cryptojs 中 BlockCipher 继承自 IStreamCipher 好像是错的

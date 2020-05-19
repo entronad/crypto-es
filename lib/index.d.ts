@@ -208,6 +208,13 @@ declare namespace CryptoES {
       clone(): BufferedBlockAlgorithm;
     }
 
+    interface HasherCfg {
+
+      // SHA3
+  
+      outputLength?: number
+    }
+
     /**
      * Abstract hasher template.
      *
@@ -218,8 +225,8 @@ declare namespace CryptoES {
     export class Hasher extends BufferedBlockAlgorithm {
       blockSize: number;
 
-      static create(cfg?: object): Hasher;
-      constructor(cfg?: object);
+      static create(cfg?: HasherCfg): Hasher;
+      constructor(cfg?: HasherCfg);
 
       /**
        * Creates a shortcut function to a hasher's object interface.
@@ -291,6 +298,23 @@ declare namespace CryptoES {
       finalize(messageUpdate?: WordArray | string): WordArray;
     }
 
+    interface CipherCfg {
+
+      // Cipher
+  
+      iv?: lib.WordArray;
+      mode?: lib.BlockCipherMode;
+      padding?: pad.Padding;
+  
+      // SerializableCipher
+  
+      format?: format.Format;
+  
+      // PasswordBasedCipher
+  
+      kdf?: kdf.Kdf;
+    }  
+
     /**
      * Abstract base cipher template.
      *
@@ -321,8 +345,8 @@ declare namespace CryptoES {
        *       CryptoJS.algo.AES._ENC_XFORM_MODE, keyWordArray, { iv: ivWordArray }
        *     );
        */
-      static create(xformMode?: number, key?: WordArray, cfg?: object): Cipher;
-      constructor(xformMode?: number, key?: WordArray, cfg?: object);
+      static create(xformMode?: number, key?: WordArray, cfg?: CipherCfg): Cipher;
+      constructor(xformMode?: number, key?: WordArray, cfg?: CipherCfg);
 
       /**
        * Creates this cipher in encryption mode.
@@ -338,7 +362,7 @@ declare namespace CryptoES {
        *
        *     const cipher = CryptoJS.algo.AES.createEncryptor(keyWordArray, { iv: ivWordArray });
        */
-      static createEncryptor(key?: WordArray, cfg?: object): Cipher;
+      static createEncryptor(key?: WordArray, cfg?: CipherCfg): Cipher;
       /**
        * Creates this cipher in decryption mode.
        *
@@ -353,7 +377,7 @@ declare namespace CryptoES {
        *
        *     const cipher = CryptoJS.algo.AES.createDecryptor(keyWordArray, { iv: ivWordArray });
        */
-      static createDecryptor(key?: WordArray, cfg?: object): Cipher;
+      static createDecryptor(key?: WordArray, cfg?: CipherCfg): Cipher;
 
       /**
        * Creates shortcut functions to a cipher's object interface.
@@ -480,7 +504,19 @@ declare namespace CryptoES {
      *    The number of 32-bit words this cipher operates on. Default: 4 (128 bits)
      */
     export class BlockCipher extends Cipher {
-      static create(xformMode?: number, key?: WordArray, cfg?: object): BlockCipher;    
+      static create(xformMode?: number, key?: WordArray, cfg?: CipherCfg): BlockCipher;    
+    }
+
+    interface CipherParamsCfg {
+      ciphertext?: WordArray;
+      key?: WordArray;
+      iv?: WordArray;
+      salt?: WordArray;
+      algorithm?: Cipher;
+      mode?: BlockCipherMode;
+      padding?: pad.Padding;
+      blockSize?: number;
+      formatter?: format.Format;
     }
 
     /**
@@ -535,8 +571,8 @@ declare namespace CryptoES {
        *         formatter: CryptoJS.format.OpenSSL
        *     });
        */
-      static create(cipherParams?: object): CipherParams;
-      constructor(cipherParams?: object);
+      static create(cipherParams?: CipherParamsCfg): CipherParams;
+      constructor(cipherParams?: CipherParamsCfg);
 
       /**
        * Converts this cipher params object to a string.
@@ -583,7 +619,7 @@ declare namespace CryptoES {
        *     var ciphertextParams = CryptoJS.lib.SerializableCipher
        *       .encrypt(CryptoJS.algo.AES, message, key, { iv: iv, format: CryptoJS.format.OpenSSL });
        */
-      static encrypt(cipher?: Function, message?: WordArray | string, key?: WordArray | string, cfg?: object): CipherParams;
+      static encrypt(cipher?: Function, message?: WordArray | string, key?: WordArray | string, cfg?: CipherCfg): CipherParams;
 
       /**
        * Decrypts serialized ciphertext.
@@ -606,7 +642,7 @@ declare namespace CryptoES {
        *       .decrypt(CryptoJS.algo.AES, ciphertextParams, key,
        *         { iv: iv, format: CryptoJS.format.OpenSSL });
        */
-      static decrypt(cipher?: Function, ciphertext?: CipherParams | string, key?: WordArray | string, cfg?: object): WordArray;
+      static decrypt(cipher?: Function, ciphertext?: CipherParams | string, key?: WordArray | string, cfg?: CipherCfg): WordArray;
 
       /**
        * Converts serialized ciphertext to CipherParams,
@@ -653,7 +689,7 @@ declare namespace CryptoES {
        *     var ciphertextParams = CryptoJS.lib.PasswordBasedCipher
        *       .encrypt(CryptoJS.algo.AES, message, 'password', { format: CryptoJS.format.OpenSSL });
        */
-      static encrypt(cipher?: Function, message?: WordArray | string, password?: string, cfg?: object): CipherParams;
+      static encrypt(cipher?: Function, message?: WordArray | string, password?: string, cfg?: CipherCfg): CipherParams;
 
       /**
        * Decrypts serialized ciphertext using a password.
@@ -676,7 +712,7 @@ declare namespace CryptoES {
        *       .decrypt(CryptoJS.algo.AES, ciphertextParams, 'password',
        *         { format: CryptoJS.format.OpenSSL });
        */
-      static decrypt(cipher?: Function, ciphertext?: CipherParams | string, password?: string, cfg?: object): WordArray;
+      static decrypt(cipher?: Function, ciphertext?: CipherParams | string, password?: string, cfg?: CipherCfg): WordArray;
     }
   }
 
@@ -844,14 +880,14 @@ declare namespace CryptoES {
     export class RIPEMD160 extends lib.Hasher {}
 
     export class PBKDF2 extends lib.Base {
-      static create(cfg?: object): PBKDF2;
-      constructor(cfg?: object);
+      static create(cfg?: KDFCfg): PBKDF2;
+      constructor(cfg?: KDFCfg);
 
       compute(password?: lib.WordArray | string, salt?: lib.WordArray | string): lib.WordArray;
     }
     export class EvpKDF extends lib.Base {
-      static create(cfg?: object): EvpKDF;
-      constructor(cfg?: object);
+      static create(cfg?: KDFCfg): EvpKDF;
+      constructor(cfg?: KDFCfg);
 
       compute(password?: lib.WordArray | string, salt?: lib.WordArray | string): lib.WordArray;
     }
@@ -906,7 +942,7 @@ declare namespace CryptoES {
     export const OpenSSL: Kdf;
   }
 
-  type HashFn = (message?: lib.WordArray | string) => lib.WordArray;
+  type HashFn = (message?: lib.WordArray | string, cfg?: lib.HasherCfg) => lib.WordArray;
   type HMACHashFn = (message?: lib.WordArray | string, key?: lib.WordArray | string) => lib.WordArray;
 
   export const MD5: HashFn;
@@ -926,14 +962,23 @@ declare namespace CryptoES {
   export const RIPEMD160: HashFn;
   export const HmacRIPEMD160: HMACHashFn;
 
-  type KDFFn = (password?: lib.WordArray | string, salt?: lib.WordArray | string, cfg?: object) => lib.WordArray;
+  interface KDFCfg {
+
+    // EvpKDF
+
+    keySize?: number;
+    hasher?: lib.Hasher;
+    iterations?: number;
+  }
+
+  type KDFFn = (password?: lib.WordArray | string, salt?: lib.WordArray | string, cfg?: KDFCfg) => lib.WordArray;
 
   export const PBKDF2: KDFFn;
   export const EvpKDF: KDFFn;
 
   interface CipherObj {
-    encrypt(message?: lib.WordArray | string, key?: lib.WordArray | string, cfg?: object): lib.CipherParams;
-    decrypt(ciphertext?: lib.CipherParams | string, key?: lib.WordArray | string, cfg?: object): lib.WordArray;
+    encrypt(message?: lib.WordArray | string, key?: lib.WordArray | string, cfg?: lib.CipherCfg): lib.CipherParams;
+    decrypt(ciphertext?: lib.CipherParams | lib.CipherParamsCfg | string, key?: lib.WordArray | string, cfg?: lib.CipherCfg): lib.WordArray;
   }
 
   export const AES: CipherObj;
