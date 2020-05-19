@@ -1,6 +1,6 @@
 {
   "name": "crypto-es",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "A cryptography algorithms library compatible with ES6 and TypeScript",
   "keywords": [
     "typescript",

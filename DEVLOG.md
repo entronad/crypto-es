@@ -213,3 +213,7 @@ CipherParamsCfg 放在CipherParams之前
 
 
 @types/cryptojs 中 BlockCipher 继承自 IStreamCipher 好像是错的
+
+
+
+单文件引入时，好像会判定为 any 不影响使用

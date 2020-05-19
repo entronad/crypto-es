@@ -63,13 +63,6 @@ Make sure to add this entry to your tsconfig.json:
     ...
   }
 }
-
-```
-
-If you want to have type checks, make sure to use overall import:
-
-```
-import CryptoES from 'crypto-es';
 ```
 
 ## Guide
