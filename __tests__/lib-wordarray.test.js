@@ -22,6 +22,12 @@ describe('lib-wordarray', () => {
     expect(C.lib.WordArray.create([0x12345678]).toString()).toBe('12345678');
   });
 
+  it('toArrayBuffer', () => {
+    const buffer = C.lib.WordArray.create([0x12345678]).toArrayBuffer();
+    const u8arr = new Uint8Array(buffer);
+    expect(u8arr.toString()).toBe(new Uint8Array([0x12, 0x34, 0x56, 0x78]).toString());
+  });
+
   it('concat 3', () => {
     const wordArray1 = C.lib.WordArray.create([0x12345678], 3);
     const wordArray2 = C.lib.WordArray.create([0x12345678], 3);

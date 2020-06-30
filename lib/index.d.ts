@@ -109,6 +109,17 @@ declare namespace CryptoES {
       toString(encoder?: enc.Encoder): string;
 
       /**
+       * Converts this word array to ArrayBuffer.
+       *
+       * @return {Uint8Array} The stringified word array.
+       *
+       * @example
+       *
+       *     var buffer = wordArray.toArrayBuffer();
+       */
+      toArrayBuffer(): ArrayBuffer;
+
+      /**
        * Concatenates a word array to this word array.
        *
        * @param {WordArray} wordArray The word array to append.
@@ -619,7 +630,7 @@ declare namespace CryptoES {
        *     var ciphertextParams = CryptoJS.lib.SerializableCipher
        *       .encrypt(CryptoJS.algo.AES, message, key, { iv: iv, format: CryptoJS.format.OpenSSL });
        */
-      static encrypt(cipher?: Function, message?: WordArray | string, key?: WordArray | string, cfg?: CipherCfg): CipherParams;
+      static encrypt(cipher?: Function, message?: WordArray | ArrayBuffer | string, key?: WordArray | ArrayBuffer | string, cfg?: CipherCfg): CipherParams;
 
       /**
        * Decrypts serialized ciphertext.
@@ -689,7 +700,7 @@ declare namespace CryptoES {
        *     var ciphertextParams = CryptoJS.lib.PasswordBasedCipher
        *       .encrypt(CryptoJS.algo.AES, message, 'password', { format: CryptoJS.format.OpenSSL });
        */
-      static encrypt(cipher?: Function, message?: WordArray | string, password?: string, cfg?: CipherCfg): CipherParams;
+      static encrypt(cipher?: Function, message?: WordArray | ArrayBuffer | string, password?: string, cfg?: CipherCfg): CipherParams;
 
       /**
        * Decrypts serialized ciphertext using a password.
@@ -977,8 +988,8 @@ declare namespace CryptoES {
   export const EvpKDF: KDFFn;
 
   interface CipherObj {
-    encrypt(message?: lib.WordArray | string, key?: lib.WordArray | string, cfg?: lib.CipherCfg): lib.CipherParams;
-    decrypt(ciphertext?: lib.CipherParams | lib.CipherParamsCfg | string, key?: lib.WordArray | string, cfg?: lib.CipherCfg): lib.WordArray;
+    encrypt(message?: lib.WordArray | ArrayBuffer | string, key?: lib.WordArray | ArrayBuffer | string, cfg?: lib.CipherCfg): lib.CipherParams;
+    decrypt(ciphertext?: lib.CipherParams | lib.CipherParamsCfg | ArrayBuffer | string, key?: lib.WordArray | ArrayBuffer | string, cfg?: lib.CipherCfg): lib.WordArray;
   }
 
   export const AES: CipherObj;
