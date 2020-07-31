@@ -837,7 +837,7 @@ declare namespace CryptoES {
        *
        *     hmacHasher.reset();
        */
-      reset();
+      reset(): void;
 
       /**
        * Updates this HMAC with a message.
