@@ -1,3 +1,9 @@
+## 1.2.6
+
+**2020-08-01**
+
+- [Fix a type error](https://github.com/entronad/crypto-es/pull/8).
+
 ## 1.2.5
 
 **2020-05-19**
