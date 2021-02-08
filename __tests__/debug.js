@@ -17,3 +17,16 @@ uint8View[7] = 0xef;
 const wordArray = C.lib.WordArray.create(data.buffer);
 
 console.log('Resault: ', C.AES.encrypt(wordArray, 'Secret Passphrase'));
+
+
+export function aesEncrypt(word, keyWord = "XwKsGlMcdPMEhR1B") {
+  var key = C.enc.Utf8.parse(keyWord);
+  var srcs = C.enc.Utf8.parse(word);
+  var encrypted = C.AES.encrypt(srcs, key, {
+  mode: C.mode.ECB,
+  padding: C.pad.Pkcs7,
+  });
+  return encrypted.toString();
+}
+
+console.log(aesEncrypt('aaa'));

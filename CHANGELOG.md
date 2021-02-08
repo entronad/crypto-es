@@ -1,5 +1,11 @@
 ## 1.2.6
 
+**2021-02-08**
+
+- [Fix a type error](https://github.com/entronad/crypto-es/issues/12).
+
+## 1.2.6
+
 **2020-08-01**
 
 - [Fix a type error](https://github.com/entronad/crypto-es/pull/8).

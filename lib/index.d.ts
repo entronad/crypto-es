@@ -303,7 +303,7 @@ declare namespace CryptoES {
       // Cipher
   
       iv?: lib.WordArray;
-      mode?: lib.BlockCipherMode;
+      mode?: Function;
       padding?: pad.Padding;
   
       // SerializableCipher
@@ -513,7 +513,7 @@ declare namespace CryptoES {
       iv?: WordArray;
       salt?: WordArray;
       algorithm?: Cipher;
-      mode?: BlockCipherMode;
+      mode?: Function;
       padding?: pad.Padding;
       blockSize?: number;
       formatter?: format.Format;

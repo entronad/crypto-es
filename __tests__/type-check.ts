@@ -19,3 +19,17 @@ const t6 = CryptoES.lib.PasswordBasedCipher._parse();
 const t7 = MD5('message');
 
 const t8 = AES.encrypt("Message", "Secret Passphrase");
+
+const t9: CryptoES.mode.CBC = new CryptoES.mode.CBC();
+t9.mixIn;
+t9.clone;
+
+export function aesEncrypt(word: string, keyWord: string = "XwKsGlMcdPMEhR1B") {
+  var key = CryptoES.enc.Utf8.parse(keyWord);
+  var srcs = CryptoES.enc.Utf8.parse(word);
+  var encrypted = CryptoES.AES.encrypt(srcs, key, {
+  mode: CryptoES.mode.ECB,
+  padding: CryptoES.pad.Pkcs7,
+  });
+  return encrypted.toString();
+}
