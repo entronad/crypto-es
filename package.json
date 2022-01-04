@@ -54,10 +54,10 @@
   },
   "homepage": "https://github.com/entronad/crypto-es#readme",
   "devDependencies": {
-    "eslint": "7.2.0",
-    "eslint-config-airbnb-base": "14.2.1",
-    "eslint-plugin-import": "2.22.1",
-    "jest": "26.6.3"
+    "eslint": "8.8.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-plugin-import": "2.25.4",
+    "jest": "27.4.7"
   },
   "jest": {
     "testRegex": "(/__tests__/.*\\.test\\.js)$",
