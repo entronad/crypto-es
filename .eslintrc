@@ -6,6 +6,9 @@
   "extends": "airbnb-base",
   "rules": {
     "camelcase": "off",
+    "function-paren-newline": "off",
+    "space-before-function-paren": "off",
+    "max-classes-per-file": "off",
     "class-methods-use-this": "off",
     "no-bitwise": "off",
     "no-underscore-dangle": "off",
