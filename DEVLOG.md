@@ -217,3 +217,28 @@ CipherParamsCfg 放在CipherParams之前
 
 
 单文件引入时，好像会判定为 any 不影响使用
+
+
+
+2023-06-12 对比
+
+4dcaa7afd08f48cd285463b8f9499cdb242605fa
+
+Merge pull request #380 from Alanscut/dev
+
+**改动**：
+
+所有依赖升级最新
+
+增加真随机数，现在RN的问题已经解决了 https://github.com/brix/crypto-js/pull/259#issuecomment-799973769
+
+TripleDes/Des 结果问题 https://github.com/entronad/crypto-es/issues/22
+
+增加 enc-base64url.js
+
+增加 blowfish.js
+
+拆分ts类型
+
+另外我们应该开启增加新算法
+
