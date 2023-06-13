@@ -242,3 +242,6 @@ TripleDes/Des 结果问题 https://github.com/entronad/crypto-es/issues/22
 
 另外我们应该开启增加新算法
 
+
+
+关于random，采取这样一个策略：最高原则是用 globalThis，次之是用原来的那一坨全局变量，其它就不考虑了，都没有就用Math，同时给出warn。
