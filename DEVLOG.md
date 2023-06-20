@@ -234,7 +234,7 @@ Merge pull request #380 from Alanscut/dev
 
 TripleDes/Des 结果问题 https://github.com/entronad/crypto-es/issues/22
 
-cipher-core.js中扩展OpenSSLKdf.execute的参数
+cipher-core.js要修改一下，根据这两个commit：https://github.com/brix/crypto-js/commit/dcc3848f5de5208bca73f36c0ed77fa192ee2ea8 ，https://github.com/brix/crypto-js/commit/09ee2ab282176f235f26d6a2d4e039cbd6eb3494
 
 增加 enc-base64url.js
 
