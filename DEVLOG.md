@@ -234,6 +234,8 @@ Merge pull request #380 from Alanscut/dev
 
 TripleDes/Des 结果问题 https://github.com/entronad/crypto-es/issues/22
 
+cipher-core.js中扩展OpenSSLKdf.execute的参数
+
 增加 enc-base64url.js
 
 增加 blowfish.js
@@ -245,3 +247,11 @@ TripleDes/Des 结果问题 https://github.com/entronad/crypto-es/issues/22
 
 
 关于random，采取这样一个策略：最高原则是用 globalThis，次之是用原来的那一坨全局变量，其它就不考虑了，都没有就用Math，同时给出warn。
+
+命名原则：
+
+尽量与原始的Crypto一致（它似乎只有一个常量全大写下划线的特点）（注：不一定与后面PR中的一致）
+
+模块内的顶层变量不一定加 _ ，因为js模块要显式的export
+
+符合一般命名规则
