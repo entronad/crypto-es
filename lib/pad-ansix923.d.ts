@@ -1,8 +1,4 @@
-import {
-  Padding,
-} from './cipher-core';
-
-/**
- * ANSI X.923 padding strategy.
- */
-export const AnsiX923: Padding;
+export namespace AnsiX923 {
+    function pad(data: any, blockSize: any): void;
+    function unpad(data: any): void;
+}

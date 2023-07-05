@@ -1,8 +1,4 @@
-import {
-  Padding,
-} from './cipher-core';
-
-/**
- * A noop padding strategy.
- */
-export const NoPadding: Padding;
+export namespace NoPadding {
+    function pad(): void;
+    function unpad(): void;
+}

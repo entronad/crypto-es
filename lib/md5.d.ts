@@ -1,14 +1,12 @@
-import {
-  Hasher,
-  HashFn,
-  HMACHashFn,
-} from './core';
-
 /**
  * MD5 hash algorithm.
  */
-export class MD5Algo extends Hasher {}
-
+export class MD5Algo extends Hasher {
+    _doReset(): void;
+    _hash: WordArray;
+    _doProcessBlock(M: any, offset: any): void;
+    _doFinalize(): WordArray;
+}
 /**
  * Shortcut function to the hasher's object interface.
  *
@@ -23,8 +21,7 @@ export class MD5Algo extends Hasher {}
  *     var hash = CryptoJS.MD5('message');
  *     var hash = CryptoJS.MD5(wordArray);
  */
-export const MD5: HashFn;
-
+export const MD5: Function;
 /**
  * Shortcut function to the HMAC's object interface.
  *
@@ -39,4 +36,6 @@ export const MD5: HashFn;
  *
  *     var hmac = CryptoJS.HmacMD5(message, key);
  */
-export const HmacMD5: HMACHashFn;
+export const HmacMD5: Function;
+import { Hasher } from './core.js';
+import { WordArray } from './core.js';

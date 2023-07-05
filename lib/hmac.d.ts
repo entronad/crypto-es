@@ -1,3 +1,1 @@
-export {
-  HMAC,
-} from './core';
+export { HMAC } from "./core.js";

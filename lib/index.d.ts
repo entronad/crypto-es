@@ -1,993 +1,181 @@
-declare namespace CryptoES {
-  namespace lib {
-    /**
-     * Base class for inheritance.
-     */
-    export class Base {
-      /**
-       * Extends this object and runs the init method.
-       * Arguments to create() will be passed to init().
-       *
-       * @return {Object} The new object.
-       *
-       * @static
-       *
-       * @example
-       *
-       *     var instance = MyType.create();
-       */
-      static create(...args: Array<any>): Base;
-      constructor(...args: Array<any>);
-
-      /**
-       * Copies properties into this object.
-       *
-       * @param {Object} properties The properties to mix in.
-       *
-       * @example
-       *
-       *     MyType.mixIn({
-       *         field: 'value'
-       *     });
-       */
-      mixIn(properties?: object): Base;
-
-      /**
-       * Creates a copy of this object.
-       *
-       * @return {Object} The clone.
-       *
-       * @example
-       *
-       *     var clone = instance.clone();
-       */
-      clone(): Base
+declare namespace _default {
+    export namespace lib {
+        export { Base };
+        export { WordArray };
+        export { BufferedBlockAlgorithm };
+        export { Hasher };
+        export { Cipher };
+        export { StreamCipher };
+        export { BlockCipherMode };
+        export { BlockCipher };
+        export { CipherParams };
+        export { SerializableCipher };
+        export { PasswordBasedCipher };
     }
-
-    /**
-     * An array of 32-bit words.
-     *
-     * @property {Array} words The array of 32-bit words.
-     * @property {number} sigBytes The number of significant bytes in this word array.
-     */
-    export class WordArray extends Base {
-      words: Array<number>;
-
-      sigBytes: number;
-
-      /**
-       * Initializes a newly created word array.
-       *
-       * @param {Array} words (Optional) An array of 32-bit words.
-       * @param {number} sigBytes (Optional) The number of significant bytes in the words.
-       *
-       * @example
-       *
-       *     var wordArray = CryptoJS.lib.WordArray.create();
-       *     var wordArray = CryptoJS.lib.WordArray.create([0x00010203, 0x04050607]);
-       *     var wordArray = CryptoJS.lib.WordArray.create([0x00010203, 0x04050607], 6);
-       */
-      static create(
-        words?: Array<number> | ArrayBuffer | Uint8Array | Int8Array | Uint8ClampedArray
-          | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array,
-        sigBytes?: number,
-      ): WordArray;
-      constructor(
-        words?: Array<number> | ArrayBuffer | Uint8Array | Int8Array | Uint8ClampedArray
-          | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array,
-        sigBytes?: number,
-      );
-
-      /**
-       * Creates a word array filled with random bytes.
-       *
-       * @param {number} nBytes The number of random bytes to generate.
-       *
-       * @return {WordArray} The random word array.
-       *
-       * @static
-       *
-       * @example
-       *
-       *     var wordArray = CryptoJS.lib.WordArray.random(16);
-       */
-      static random(nBytes?: number): WordArray;
-
-      /**
-       * Converts this word array to a string.
-       *
-       * @param {Encoder} encoder (Optional) The encoding strategy to use. Default: CryptoJS.enc.Hex
-       *
-       * @return {string} The stringified word array.
-       *
-       * @example
-       *
-       *     var string = wordArray + '';
-       *     var string = wordArray.toString();
-       *     var string = wordArray.toString(CryptoJS.enc.Utf8);
-       */
-      toString(encoder?: enc.Encoder): string;
-
-      /**
-       * Concatenates a word array to this word array.
-       *
-       * @param {WordArray} wordArray The word array to append.
-       *
-       * @return {WordArray} This word array.
-       *
-       * @example
-       *
-       *     wordArray1.concat(wordArray2);
-       */
-      concat(wordArray?: WordArray): WordArray;
-
-      /**
-       * Removes insignificant bits.
-       *
-       * @example
-       *
-       *     wordArray.clamp();
-       */
-      clamp(): void;
-
-      /**
-       * Creates a copy of this word array.
-       *
-       * @return {WordArray} The clone.
-       *
-       * @example
-       *
-       *     var clone = wordArray.clone();
-       */
-      clone(): WordArray;
+    export namespace x64 {
+        export { X64Word as Word };
+        export { X64WordArray as WordArray };
     }
-
-    /**
-     * Abstract buffered block algorithm template.
-     *
-     * The property blockSize must be implemented in a concrete subtype.
-     *
-     * @property {number} _minBufferSize
-     *
-     *     The number of blocks that should be kept unprocessed in the buffer. Default: 0
-     */
-    export class BufferedBlockAlgorithm extends Base {
-      _minBufferSize: number;
-
-      static create(): BufferedBlockAlgorithm;
-      constructor();
-
-      /**
-       * Resets this block algorithm's data buffer to its initial state.
-       *
-       * @example
-       *
-       *     bufferedBlockAlgorithm.reset();
-       */
-      reset(): void;
-
-      /**
-       * Adds new data to this block algorithm's buffer.
-       *
-       * @param {WordArray|string} data
-       *
-       *     The data to append. Strings are converted to a WordArray using UTF-8.
-       *
-       * @example
-       *
-       *     bufferedBlockAlgorithm._append('data');
-       *     bufferedBlockAlgorithm._append(wordArray);
-       */
-      _append(data?: WordArray | string): void;
-
-      /**
-       * Processes available data blocks.
-       *
-       * This method invokes _doProcessBlock(offset), which must be implemented by a concrete subtype.
-       *
-       * @param {boolean} doFlush Whether all blocks and partial blocks should be processed.
-       *
-       * @return {WordArray} The processed data.
-       *
-       * @example
-       *
-       *     var processedData = bufferedBlockAlgorithm._process();
-       *     var processedData = bufferedBlockAlgorithm._process(!!'flush');
-       */
-      _process(doFlush?: boolean): WordArray;
-
-      /**
-       * Creates a copy of this object.
-       *
-       * @return {Object} The clone.
-       *
-       * @example
-       *
-       *     var clone = bufferedBlockAlgorithm.clone();
-       */
-      clone(): BufferedBlockAlgorithm;
+    export namespace enc {
+        export { Hex };
+        export { Latin1 };
+        export { Utf8 };
+        export { Utf16 };
+        export { Utf16BE };
+        export { Utf16LE };
+        export { Base64 };
+        export { Base64url };
     }
-
-    interface HasherCfg {
-
-      // SHA3
-  
-      outputLength?: number
+    export namespace algo {
+        export { HMAC };
+        export { MD5Algo as MD5 };
+        export { SHA1Algo as SHA1 };
+        export { SHA224Algo as SHA224 };
+        export { SHA256Algo as SHA256 };
+        export { SHA384Algo as SHA384 };
+        export { SHA512Algo as SHA512 };
+        export { SHA3Algo as SHA3 };
+        export { RIPEMD160Algo as RIPEMD160 };
+        export { PBKDF2Algo as PBKDF2 };
+        export { EvpKDFAlgo as EvpKDF };
+        export { AESAlgo as AES };
+        export { DESAlgo as DES };
+        export { TripleDESAlgo as TripleDES };
+        export { RabbitAlgo as Rabbit };
+        export { RabbitLegacyAlgo as RabbitLegacy };
+        export { RC4Algo as RC4 };
+        export { RC4DropAlgo as RC4Drop };
+        export { BlowfishAlgo as Blowfish };
     }
-
-    /**
-     * Abstract hasher template.
-     *
-     * @property {number} blockSize
-     *
-     *     The number of 32-bit words this hasher operates on. Default: 16 (512 bits)
-     */
-    export class Hasher extends BufferedBlockAlgorithm {
-      blockSize: number;
-
-      static create(cfg?: HasherCfg): Hasher;
-      constructor(cfg?: HasherCfg);
-
-      /**
-       * Creates a shortcut function to a hasher's object interface.
-       *
-       * @param {Hasher} SubHasher The hasher to create a helper for.
-       *
-       * @return {Function} The shortcut function.
-       *
-       * @static
-       *
-       * @example
-       *
-       *     var SHA256 = CryptoJS.lib.Hasher._createHelper(CryptoJS.algo.SHA256);
-       */
-      static _createHelper(SubHasher?: Hasher): HashFn;
-
-      /**
-       * Creates a shortcut function to the HMAC's object interface.
-       *
-       * @param {Hasher} SubHasher The hasher to use in this HMAC helper.
-       *
-       * @return {Function} The shortcut function.
-       *
-       * @static
-       *
-       * @example
-       *
-       *     var HmacSHA256 = CryptoJS.lib.Hasher._createHmacHelper(CryptoJS.algo.SHA256);
-       */
-      static _createHmacHelper(SubHasher?: Hasher): HMACHashFn;
-
-      /**
-       * Resets this hasher to its initial state.
-       *
-       * @example
-       *
-       *     hasher.reset();
-       */
-      reset(): void;
-
-      /**
-       * Updates this hasher with a message.
-       *
-       * @param {WordArray|string} messageUpdate The message to append.
-       *
-       * @return {Hasher} This hasher.
-       *
-       * @example
-       *
-       *     hasher.update('message');
-       *     hasher.update(wordArray);
-       */
-      update(messageUpdate?: WordArray | string): Hasher;
-
-      /**
-       * Finalizes the hash computation.
-       * Note that the finalize operation is effectively a destructive, read-once operation.
-       *
-       * @param {WordArray|string} messageUpdate (Optional) A final message update.
-       *
-       * @return {WordArray} The hash.
-       *
-       * @example
-       *
-       *     var hash = hasher.finalize();
-       *     var hash = hasher.finalize('message');
-       *     var hash = hasher.finalize(wordArray);
-       */
-      finalize(messageUpdate?: WordArray | string): WordArray;
+    export namespace mode {
+        export { CBC };
+        export { CFB };
+        export { CTR };
+        export { CTRGladman };
+        export { ECB };
+        export { OFB };
     }
-
-    interface CipherCfg {
-
-      // Cipher
-  
-      iv?: lib.WordArray;
-      mode?: Function;
-      padding?: pad.Padding;
-  
-      // SerializableCipher
-  
-      format?: format.Format;
-  
-      // PasswordBasedCipher
-  
-      kdf?: kdf.Kdf;
-    }  
-
-    /**
-     * Abstract base cipher template.
-     *
-     * @property {number} keySize This cipher's key size. Default: 4 (128 bits)
-     * @property {number} ivSize This cipher's IV size. Default: 4 (128 bits)
-     * @property {number} _ENC_XFORM_MODE A constant representing encryption mode.
-     * @property {number} _DEC_XFORM_MODE A constant representing decryption mode.
-     */
-    export class Cipher extends BufferedBlockAlgorithm {
-      static keySize: number;
-
-      static ivSize: number;
-
-      static _ENC_XFORM_MODE: number;
-
-      static _DEC_XFORM_MODE: number;
-
-      /**
-       * Initializes a newly created cipher.
-       *
-       * @param {number} xformMode Either the encryption or decryption transormation mode constant.
-       * @param {WordArray} key The key.
-       * @param {Object} cfg (Optional) The configuration options to use for this operation.
-       *
-       * @example
-       *
-       *     const cipher = CryptoJS.algo.AES.create(
-       *       CryptoJS.algo.AES._ENC_XFORM_MODE, keyWordArray, { iv: ivWordArray }
-       *     );
-       */
-      static create(xformMode?: number, key?: WordArray, cfg?: CipherCfg): Cipher;
-      constructor(xformMode?: number, key?: WordArray, cfg?: CipherCfg);
-
-      /**
-       * Creates this cipher in encryption mode.
-       *
-       * @param {WordArray} key The key.
-       * @param {Object} cfg (Optional) The configuration options to use for this operation.
-       *
-       * @return {Cipher} A cipher instance.
-       *
-       * @static
-       *
-       * @example
-       *
-       *     const cipher = CryptoJS.algo.AES.createEncryptor(keyWordArray, { iv: ivWordArray });
-       */
-      static createEncryptor(key?: WordArray, cfg?: CipherCfg): Cipher;
-      /**
-       * Creates this cipher in decryption mode.
-       *
-       * @param {WordArray} key The key.
-       * @param {Object} cfg (Optional) The configuration options to use for this operation.
-       *
-       * @return {Cipher} A cipher instance.
-       *
-       * @static
-       *
-       * @example
-       *
-       *     const cipher = CryptoJS.algo.AES.createDecryptor(keyWordArray, { iv: ivWordArray });
-       */
-      static createDecryptor(key?: WordArray, cfg?: CipherCfg): Cipher;
-
-      /**
-       * Creates shortcut functions to a cipher's object interface.
-       *
-       * @param {Cipher} cipher The cipher to create a helper for.
-       *
-       * @return {Object} An object with encrypt and decrypt shortcut functions.
-       *
-       * @static
-       *
-       * @example
-       *
-       *     const AES = CryptoJS.lib.Cipher._createHelper(CryptoJS.algo.AES);
-       */
-      static _createHelper(SubCipher?: Function): CipherObj;
-
-      /**
-       * Resets this cipher to its initial state.
-       *
-       * @example
-       *
-       *     cipher.reset();
-       */
-      reset(): void;
-
-      /**
-       * Adds data to be encrypted or decrypted.
-       *
-       * @param {WordArray|string} dataUpdate The data to encrypt or decrypt.
-       *
-       * @return {WordArray} The data after processing.
-       *
-       * @example
-       *
-       *     const encrypted = cipher.process('data');
-       *     const encrypted = cipher.process(wordArray);
-       */
-      process(dataUpdate?: WordArray | string): WordArray;
-
-      /**
-       * Finalizes the encryption or decryption process.
-       * Note that the finalize operation is effectively a destructive, read-once operation.
-       *
-       * @param {WordArray|string} dataUpdate The final data to encrypt or decrypt.
-       *
-       * @return {WordArray} The data after final processing.
-       *
-       * @example
-       *
-       *     const encrypted = cipher.finalize();
-       *     const encrypted = cipher.finalize('data');
-       *     const encrypted = cipher.finalize(wordArray);
-       */
-      finalize(dataUpdate?: WordArray | string): WordArray;
+    export namespace pad {
+        export { Pkcs7 };
+        export { AnsiX923 };
+        export { Iso10126 };
+        export { Iso97971 };
+        export { NoPadding };
+        export { ZeroPadding };
     }
-
-    /**
-     * Abstract base stream cipher template.
-     *
-     * @property {number} blockSize
-     *
-     *     The number of 32-bit words this cipher operates on. Default: 1 (32 bits)
-     */
-    export class StreamCipher extends Cipher {
-      blockSize: number;
-
-      static create(...args: Array<any>): StreamCipher;
-      constructor(...args: Array<any>);
-
-      _doFinalize(): WordArray;
+    export namespace format {
+        export { OpenSSLFormatter as OpenSSL };
+        export { HexFormatter as Hex };
     }
-
-    /**
-     * Abstract base block cipher mode template.
-     */
-    export class BlockCipherMode extends Base {
-      /**
-       * Initializes a newly created mode.
-       *
-       * @param {Cipher} cipher A block cipher instance.
-       * @param {Array} iv The IV words.
-       *
-       * @example
-       *
-       *     const mode = CryptoJS.mode.CBC.Encryptor.create(cipher, iv.words);
-       */
-      static create(cipher?: Cipher, iv?: Array<number>): BlockCipherMode;
-      constructor(cipher?: Cipher, iv?: Array<number>);
-
-      /**
-       * Creates this mode for encryption.
-       *
-       * @param {Cipher} cipher A block cipher instance.
-       * @param {Array} iv The IV words.
-       *
-       * @static
-       *
-       * @example
-       *
-       *     const mode = CryptoJS.mode.CBC.createEncryptor(cipher, iv.words);
-       */
-      static createEncryptor(cipher?: Cipher, iv?: Array<number>): BlockCipherMode;
-
-      /**
-       * Creates this mode for decryption.
-       *
-       * @param {Cipher} cipher A block cipher instance.
-       * @param {Array} iv The IV words.
-       *
-       * @static
-       *
-       * @example
-       *
-       *     const mode = CryptoJS.mode.CBC.createDecryptor(cipher, iv.words);
-       */
-      static createDecryptor(cipher?: Cipher, iv?: Array<number>): BlockCipherMode;
+    export namespace kdf {
+        export { OpenSSLKdf as OpenSSL };
     }
-
-    /**
-     * Abstract base block cipher template.
-     *
-     * @property {number} blockSize
-     *
-     *    The number of 32-bit words this cipher operates on. Default: 4 (128 bits)
-     */
-    export class BlockCipher extends Cipher {
-      static create(xformMode?: number, key?: WordArray, cfg?: CipherCfg): BlockCipher;    
-    }
-
-    interface CipherParamsCfg {
-      ciphertext?: WordArray;
-      key?: WordArray;
-      iv?: WordArray;
-      salt?: WordArray;
-      algorithm?: Cipher;
-      mode?: Function;
-      padding?: pad.Padding;
-      blockSize?: number;
-      formatter?: format.Format;
-    }
-
-    /**
-     * A collection of cipher parameters.
-     *
-     * @property {WordArray} ciphertext The raw ciphertext.
-     * @property {WordArray} key The key to this ciphertext.
-     * @property {WordArray} iv The IV used in the ciphering operation.
-     * @property {WordArray} salt The salt used with a key derivation function.
-     * @property {Cipher} algorithm The cipher algorithm.
-     * @property {Mode} mode The block mode used in the ciphering operation.
-     * @property {Padding} padding The padding scheme used in the ciphering operation.
-     * @property {number} blockSize The block size of the cipher.
-     * @property {Format} formatter
-     *    The default formatting strategy to convert this cipher params object to a string.
-     */
-    export class CipherParams extends Base {
-      ciphertext: WordArray;
-
-      key: WordArray;
-
-      iv: WordArray;
-
-      salt: WordArray;
-
-      algorithm: Cipher;
-
-      mode: BlockCipherMode;
-
-      padding: pad.Padding;
-
-      blockSize: number;
-
-      formatter: format.Format;
-
-      /**
-       * Initializes a newly created cipher params object.
-       *
-       * @param {Object} cipherParams An object with any of the possible cipher parameters.
-       *
-       * @example
-       *
-       *     var cipherParams = CryptoJS.lib.CipherParams.create({
-       *         ciphertext: ciphertextWordArray,
-       *         key: keyWordArray,
-       *         iv: ivWordArray,
-       *         salt: saltWordArray,
-       *         algorithm: CryptoJS.algo.AES,
-       *         mode: CryptoJS.mode.CBC,
-       *         padding: CryptoJS.pad.PKCS7,
-       *         blockSize: 4,
-       *         formatter: CryptoJS.format.OpenSSL
-       *     });
-       */
-      static create(cipherParams?: CipherParamsCfg): CipherParams;
-      constructor(cipherParams?: CipherParamsCfg);
-
-      /**
-       * Converts this cipher params object to a string.
-       *
-       * @param {Format} formatter (Optional) The formatting strategy to use.
-       *
-       * @return {string} The stringified cipher params.
-       *
-       * @throws Error If neither the formatter nor the default formatter is set.
-       *
-       * @example
-       *
-       *     var string = cipherParams + '';
-       *     var string = cipherParams.toString();
-       *     var string = cipherParams.toString(CryptoJS.format.OpenSSL);
-       */
-      toString(formatter?: format.Format): string;
-    }
-
-    /**
-     * A cipher wrapper that returns ciphertext as a serializable cipher params object.
-     */
-    export class SerializableCipher extends Base {
-      cfg: object;
-
-      /**
-       * Encrypts a message.
-       *
-       * @param {Cipher} cipher The cipher algorithm to use.
-       * @param {WordArray|string} message The message to encrypt.
-       * @param {WordArray} key The key.
-       * @param {Object} cfg (Optional) The configuration options to use for this operation.
-       *
-       * @return {CipherParams} A cipher params object.
-       *
-       * @static
-       *
-       * @example
-       *
-       *     var ciphertextParams = CryptoJS.lib.SerializableCipher
-       *       .encrypt(CryptoJS.algo.AES, message, key);
-       *     var ciphertextParams = CryptoJS.lib.SerializableCipher
-       *       .encrypt(CryptoJS.algo.AES, message, key, { iv: iv });
-       *     var ciphertextParams = CryptoJS.lib.SerializableCipher
-       *       .encrypt(CryptoJS.algo.AES, message, key, { iv: iv, format: CryptoJS.format.OpenSSL });
-       */
-      static encrypt(cipher?: Function, message?: WordArray | string, key?: WordArray | string, cfg?: CipherCfg): CipherParams;
-
-      /**
-       * Decrypts serialized ciphertext.
-       *
-       * @param {Cipher} cipher The cipher algorithm to use.
-       * @param {CipherParams|string} ciphertext The ciphertext to decrypt.
-       * @param {WordArray} key The key.
-       * @param {Object} cfg (Optional) The configuration options to use for this operation.
-       *
-       * @return {WordArray} The plaintext.
-       *
-       * @static
-       *
-       * @example
-       *
-       *     var plaintext = CryptoJS.lib.SerializableCipher
-       *       .decrypt(CryptoJS.algo.AES, formattedCiphertext, key,
-       *         { iv: iv, format: CryptoJS.format.OpenSSL });
-       *     var plaintext = CryptoJS.lib.SerializableCipher
-       *       .decrypt(CryptoJS.algo.AES, ciphertextParams, key,
-       *         { iv: iv, format: CryptoJS.format.OpenSSL });
-       */
-      static decrypt(cipher?: Function, ciphertext?: CipherParams | string, key?: WordArray | string, cfg?: CipherCfg): WordArray;
-
-      /**
-       * Converts serialized ciphertext to CipherParams,
-       * else assumed CipherParams already and returns ciphertext unchanged.
-       *
-       * @param {CipherParams|string} ciphertext The ciphertext.
-       * @param {Formatter} format The formatting strategy to use to parse serialized ciphertext.
-       *
-       * @return {CipherParams} The unserialized ciphertext.
-       *
-       * @static
-       *
-       * @example
-       *
-       *     var ciphertextParams = CryptoJS.lib.SerializableCipher
-       *       ._parse(ciphertextStringOrParams, format);
-       */
-      static _parse(ciphertext?: CipherParams | string, format?: format.Format): CipherParams;
-    }
-
-    /**
-     * A serializable cipher wrapper that derives the key from a password,
-     * and returns ciphertext as a serializable cipher params object.
-     */
-    export class PasswordBasedCipher extends SerializableCipher {
-      cfg: object;
-
-      /**
-       * Encrypts a message using a password.
-       *
-       * @param {Cipher} cipher The cipher algorithm to use.
-       * @param {WordArray|string} message The message to encrypt.
-       * @param {string} password The password.
-       * @param {Object} cfg (Optional) The configuration options to use for this operation.
-       *
-       * @return {CipherParams} A cipher params object.
-       *
-       * @static
-       *
-       * @example
-       *
-       *     var ciphertextParams = CryptoJS.lib.PasswordBasedCipher
-       *       .encrypt(CryptoJS.algo.AES, message, 'password');
-       *     var ciphertextParams = CryptoJS.lib.PasswordBasedCipher
-       *       .encrypt(CryptoJS.algo.AES, message, 'password', { format: CryptoJS.format.OpenSSL });
-       */
-      static encrypt(cipher?: Function, message?: WordArray | string, password?: string, cfg?: CipherCfg): CipherParams;
-
-      /**
-       * Decrypts serialized ciphertext using a password.
-       *
-       * @param {Cipher} cipher The cipher algorithm to use.
-       * @param {CipherParams|string} ciphertext The ciphertext to decrypt.
-       * @param {string} password The password.
-       * @param {Object} cfg (Optional) The configuration options to use for this operation.
-       *
-       * @return {WordArray} The plaintext.
-       *
-       * @static
-       *
-       * @example
-       *
-       *     var plaintext = CryptoJS.lib.PasswordBasedCipher
-       *       .decrypt(CryptoJS.algo.AES, formattedCiphertext, 'password',
-       *         { format: CryptoJS.format.OpenSSL });
-       *     var plaintext = CryptoJS.lib.PasswordBasedCipher
-       *       .decrypt(CryptoJS.algo.AES, ciphertextParams, 'password',
-       *         { format: CryptoJS.format.OpenSSL });
-       */
-      static decrypt(cipher?: Function, ciphertext?: CipherParams | string, password?: string, cfg?: CipherCfg): WordArray;
-    }
-  }
-
-  namespace x64 {
-    /**
-     * A 64-bit word.
-     */
-    export class Word extends lib.Base {
-      high: number;
-
-      low: number;
-
-      /**
-       * Initializes a newly created 64-bit word.
-       *
-       * @param {number} high The high 32 bits.
-       * @param {number} low The low 32 bits.
-       *
-       * @example
-       *
-       *     var x64Word = CryptoJS.x64.Word.create(0x00010203, 0x04050607);
-       */
-      static create(high?: number, low?: number): Word;
-      constructor(high?: number, low?: number);
-    }
-
-    /**
-     * An array of 64-bit words.
-     *
-     * @property {Array} words The array of CryptoJS.x64.Word objects.
-     * @property {number} sigBytes The number of significant bytes in this word array.
-     */
-    export class WordArray extends lib.Base {
-      words: Array<Word>;
-
-      sigBytes: number;
-
-      /**
-       * Initializes a newly created word array.
-       *
-       * @param {Array} words (Optional) An array of CryptoJS.x64.Word objects.
-       * @param {number} sigBytes (Optional) The number of significant bytes in the words.
-       *
-       * @example
-       *
-       *     var wordArray = CryptoJS.x64.WordArray.create();
-       *
-       *     var wordArray = CryptoJS.x64.WordArray.create([
-       *         CryptoJS.x64.Word.create(0x00010203, 0x04050607),
-       *         CryptoJS.x64.Word.create(0x18191a1b, 0x1c1d1e1f)
-       *     ]);
-       *
-       *     var wordArray = CryptoJS.x64.WordArray.create([
-       *         CryptoJS.x64.Word.create(0x00010203, 0x04050607),
-       *         CryptoJS.x64.Word.create(0x18191a1b, 0x1c1d1e1f)
-       *     ], 10);
-       */
-      static create(words?: Array<Word>, sigBytes?: number): WordArray;
-      constructor(words?: Array<Word>, sigBytes?: number);
-
-      /**
-       * Converts this 64-bit word array to a 32-bit word array.
-       *
-       * @return {CryptoJS.lib.WordArray} This word array's data as a 32-bit word array.
-       *
-       * @example
-       *
-       *     var x32WordArray = x64WordArray.toX32();
-       */
-      toX32(): lib.WordArray;
-
-      /**
-       * Creates a copy of this word array.
-       *
-       * @return {X64WordArray} The clone.
-       *
-       * @example
-       *
-       *     var clone = x64WordArray.clone();
-       */
-      clone(): WordArray;
-    }
-  }
-
-  namespace enc {
-    interface Encoder {
-      stringify(wordArray?: lib.WordArray): string;
-      parse(str?: string): lib.WordArray;
-    }
-
-    export const Hex: Encoder;
-    export const Latin1: Encoder;
-    export const Utf8: Encoder;
-    export const Utf16: Encoder;
-    export const Utf16BE: Encoder;
-    export const Utf16LE: Encoder;
-    export const Base64: Encoder;
-  }
-
-  namespace algo {
-    /**
-     * HMAC algorithm.
-     */
-    export class HMAC extends lib.Base {
-      /**
-       * Initializes a newly created HMAC.
-       *
-       * @param {Hasher} SubHasher The hash algorithm to use.
-       * @param {WordArray|string} key The secret key.
-       *
-       * @example
-       *
-       *     var hmacHasher = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, key);
-       */
-      static create(SubHasher?: lib.Hasher, key?: lib.WordArray | string): HMAC;
-      constructor(SubHasher?: lib.Hasher, key?: lib.WordArray | string);
-
-      /**
-       * Resets this HMAC to its initial state.
-       *
-       * @example
-       *
-       *     hmacHasher.reset();
-       */
-      reset(): void;
-
-      /**
-       * Updates this HMAC with a message.
-       *
-       * @param {WordArray|string} messageUpdate The message to append.
-       *
-       * @return {HMAC} This HMAC instance.
-       *
-       * @example
-       *
-       *     hmacHasher.update('message');
-       *     hmacHasher.update(wordArray);
-       */
-      update(messageUpdate?: lib.WordArray | string): HMAC;
-
-      /**
-       * Finalizes the HMAC computation.
-       * Note that the finalize operation is effectively a destructive, read-once operation.
-       *
-       * @param {WordArray|string} messageUpdate (Optional) A final message update.
-       *
-       * @return {WordArray} The HMAC.
-       *
-       * @example
-       *
-       *     var hmac = hmacHasher.finalize();
-       *     var hmac = hmacHasher.finalize('message');
-       *     var hmac = hmacHasher.finalize(wordArray);
-       */
-      finalize(messageUpdate?: lib.WordArray | string): lib.WordArray;
-    }
-
-    export class MD5 extends lib.Hasher {}
-    export class SHA1 extends lib.Hasher {}
-    export class SHA224 extends lib.Hasher {}
-    export class SHA256 extends lib.Hasher {}
-    export class SHA384 extends lib.Hasher {}
-    export class SHA512 extends lib.Hasher {}
-    export class SHA3 extends lib.Hasher {}
-    export class RIPEMD160 extends lib.Hasher {}
-
-    export class PBKDF2 extends lib.Base {
-      static create(cfg?: KDFCfg): PBKDF2;
-      constructor(cfg?: KDFCfg);
-
-      compute(password?: lib.WordArray | string, salt?: lib.WordArray | string): lib.WordArray;
-    }
-    export class EvpKDF extends lib.Base {
-      static create(cfg?: KDFCfg): EvpKDF;
-      constructor(cfg?: KDFCfg);
-
-      compute(password?: lib.WordArray | string, salt?: lib.WordArray | string): lib.WordArray;
-    }
-
-    export class AES extends lib.BlockCipher {}
-    export class DES extends lib.BlockCipher {}
-    export class TripleDES extends lib.BlockCipher {}
-    export class Rabbit extends lib.StreamCipher {}
-    export class RabbitLegacy extends lib.StreamCipher {}
-    export class RC4 extends lib.StreamCipher {}
-    export class RC4Drop extends lib.StreamCipher {}
-  }
-
-  namespace mode {
-    export class CBC extends lib.BlockCipherMode {}
-    export class CFB extends lib.BlockCipherMode {}
-    export class CTR extends lib.BlockCipherMode {}
-    export class CTRGladman extends lib.BlockCipherMode {}
-    export class ECB extends lib.BlockCipherMode {}
-    export class OFB extends lib.BlockCipherMode {}
-  }
-
-  namespace pad {
-    interface Padding {
-      pad(data?: lib.WordArray, blockSize?: number): void;
-      unpad(data?: lib.WordArray): void;
-    }
-
-    export const Pkcs7: Padding;
-    export const AnsiX923: Padding;
-    export const Iso10126: Padding;
-    export const Iso97971: Padding;
-    export const NoPadding: Padding;
-    export const ZeroPadding: Padding;
-  }
-
-  namespace format {
-    interface Format {
-      stringify(cipherParams?: lib.CipherParams): string;
-      parse(str?: string): lib.CipherParams;
-    }
-
-    export const OpenSSL: Format;
-    export const Hex: Format;
-  }
-
-  namespace kdf {
-    interface Kdf {
-      execute(password?: string, keySize?: number, ivSize?: number, salt?: lib.WordArray | string): lib.CipherParams;
-    }
-
-    export const OpenSSL: Kdf;
-  }
-
-  type HashFn = (message?: lib.WordArray | string, cfg?: lib.HasherCfg) => lib.WordArray;
-  type HMACHashFn = (message?: lib.WordArray | string, key?: lib.WordArray | string) => lib.WordArray;
-
-  export const MD5: HashFn;
-  export const HmacMD5: HMACHashFn;
-  export const SHA1: HashFn;
-  export const HmacSHA1: HMACHashFn;
-  export const SHA224: HashFn;
-  export const HmacSHA224: HMACHashFn;
-  export const SHA256: HashFn;
-  export const HmacSHA256: HMACHashFn;
-  export const SHA384: HashFn;
-  export const HmacSHA384: HMACHashFn;
-  export const SHA512: HashFn;
-  export const HmacSHA512: HMACHashFn;
-  export const SHA3: HashFn;
-  export const HmacSHA3: HMACHashFn;
-  export const RIPEMD160: HashFn;
-  export const HmacRIPEMD160: HMACHashFn;
-
-  interface KDFCfg {
-
-    // EvpKDF
-
-    keySize?: number;
-    hasher?: lib.Hasher;
-    iterations?: number;
-  }
-
-  type KDFFn = (password?: lib.WordArray | string, salt?: lib.WordArray | string, cfg?: KDFCfg) => lib.WordArray;
-
-  export const PBKDF2: KDFFn;
-  export const EvpKDF: KDFFn;
-
-  interface CipherObj {
-    encrypt(message?: lib.WordArray | string, key?: lib.WordArray | string, cfg?: lib.CipherCfg): lib.CipherParams;
-    decrypt(ciphertext?: lib.CipherParams | lib.CipherParamsCfg | string, key?: lib.WordArray | string, cfg?: lib.CipherCfg): lib.WordArray;
-  }
-
-  export const AES: CipherObj;
-  export const DES: CipherObj;
-  export const TripleDES: CipherObj;
-  export const Rabbit: CipherObj;
-  export const RabbitLegacy: CipherObj;
-  export const RC4: CipherObj;
-  export const RC4Drop: CipherObj;
+    export { MD5 };
+    export { HmacMD5 };
+    export { SHA1 };
+    export { HmacSHA1 };
+    export { SHA224 };
+    export { HmacSHA224 };
+    export { SHA256 };
+    export { HmacSHA256 };
+    export { SHA384 };
+    export { HmacSHA384 };
+    export { SHA512 };
+    export { HmacSHA512 };
+    export { SHA3 };
+    export { HmacSHA3 };
+    export { RIPEMD160 };
+    export { HmacRIPEMD160 };
+    export { PBKDF2 };
+    export { EvpKDF };
+    export { AES };
+    export { DES };
+    export { TripleDES };
+    export { Rabbit };
+    export { RabbitLegacy };
+    export { RC4 };
+    export { RC4Drop };
+    export { Blowfish };
 }
-
-export default CryptoES;
+export default _default;
+import { Base } from './core.js';
+import { WordArray } from './core.js';
+import { BufferedBlockAlgorithm } from './core.js';
+import { Hasher } from './core.js';
+import { Cipher } from './cipher-core.js';
+import { StreamCipher } from './cipher-core.js';
+import { BlockCipherMode } from './cipher-core.js';
+import { BlockCipher } from './cipher-core.js';
+import { CipherParams } from './cipher-core.js';
+import { SerializableCipher } from './cipher-core.js';
+import { PasswordBasedCipher } from './cipher-core.js';
+import { X64Word } from './x64-core.js';
+import { X64WordArray } from './x64-core.js';
+import { Hex } from './core.js';
+import { Latin1 } from './core.js';
+import { Utf8 } from './core.js';
+import { Utf16 } from './enc-utf16.js';
+import { Utf16BE } from './enc-utf16.js';
+import { Utf16LE } from './enc-utf16.js';
+import { Base64 } from './enc-base64.js';
+import { Base64url } from './enc-base64url.js';
+import { HMAC } from './hmac.js';
+import { MD5Algo } from './md5.js';
+import { SHA1Algo } from './sha1.js';
+import { SHA224Algo } from './sha224.js';
+import { SHA256Algo } from './sha256.js';
+import { SHA384Algo } from './sha384.js';
+import { SHA512Algo } from './sha512.js';
+import { SHA3Algo } from './sha3.js';
+import { RIPEMD160Algo } from './ripemd160.js';
+import { PBKDF2Algo } from './pbkdf2.js';
+import { EvpKDFAlgo } from './evpkdf.js';
+import { AESAlgo } from './aes.js';
+import { DESAlgo } from './tripledes.js';
+import { TripleDESAlgo } from './tripledes.js';
+import { RabbitAlgo } from './rabbit.js';
+import { RabbitLegacyAlgo } from './rabbit-legacy.js';
+import { RC4Algo } from './rc4.js';
+import { RC4DropAlgo } from './rc4.js';
+import { BlowfishAlgo } from './blowfish.js';
+import { CBC } from './cipher-core.js';
+import { CFB } from './mode-cfb.js';
+import { CTR } from './mode-ctr.js';
+import { CTRGladman } from './mode-ctr-gladman.js';
+import { ECB } from './mode-ecb.js';
+import { OFB } from './mode-ofb.js';
+import { Pkcs7 } from './cipher-core.js';
+import { AnsiX923 } from './pad-ansix923.js';
+import { Iso10126 } from './pad-iso10126.js';
+import { Iso97971 } from './pad-iso97971.js';
+import { NoPadding } from './pad-nopadding.js';
+import { ZeroPadding } from './pad-zeropadding.js';
+import { OpenSSLFormatter } from './cipher-core.js';
+import { HexFormatter } from './format-hex.js';
+import { OpenSSLKdf } from './cipher-core.js';
+import { MD5 } from './md5.js';
+import { HmacMD5 } from './md5.js';
+import { SHA1 } from './sha1.js';
+import { HmacSHA1 } from './sha1.js';
+import { SHA224 } from './sha224.js';
+import { HmacSHA224 } from './sha224.js';
+import { SHA256 } from './sha256.js';
+import { HmacSHA256 } from './sha256.js';
+import { SHA384 } from './sha384.js';
+import { HmacSHA384 } from './sha384.js';
+import { SHA512 } from './sha512.js';
+import { HmacSHA512 } from './sha512.js';
+import { SHA3 } from './sha3.js';
+import { HmacSHA3 } from './sha3.js';
+import { RIPEMD160 } from './ripemd160.js';
+import { HmacRIPEMD160 } from './ripemd160.js';
+import { PBKDF2 } from './pbkdf2.js';
+import { EvpKDF } from './evpkdf.js';
+import { AES } from './aes.js';
+import { DES } from './tripledes.js';
+import { TripleDES } from './tripledes.js';
+import { Rabbit } from './rabbit.js';
+import { RabbitLegacy } from './rabbit-legacy.js';
+import { RC4 } from './rc4.js';
+import { RC4Drop } from './rc4.js';
+import { Blowfish } from './blowfish.js';
