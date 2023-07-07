@@ -9,6 +9,8 @@ beforeAll(() => {
   };
 
   data.Obj = class Obj extends C.lib.Base {
+    initFired;
+    initArg;
     constructor(arg) {
       super();
       this.initFired = true;
