@@ -1,4 +1,5 @@
-export namespace Iso97971 {
-    function pad(data: any, blockSize: any): void;
-    function unpad(data: any): void;
-}
+/**
+ * ISO/IEC 9797-1 Padding Method 2.
+ */
+export const Iso97971: Padding;
+import { Padding } from './cipher-core';

@@ -12,17 +12,9 @@ const t3: CryptoES.lib.CipherParams = CryptoES.lib.PasswordBasedCipher.encrypt(C
 
 const t4: CryptoES.x64.WordArray = new CryptoES.x64.WordArray();
 
-const t5: CryptoES.algo.HMAC = new CryptoES.algo.HMAC();
-
-const t6 = CryptoES.lib.PasswordBasedCipher._parse();
-
 const t7 = MD5('message');
 
 const t8 = AES.encrypt("Message", "Secret Passphrase");
-
-const t9: CryptoES.mode.CBC = new CryptoES.mode.CBC();
-t9.mixIn;
-t9.clone;
 
 export function aesEncrypt(word: string, keyWord: string = "XwKsGlMcdPMEhR1B") {
   var key = CryptoES.enc.Utf8.parse(keyWord);

@@ -1,4 +1,5 @@
-export namespace ZeroPadding {
-    function pad(data: any, blockSize: any): void;
-    function unpad(data: any): void;
-}
+/**
+ * Zero padding strategy.
+ */
+export const ZeroPadding: Padding;
+import { Padding } from './cipher-core';

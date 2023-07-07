@@ -1,8 +1,7 @@
 /**
- * SHA-384 hash algorithm.
+ * SHA384 hash algorithm.
  */
-export class SHA384Algo extends SHA512Algo {
-}
+export class SHA384Algo extends Hasher {}
 /**
  * Shortcut function to the hasher's object interface.
  *
@@ -17,7 +16,7 @@ export class SHA384Algo extends SHA512Algo {
  *     var hash = CryptoJS.SHA384('message');
  *     var hash = CryptoJS.SHA384(wordArray);
  */
-export const SHA384: Function;
+export const SHA384: HashFn;
 /**
  * Shortcut function to the HMAC's object interface.
  *
@@ -32,5 +31,7 @@ export const SHA384: Function;
  *
  *     var hmac = CryptoJS.HmacSHA384(message, key);
  */
-export const HmacSHA384: Function;
-import { SHA512Algo } from './sha512.js';
+export const HmacSHA384: HMACHashFn;
+import { Hasher } from './core.js';
+import { HashFn } from './core.js';
+import { HMACHashFn } from './core.js';

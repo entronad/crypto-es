@@ -14,7 +14,7 @@ export class Base {
      *
      *     var instance = MyType.create();
      */
-    static create(...args: any[]): any;
+    static create(...args: any[]): Base;
     /**
      * Copies properties into this object.
      *
@@ -26,7 +26,7 @@ export class Base {
      *         field: 'value'
      *     });
      */
-    mixIn(properties: any): any;
+    mixIn(properties?: object): Base;
     /**
      * Creates a copy of this object.
      *
@@ -36,7 +36,7 @@ export class Base {
      *
      *     var clone = instance.clone();
      */
-    clone(): any;
+    clone(): Base;
 }
 /**
  * An array of 32-bit words.
@@ -58,7 +58,7 @@ export class WordArray extends Base {
      *
      *     var wordArray = CryptoJS.lib.WordArray.random(16);
      */
-    static random: any;
+    static random(nBytes?: number): WordArray;
     /**
      * Initializes a newly created word array.
      *
@@ -71,8 +71,17 @@ export class WordArray extends Base {
      *     var wordArray = CryptoJS.lib.WordArray.create([0x00010203, 0x04050607]);
      *     var wordArray = CryptoJS.lib.WordArray.create([0x00010203, 0x04050607], 6);
      */
-    constructor(words?: any[], sigBytes?: number);
-    words: any[];
+    static create(
+        words?: Array<number> | ArrayBuffer | Uint8Array | Int8Array | Uint8ClampedArray
+        | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array,
+        sigBytes?: number,
+    ): WordArray;
+    constructor(
+        words?: Array<number> | ArrayBuffer | Uint8Array | Int8Array | Uint8ClampedArray
+        | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array,
+        sigBytes?: number,
+    );
+    words: Array<number>;
     sigBytes: number;
     /**
      * Converts this word array to a string.
@@ -119,96 +128,13 @@ export class WordArray extends Base {
      */
     clone(): WordArray;
 }
-export namespace Hex {
-    /**
-     * Converts a word array to a hex string.
-     *
-     * @param {WordArray} wordArray The word array.
-     *
-     * @return {string} The hex string.
-     *
-     * @static
-     *
-     * @example
-     *
-     *     var hexString = CryptoJS.enc.Hex.stringify(wordArray);
-     */
-    function stringify(wordArray: WordArray): string;
-    /**
-     * Converts a hex string to a word array.
-     *
-     * @param {string} hexStr The hex string.
-     *
-     * @return {WordArray} The word array.
-     *
-     * @static
-     *
-     * @example
-     *
-     *     var wordArray = CryptoJS.enc.Hex.parse(hexString);
-     */
-    function parse(hexStr: string): WordArray;
+export interface Encoder {
+    stringify(wordArray?: WordArray): string;
+    parse(str?: string): WordArray;
 }
-export namespace Latin1 {
-    /**
-     * Converts a word array to a Latin1 string.
-     *
-     * @param {WordArray} wordArray The word array.
-     *
-     * @return {string} The Latin1 string.
-     *
-     * @static
-     *
-     * @example
-     *
-     *     var latin1String = CryptoJS.enc.Latin1.stringify(wordArray);
-     */
-    function stringify(wordArray: WordArray): string;
-    /**
-     * Converts a Latin1 string to a word array.
-     *
-     * @param {string} latin1Str The Latin1 string.
-     *
-     * @return {WordArray} The word array.
-     *
-     * @static
-     *
-     * @example
-     *
-     *     var wordArray = CryptoJS.enc.Latin1.parse(latin1String);
-     */
-    function parse(latin1Str: string): WordArray;
-}
-export namespace Utf8 {
-    /**
-     * Converts a word array to a UTF-8 string.
-     *
-     * @param {WordArray} wordArray The word array.
-     *
-     * @return {string} The UTF-8 string.
-     *
-     * @static
-     *
-     * @example
-     *
-     *     var utf8String = CryptoJS.enc.Utf8.stringify(wordArray);
-     */
-    function stringify(wordArray: WordArray): string;
-    /**
-     * Converts a UTF-8 string to a word array.
-     *
-     * @param {string} utf8Str The UTF-8 string.
-     *
-     * @return {WordArray} The word array.
-     *
-     * @static
-     *
-     * @example
-     *
-     *     var wordArray = CryptoJS.enc.Utf8.parse(utf8String);
-     */
-    function parse(utf8Str: string): WordArray;
-}
+export const Hex: Encoder;
+export const Latin1: Encoder;
+export const Utf8: Encoder;
 /**
  * Abstract buffered block algorithm template.
  *
@@ -257,8 +183,24 @@ export class BufferedBlockAlgorithm extends Base {
      *     var processedData = bufferedBlockAlgorithm._process();
      *     var processedData = bufferedBlockAlgorithm._process(!!'flush');
      */
-    _process(doFlush: boolean): WordArray;
+    _process(doFlush?: boolean): WordArray;
+    /**
+     * Creates a copy of this object.
+     *
+     * @return {Object} The clone.
+     *
+     * @example
+     *
+     *     var clone = bufferedBlockAlgorithm.clone();
+     */
+    clone(): BufferedBlockAlgorithm;
 }
+export interface HasherCfg {
+    // SHA3
+    outputLength?: number
+}
+export type HashFn = (message?: WordArray | string, cfg?: HasherCfg) => WordArray;
+export type HMACHashFn = (message?: WordArray | string, key?: WordArray | string) => WordArray;
 /**
  * Abstract hasher template.
  *
@@ -280,7 +222,7 @@ export class Hasher extends BufferedBlockAlgorithm {
      *
      *     var SHA256 = CryptoJS.lib.Hasher._createHelper(CryptoJS.algo.SHA256);
      */
-    static _createHelper(SubHasher: Hasher): Function;
+    static _createHelper(SubHasher: Hasher): HashFn;
     /**
      * Creates a shortcut function to the HMAC's object interface.
      *
@@ -294,13 +236,14 @@ export class Hasher extends BufferedBlockAlgorithm {
      *
      *     var HmacSHA256 = CryptoJS.lib.Hasher._createHmacHelper(CryptoJS.algo.SHA256);
      */
-    static _createHmacHelper(SubHasher: Hasher): Function;
-    constructor(cfg: any);
+    static _createHmacHelper(SubHasher: Hasher): HMACHashFn;
+    static create(cfg?: HasherCfg): Hasher;
+    constructor(cfg?: HasherCfg);
     blockSize: number;
     /**
      * Configuration options.
      */
-    cfg: any;
+    cfg: Base;
     /**
      * Updates this hasher with a message.
      *
@@ -328,7 +271,11 @@ export class Hasher extends BufferedBlockAlgorithm {
      *     var hash = hasher.finalize('message');
      *     var hash = hasher.finalize(wordArray);
      */
-    finalize(messageUpdate: WordArray | string): WordArray;
+    finalize(messageUpdate?: WordArray | string): WordArray;
+    _doReset(): void;
+    _hash: WordArray;
+    _doProcessBlock(M: number[], offset: number): void;
+    _doFinalize(): WordArray;
 }
 /**
  * HMAC algorithm.
@@ -344,10 +291,11 @@ export class HMAC extends Base {
      *
      *     var hmacHasher = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, key);
      */
+    static create(SubHasher: Hasher, key: WordArray | string): HMAC;
     constructor(SubHasher: Hasher, key: WordArray | string);
-    _hasher: any;
-    _oKey: any;
-    _iKey: any;
+    _hasher: Hasher;
+    _oKey: WordArray;
+    _iKey: WordArray;
     /**
      * Resets this HMAC to its initial state.
      *
@@ -383,5 +331,12 @@ export class HMAC extends Base {
      *     var hmac = hmacHasher.finalize('message');
      *     var hmac = hmacHasher.finalize(wordArray);
      */
-    finalize(messageUpdate: WordArray | string): WordArray;
+    finalize(messageUpdate?: WordArray | string): WordArray;
 }
+export interface KDFCfg {
+    // EvpKDF
+    keySize?: number;
+    hasher?: Hasher;
+    iterations?: number;
+}
+export type KDFFn = (password?: WordArray | string, salt?: WordArray | string, cfg?: KDFCfg) => WordArray;

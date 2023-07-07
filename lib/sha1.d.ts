@@ -1,12 +1,7 @@
 /**
- * SHA-1 hash algorithm.
+ * SHA1 hash algorithm.
  */
-export class SHA1Algo extends Hasher {
-    _doReset(): void;
-    _hash: WordArray;
-    _doProcessBlock(M: any, offset: any): void;
-    _doFinalize(): WordArray;
-}
+export class SHA1Algo extends Hasher {}
 /**
  * Shortcut function to the hasher's object interface.
  *
@@ -21,7 +16,7 @@ export class SHA1Algo extends Hasher {
  *     var hash = CryptoJS.SHA1('message');
  *     var hash = CryptoJS.SHA1(wordArray);
  */
-export const SHA1: Function;
+export const SHA1: HashFn;
 /**
  * Shortcut function to the HMAC's object interface.
  *
@@ -36,6 +31,7 @@ export const SHA1: Function;
  *
  *     var hmac = CryptoJS.HmacSHA1(message, key);
  */
-export const HmacSHA1: Function;
+export const HmacSHA1: HMACHashFn;
 import { Hasher } from './core.js';
-import { WordArray } from './core.js';
+import { HashFn } from './core.js';
+import { HMACHashFn } from './core.js';

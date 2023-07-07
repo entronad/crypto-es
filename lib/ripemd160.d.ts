@@ -1,12 +1,7 @@
 /**
  * RIPEMD160 hash algorithm.
  */
-export class RIPEMD160Algo extends Hasher {
-    _doReset(): void;
-    _hash: any;
-    _doProcessBlock(M: any, offset: any): void;
-    _doFinalize(): any;
-}
+export class RIPEMD160Algo extends Hasher {}
 /**
  * Shortcut function to the hasher's object interface.
  *
@@ -21,7 +16,7 @@ export class RIPEMD160Algo extends Hasher {
  *     var hash = CryptoJS.RIPEMD160('message');
  *     var hash = CryptoJS.RIPEMD160(wordArray);
  */
-export const RIPEMD160: Function;
+export const RIPEMD160: HashFn;
 /**
  * Shortcut function to the HMAC's object interface.
  *
@@ -36,5 +31,7 @@ export const RIPEMD160: Function;
  *
  *     var hmac = CryptoJS.HmacRIPEMD160(message, key);
  */
-export const HmacRIPEMD160: Function;
+export const HmacRIPEMD160: HMACHashFn;
 import { Hasher } from './core.js';
+import { HashFn } from './core.js';
+import { HMACHashFn } from './core.js';

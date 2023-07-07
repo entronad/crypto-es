@@ -1,12 +1,7 @@
 /**
- * SHA-256 hash algorithm.
+ * SHA256 hash algorithm.
  */
-export class SHA256Algo extends Hasher {
-    _doReset(): void;
-    _hash: WordArray;
-    _doProcessBlock(M: any, offset: any): void;
-    _doFinalize(): WordArray;
-}
+export class SHA256Algo extends Hasher {}
 /**
  * Shortcut function to the hasher's object interface.
  *
@@ -21,7 +16,7 @@ export class SHA256Algo extends Hasher {
  *     var hash = CryptoJS.SHA256('message');
  *     var hash = CryptoJS.SHA256(wordArray);
  */
-export const SHA256: Function;
+export const SHA256: HashFn;
 /**
  * Shortcut function to the HMAC's object interface.
  *
@@ -36,6 +31,7 @@ export const SHA256: Function;
  *
  *     var hmac = CryptoJS.HmacSHA256(message, key);
  */
-export const HmacSHA256: Function;
+export const HmacSHA256: HMACHashFn;
 import { Hasher } from './core.js';
-import { WordArray } from './core.js';
+import { HashFn } from './core.js';
+import { HMACHashFn } from './core.js';

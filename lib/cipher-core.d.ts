@@ -1,3 +1,17 @@
+export interface CipherCfg {
+    // Cipher
+    iv?: WordArray;
+    mode?: Function;
+    padding?: Padding;
+    // SerializableCipher
+    format?: Format;
+    // PasswordBasedCipher
+    kdf?: Kdf;
+}
+export interface CipherObj {
+    encrypt(message?: WordArray | string, key?: WordArray | string, cfg?: CipherCfg): CipherParams;
+    decrypt(ciphertext?: CipherParams | CipherParamsCfg | string, key?: WordArray | string, cfg?: CipherCfg): WordArray;
+}
 /**
  * Abstract base cipher template.
  *
@@ -7,6 +21,10 @@
  * @property {number} _DEC_XFORM_MODE A constant representing decryption mode.
  */
 export class Cipher extends BufferedBlockAlgorithm {
+    static keySize: number;
+    static ivSize: number;
+    static _ENC_XFORM_MODE: number;
+    static _DEC_XFORM_MODE: number;
     /**
      * Creates this cipher in encryption mode.
      *
@@ -21,7 +39,7 @@ export class Cipher extends BufferedBlockAlgorithm {
      *
      *     const cipher = CryptoJS.algo.AES.createEncryptor(keyWordArray, { iv: ivWordArray });
      */
-    static createEncryptor(key: WordArray, cfg: any): Cipher;
+    static createEncryptor(key: WordArray, cfg?: CipherCfg): Cipher;
     /**
      * Creates this cipher in decryption mode.
      *
@@ -36,7 +54,7 @@ export class Cipher extends BufferedBlockAlgorithm {
      *
      *     const cipher = CryptoJS.algo.AES.createDecryptor(keyWordArray, { iv: ivWordArray });
      */
-    static createDecryptor(key: WordArray, cfg: any): Cipher;
+    static createDecryptor(key: WordArray, cfg?: CipherCfg): Cipher;
     /**
      * Creates shortcut functions to a cipher's object interface.
      *
@@ -50,7 +68,7 @@ export class Cipher extends BufferedBlockAlgorithm {
      *
      *     const AES = CryptoJS.lib.Cipher._createHelper(CryptoJS.algo.AES);
      */
-    static _createHelper(SubCipher: any): any;
+    static _createHelper(SubCipher: Function): CipherObj;
     /**
      * Initializes a newly created cipher.
      *
@@ -64,13 +82,14 @@ export class Cipher extends BufferedBlockAlgorithm {
      *       CryptoJS.algo.AES._ENC_XFORM_MODE, keyWordArray, { iv: ivWordArray }
      *     );
      */
-    constructor(xformMode: number, key: WordArray, cfg: any);
+    static create(xformMode: number, key: WordArray, cfg?: CipherCfg): Cipher;
+    constructor(xformMode: number, key: WordArray, cfg?: CipherCfg);
     /**
      * Configuration options.
      *
      * @property {WordArray} iv The IV to use for this operation.
      */
-    cfg: any;
+    cfg: Base;
     _xformMode: number;
     _key: WordArray;
     /**
@@ -100,13 +119,7 @@ export class Cipher extends BufferedBlockAlgorithm {
      *     const encrypted = cipher.finalize('data');
      *     const encrypted = cipher.finalize(wordArray);
      */
-    finalize(dataUpdate: WordArray | string): WordArray;
-}
-export namespace Cipher {
-    let _ENC_XFORM_MODE: number;
-    let _DEC_XFORM_MODE: number;
-    let keySize: number;
-    let ivSize: number;
+    finalize(dataUpdate?: WordArray | string): WordArray;
 }
 /**
  * Abstract base stream cipher template.
@@ -116,7 +129,8 @@ export namespace Cipher {
  *     The number of 32-bit words this cipher operates on. Default: 1 (32 bits)
  */
 export class StreamCipher extends Cipher {
-    constructor(...args: any[]);
+    static create(...args: Array<any>): StreamCipher;
+    constructor(...args: Array<any>);
     blockSize: number;
     _doFinalize(): WordArray;
 }
@@ -124,6 +138,8 @@ export class StreamCipher extends Cipher {
  * Abstract base block cipher mode template.
  */
 export class BlockCipherMode extends Base {
+    static Encryptor: BlockCipherMode;
+    static Decryptor: BlockCipherMode;
     /**
      * Creates this mode for encryption.
      *
@@ -136,7 +152,7 @@ export class BlockCipherMode extends Base {
      *
      *     const mode = CryptoJS.mode.CBC.createEncryptor(cipher, iv.words);
      */
-    static createEncryptor(cipher: Cipher, iv: any[]): any;
+    static createEncryptor(cipher: Cipher, iv: number[]): BlockCipherMode;
     /**
      * Creates this mode for decryption.
      *
@@ -149,7 +165,7 @@ export class BlockCipherMode extends Base {
      *
      *     const mode = CryptoJS.mode.CBC.createDecryptor(cipher, iv.words);
      */
-    static createDecryptor(cipher: Cipher, iv: any[]): any;
+    static createDecryptor(cipher: Cipher, iv: number[]): BlockCipherMode;
     /**
      * Initializes a newly created mode.
      *
@@ -160,9 +176,21 @@ export class BlockCipherMode extends Base {
      *
      *     const mode = CryptoJS.mode.CBC.Encryptor.create(cipher, iv.words);
      */
-    constructor(cipher: Cipher, iv: any[]);
+    static create(cipher: Cipher, iv: Array<number>): BlockCipherMode;
+    constructor(cipher: Cipher, iv: Array<number>);
     _cipher: Cipher;
-    _iv: any[];
+    _iv: number[];
+    /**
+     * Processes the data block at offset.
+     *
+     * @param {Array} words The data words to operate on.
+     * @param {number} offset The offset where the block starts.
+     *
+     * @example
+     *
+     *     mode.processBlock(data.words, offset);
+     */
+    processBlock(words: number[], offset: number): void;
 }
 /**
  * Cipher Block Chaining mode.
@@ -172,37 +200,14 @@ export class BlockCipherMode extends Base {
  */
 export class CBC extends BlockCipherMode {
 }
-export namespace CBC {
-    export { Encryptor };
-    export { Decryptor };
+export interface Padding {
+    pad(data?: WordArray, blockSize?: number): void;
+    unpad(data?: WordArray): void;
 }
-export namespace Pkcs7 {
-    /**
-     * Pads data using the algorithm defined in PKCS #5/7.
-     *
-     * @param {WordArray} data The data to pad.
-     * @param {number} blockSize The multiple that the data should be padded to.
-     *
-     * @static
-     *
-     * @example
-     *
-     *     CryptoJS.pad.Pkcs7.pad(wordArray, 4);
-     */
-    function pad(data: WordArray, blockSize: number): void;
-    /**
-     * Unpads data that had been padded using the algorithm defined in PKCS #5/7.
-     *
-     * @param {WordArray} data The data to unpad.
-     *
-     * @static
-     *
-     * @example
-     *
-     *     CryptoJS.pad.Pkcs7.unpad(wordArray);
-     */
-    function unpad(data: WordArray): void;
-}
+/**
+ * PKCS #5/7 padding strategy.
+ */
+export const Pkcs7: Padding;
 /**
  * Abstract base block cipher template.
  *
@@ -211,11 +216,25 @@ export namespace Pkcs7 {
  *    The number of 32-bit words this cipher operates on. Default: 4 (128 bits)
  */
 export class BlockCipher extends Cipher {
-    constructor(xformMode: any, key: any, cfg: any);
+    static create(xformMode?: number, key?: WordArray, cfg?: CipherCfg): BlockCipher;    
+    constructor(xformMode?: number, key?: WordArray, cfg?: CipherCfg);
     blockSize: number;
-    _mode: any;
-    _doProcessBlock(words: any, offset: any): void;
+    _mode: BlockCipherMode;
+    _doProcessBlock(words: number[], offset: number): void;
     _doFinalize(): WordArray;
+    encryptBlock(M: number[], offset: number): void;
+    decryptBlock(M: number[], offset: number): void;
+}
+export interface CipherParamsCfg {
+    ciphertext?: WordArray;
+    key?: WordArray;
+    iv?: WordArray;
+    salt?: WordArray;
+    algorithm?: Cipher;
+    mode?: Function;
+    padding?: Padding;
+    blockSize?: number;
+    formatter?: Format;
 }
 /**
  * A collection of cipher parameters.
@@ -251,7 +270,8 @@ export class CipherParams extends Base {
      *         formatter: CryptoJS.format.OpenSSL
      *     });
      */
-    constructor(cipherParams: any);
+    static create(cipherParams?: CipherParamsCfg): CipherParams;
+    constructor(cipherParams?: CipherParamsCfg);
     /**
      * Converts this cipher params object to a string.
      *
@@ -267,42 +287,23 @@ export class CipherParams extends Base {
      *     var string = cipherParams.toString();
      *     var string = cipherParams.toString(CryptoJS.format.OpenSSL);
      */
-    toString(formatter: Format): string;
+    toString(formatter?: Format): string;
 }
-export namespace OpenSSLFormatter {
-    /**
-     * Converts a cipher params object to an OpenSSL-compatible string.
-     *
-     * @param {CipherParams} cipherParams The cipher params object.
-     *
-     * @return {string} The OpenSSL-compatible string.
-     *
-     * @static
-     *
-     * @example
-     *
-     *     var openSSLString = CryptoJS.format.OpenSSL.stringify(cipherParams);
-     */
-    function stringify(cipherParams: CipherParams): string;
-    /**
-     * Converts an OpenSSL-compatible string to a cipher params object.
-     *
-     * @param {string} openSSLStr The OpenSSL-compatible string.
-     *
-     * @return {CipherParams} The cipher params object.
-     *
-     * @static
-     *
-     * @example
-     *
-     *     var cipherParams = CryptoJS.format.OpenSSL.parse(openSSLString);
-     */
-    function parse(openSSLStr: string): CipherParams;
+export interface Format {
+    stringify(cipherParams?: CipherParams): string;
+    parse(str?: string): CipherParams;
 }
+/**
+ * OpenSSL formatting strategy.
+ */
+export const OpenSSLFormatter: Format;
 /**
  * A cipher wrapper that returns ciphertext as a serializable cipher params object.
  */
 export class SerializableCipher extends Base {
+    static cfg: Base & {
+        format: Format;
+    };
     /**
      * Encrypts a message.
      *
@@ -324,7 +325,7 @@ export class SerializableCipher extends Base {
      *     var ciphertextParams = CryptoJS.lib.SerializableCipher
      *       .encrypt(CryptoJS.algo.AES, message, key, { iv: iv, format: CryptoJS.format.OpenSSL });
      */
-    static encrypt(cipher: Cipher, message: WordArray | string, key: WordArray, cfg: any): CipherParams;
+    static encrypt(cipher: Function, message: WordArray | string, key: WordArray | string, cfg?: CipherCfg): CipherParams;
     /**
      * Decrypts serialized ciphertext.
      *
@@ -346,7 +347,7 @@ export class SerializableCipher extends Base {
      *       .decrypt(CryptoJS.algo.AES, ciphertextParams, key,
      *         { iv: iv, format: CryptoJS.format.OpenSSL });
      */
-    static decrypt(cipher: Cipher, ciphertext: CipherParams | string, key: WordArray, cfg: any): WordArray;
+    static decrypt(cipher: Function, ciphertext: CipherParams | string, key: WordArray | string, cfg?: CipherCfg): WordArray;
     /**
      * Converts serialized ciphertext to CipherParams,
      * else assumed CipherParams already and returns ciphertext unchanged.
@@ -363,68 +364,24 @@ export class SerializableCipher extends Base {
      *     var ciphertextParams = CryptoJS.lib.SerializableCipher
      *       ._parse(ciphertextStringOrParams, format);
      */
-    static _parse(ciphertext: CipherParams | string, format: Formatter): CipherParams;
+    static _parse(ciphertext: CipherParams | string, format: Format): CipherParams;
 }
-export namespace SerializableCipher {
-    let cfg: Base & {
-        format: {
-            /**
-             * Converts a cipher params object to an OpenSSL-compatible string.
-             *
-             * @param {CipherParams} cipherParams The cipher params object.
-             *
-             * @return {string} The OpenSSL-compatible string.
-             *
-             * @static
-             *
-             * @example
-             *
-             *     var openSSLString = CryptoJS.format.OpenSSL.stringify(cipherParams);
-             */
-            stringify(cipherParams: CipherParams): string;
-            /**
-             * Converts an OpenSSL-compatible string to a cipher params object.
-             *
-             * @param {string} openSSLStr The OpenSSL-compatible string.
-             *
-             * @return {CipherParams} The cipher params object.
-             *
-             * @static
-             *
-             * @example
-             *
-             *     var cipherParams = CryptoJS.format.OpenSSL.parse(openSSLString);
-             */
-            parse(openSSLStr: string): CipherParams;
-        };
-    };
+export interface Kdf {
+    execute(password?: string, keySize?: number, ivSize?: number, salt?: WordArray | string): CipherParams;
 }
-export namespace OpenSSLKdf {
-    /**
-     * Derives a key and IV from a password.
-     *
-     * @param {string} password The password to derive from.
-     * @param {number} keySize The size in words of the key to generate.
-     * @param {number} ivSize The size in words of the IV to generate.
-     * @param {WordArray|string} salt
-     *     (Optional) A 64-bit salt to use. If omitted, a salt will be generated randomly.
-     *
-     * @return {CipherParams} A cipher params object with the key, IV, and salt.
-     *
-     * @static
-     *
-     * @example
-     *
-     *     var derivedParams = CryptoJS.kdf.OpenSSL.execute('Password', 256/32, 128/32);
-     *     var derivedParams = CryptoJS.kdf.OpenSSL.execute('Password', 256/32, 128/32, 'saltsalt');
-     */
-    function execute(password: string, keySize: number, ivSize: number, salt: string | WordArray, hasher: any): CipherParams;
-}
+/**
+ * OpenSSL key derivation function.
+ */
+export const OpenSSLKdf: Kdf;
 /**
  * A serializable cipher wrapper that derives the key from a password,
  * and returns ciphertext as a serializable cipher params object.
  */
 export class PasswordBasedCipher extends SerializableCipher {
+    static cfg: Base & {
+        format: Format;
+        kdf: Kdf;
+    };
     /**
      * Encrypts a message using a password.
      *
@@ -444,7 +401,7 @@ export class PasswordBasedCipher extends SerializableCipher {
      *     var ciphertextParams = CryptoJS.lib.PasswordBasedCipher
      *       .encrypt(CryptoJS.algo.AES, message, 'password', { format: CryptoJS.format.OpenSSL });
      */
-    static encrypt(cipher: Cipher, message: WordArray | string, password: string, cfg: any): CipherParams;
+    static encrypt(cipher: Function, message: WordArray | string, passed: string, cfg?: CipherCfg): CipherParams;
     /**
      * Decrypts serialized ciphertext using a password.
      *
@@ -466,94 +423,8 @@ export class PasswordBasedCipher extends SerializableCipher {
      *       .decrypt(CryptoJS.algo.AES, ciphertextParams, 'password',
      *         { format: CryptoJS.format.OpenSSL });
      */
-    static decrypt(cipher: Cipher, ciphertext: CipherParams | string, password: string, cfg: any): WordArray;
-}
-export namespace PasswordBasedCipher {
-    let cfg_1: Base & {
-        format: {
-            /**
-             * Converts a cipher params object to an OpenSSL-compatible string.
-             *
-             * @param {CipherParams} cipherParams The cipher params object.
-             *
-             * @return {string} The OpenSSL-compatible string.
-             *
-             * @static
-             *
-             * @example
-             *
-             *     var openSSLString = CryptoJS.format.OpenSSL.stringify(cipherParams);
-             */
-            stringify(cipherParams: CipherParams): string;
-            /**
-             * Converts an OpenSSL-compatible string to a cipher params object.
-             *
-             * @param {string} openSSLStr The OpenSSL-compatible string.
-             *
-             * @return {CipherParams} The cipher params object.
-             *
-             * @static
-             *
-             * @example
-             *
-             *     var cipherParams = CryptoJS.format.OpenSSL.parse(openSSLString);
-             */
-            parse(openSSLStr: string): CipherParams;
-        };
-    } & {
-        kdf: {
-            /**
-             * Derives a key and IV from a password.
-             *
-             * @param {string} password The password to derive from.
-             * @param {number} keySize The size in words of the key to generate.
-             * @param {number} ivSize The size in words of the IV to generate.
-             * @param {WordArray|string} salt
-             *     (Optional) A 64-bit salt to use. If omitted, a salt will be generated randomly.
-             *
-             * @return {CipherParams} A cipher params object with the key, IV, and salt.
-             *
-             * @static
-             *
-             * @example
-             *
-             *     var derivedParams = CryptoJS.kdf.OpenSSL.execute('Password', 256/32, 128/32);
-             *     var derivedParams = CryptoJS.kdf.OpenSSL.execute('Password', 256/32, 128/32, 'saltsalt');
-             */
-            execute(password: string, keySize: number, ivSize: number, salt: string | WordArray, hasher: any): CipherParams;
-        };
-    };
-    export { cfg_1 as cfg };
+    static decrypt(cipher: Function, ciphertext: CipherParams | string, password: string, cfg?: CipherCfg): WordArray;
 }
 import { BufferedBlockAlgorithm } from './core.js';
 import { WordArray } from './core.js';
 import { Base } from './core.js';
-declare class Encryptor extends CBC {
-    /**
-     * Processes the data block at offset.
-     *
-     * @param {Array} words The data words to operate on.
-     * @param {number} offset The offset where the block starts.
-     *
-     * @example
-     *
-     *     mode.processBlock(data.words, offset);
-     */
-    processBlock(words: any[], offset: number): void;
-    _prevBlock: any[];
-}
-declare class Decryptor extends CBC {
-    /**
-     * Processes the data block at offset.
-     *
-     * @param {Array} words The data words to operate on.
-     * @param {number} offset The offset where the block starts.
-     *
-     * @example
-     *
-     *     mode.processBlock(data.words, offset);
-     */
-    processBlock(words: any[], offset: number): void;
-    _prevBlock: any[];
-}
-export {};

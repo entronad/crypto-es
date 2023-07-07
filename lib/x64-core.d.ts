@@ -12,6 +12,7 @@ export class X64Word extends Base {
      *
      *     var x64Word = CryptoJS.x64.Word.create(0x00010203, 0x04050607);
      */
+    static create(high: number, low: number): X64Word;
     constructor(high: number, low: number);
     high: number;
     low: number;
@@ -43,8 +44,9 @@ export class X64WordArray extends Base {
      *         CryptoJS.x64.Word.create(0x18191a1b, 0x1c1d1e1f)
      *     ], 10);
      */
-    constructor(words?: any[], sigBytes?: number);
-    words: any[];
+    static create(words?: Array<X64Word>, sigBytes?: number): X64WordArray;
+    constructor(words?: Array<X64Word>, sigBytes?: number);
+    words: X64Word[];
     sigBytes: number;
     /**
      * Converts this 64-bit word array to a 32-bit word array.
@@ -55,7 +57,7 @@ export class X64WordArray extends Base {
      *
      *     var x32WordArray = x64WordArray.toX32();
      */
-    toX32(): CryptoJS.lib.WordArray;
+    toX32(): WordArray;
     /**
      * Creates a copy of this word array.
      *
@@ -68,3 +70,4 @@ export class X64WordArray extends Base {
     clone(): X64WordArray;
 }
 import { Base } from './core.js';
+import { WordArray } from './core.js';

@@ -1,4 +1,5 @@
-export namespace Iso10126 {
-    function pad(data: any, blockSize: any): void;
-    function unpad(data: any): void;
-}
+/**
+ * ISO 10126 padding strategy.
+ */
+export const Iso10126: Padding;
+import { Padding } from './cipher-core';
