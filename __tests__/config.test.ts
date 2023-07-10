@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import C from '../lib/index.js';
 
-const data = {};
+const data: any = {};
 
 beforeAll(() => {
   data.saltA = C.enc.Hex.parse('AA00000000000000');

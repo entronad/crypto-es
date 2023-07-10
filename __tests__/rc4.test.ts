@@ -3,18 +3,18 @@ import C from '../lib/index.js';
 
 describe('rc4', () => {
   it('vector 1', () => {
-    expect(C.RC4.encrypt(C.enc.Hex.parse('0000000000000000'), C.enc.Hex.parse('0123456789abcdef')).ciphertext.toString())
+    expect(C.RC4.encrypt(C.enc.Hex.parse('0000000000000000'), C.enc.Hex.parse('0123456789abcdef')).ciphertext!.toString())
       .toBe('7494c2e7104b0879');
   });
 
   it('vector 2', () => {
-    expect(C.RC4.encrypt(C.enc.Hex.parse('dcee4cf92c'), C.enc.Hex.parse('618a63d2fb')).ciphertext.toString())
+    expect(C.RC4.encrypt(C.enc.Hex.parse('dcee4cf92c'), C.enc.Hex.parse('618a63d2fb')).ciphertext!.toString())
       .toBe('f13829c9de');
   });
 
   it('drop', () => {
-    expect(C.RC4Drop.encrypt(C.enc.Hex.parse('0000000000000000'), C.enc.Hex.parse('0123456789abcdef'), { drop: 2 }).ciphertext.toString())
-      .toBe(C.RC4.encrypt(C.enc.Hex.parse('00000000000000000000000000000000'), C.enc.Hex.parse('0123456789abcdef')).ciphertext.toString().substr(16));
+    expect(C.RC4Drop.encrypt(C.enc.Hex.parse('0000000000000000'), C.enc.Hex.parse('0123456789abcdef'), { drop: 2 }).ciphertext!.toString())
+      .toBe(C.RC4.encrypt(C.enc.Hex.parse('00000000000000000000000000000000'), C.enc.Hex.parse('0123456789abcdef')).ciphertext!.toString().substr(16));
   });
 
   it('multi part', () => {
@@ -47,15 +47,15 @@ describe('rc4', () => {
 
     // Replace random method with one that returns a predictable value
     C.lib.WordArray.random = (nBytes) => {
-      const words = [];
+      const words: number[] = [];
       for (let i = 0; i < nBytes; i += 4) {
-        words.push([0x11223344]);
+        words.push(0x11223344);
       }
 
       return C.lib.WordArray.create(words, nBytes);
     };
 
-    expect(C.RC4.encrypt('Hi There', C.SHA256('Jefe'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext.toString())
+    expect(C.RC4.encrypt('Hi There', C.SHA256('Jefe'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext!.toString())
       .toBe(C.algo.RC4.createEncryptor(C.SHA256('Jefe'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).finalize('Hi There').toString());
     expect(C.RC4.encrypt('Hi There', C.SHA256('Jefe'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).toString())
       .toBe(C.lib.SerializableCipher.encrypt(C.algo.RC4, 'Hi There', C.SHA256('Jefe'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).toString());

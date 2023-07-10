@@ -7,10 +7,10 @@ describe('lib-passwordbasedcipher', () => {
     const actual = C.lib.PasswordBasedCipher.encrypt(C.algo.AES, 'Hello, World!', 'password');
 
     // Compute expected
-    const aes = C.algo.AES.createEncryptor(actual.key, { iv: actual.iv });
+    const aes = C.algo.AES.createEncryptor(actual.key!, { iv: actual.iv });
     const expected = aes.finalize('Hello, World!');
 
-    expect(actual.ciphertext.toString()).toBe(expected.toString());
+    expect(actual.ciphertext!.toString()).toBe(expected.toString());
   });
 
   it('decrypt', () => {

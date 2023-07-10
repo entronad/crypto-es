@@ -45,9 +45,9 @@ describe('sha256', () => {
   it('clone', () => {
     const sha256 = C.algo.SHA256.create();
 
-    expect(sha256.update('a').clone().finalize().toString()).toBe(C.SHA256('a').toString());
-    expect(sha256.update('b').clone().finalize().toString()).toBe(C.SHA256('ab').toString());
-    expect(sha256.update('c').clone().finalize().toString()).toBe(C.SHA256('abc').toString());
+    expect((sha256.update('a').clone() as C.algo.SHA256).finalize().toString()).toBe(C.SHA256('a').toString());
+    expect((sha256.update('b').clone() as C.algo.SHA256).finalize().toString()).toBe(C.SHA256('ab').toString());
+    expect((sha256.update('c').clone() as C.algo.SHA256).finalize().toString()).toBe(C.SHA256('abc').toString());
   });
 
   it('input integrity', () => {

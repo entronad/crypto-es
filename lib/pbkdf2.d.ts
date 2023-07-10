@@ -4,7 +4,7 @@
 export class PBKDF2Algo extends Base {
     static create(cfg?: KDFCfg): PBKDF2Algo;
     constructor(cfg?: KDFCfg);
-    compute(password?: WordArray | string, salt?: WordArray | string): WordArray;
+    compute(password: WordArray | string, salt: WordArray | string): WordArray;
 }
 /**
  * Computes the Password-Based Key Derivation Function 2.

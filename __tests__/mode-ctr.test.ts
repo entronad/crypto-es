@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import C from '../lib/index.js';
 
-const data = {};
+const data: any = {};
 
 beforeAll(() => {
   data.message = C.lib.WordArray.create([
@@ -16,7 +16,7 @@ describe('mode-ctr', () => {
   it('encryptor', () => {
     // Compute expected
     const expected = data.message.clone();
-    const aes = C.algo.AES.createEncryptor(data.key);
+    const aes = C.algo.AES.createEncryptor(data.key) as C.algo.AES;
 
     // Counter initialized with IV
     const counter = data.iv.words.slice(0);
@@ -43,7 +43,7 @@ describe('mode-ctr', () => {
       { iv: data.iv, mode: C.mode.CTR, padding: C.pad.NoPadding },
     ).ciphertext;
 
-    expect(actual.toString()).toBe(expected.toString());
+    expect(actual!.toString()).toBe(expected.toString());
   });
 
   it('decryptor', () => {

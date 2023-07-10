@@ -264,10 +264,12 @@ cipher-core.js要修改一下，根据这两个commit：https://github.com/brix/
 
 构造函数要按create写，理由见前
 
-前面所有参数可选的规则不再遵守，以注释里的例子，结合函数逻辑决定。**最后再检查一遍逻辑**
+~~前面所有参数可选的规则不再遵守，以注释里的例子，结合函数逻辑决定。**最后再检查一遍逻辑**~~ 参数先全部不是可选的，然后再放开。第一步先把所有 cfg 参数，和注释中标明Optional的，注释中给出不传参例子, boolean类型的的, 所有名为XXCfg, XXParams的接口等参数改为可选（这是合理的，因为它太复杂了，而且也是js风格的本意），然后根据test用例增加可选参数
 
 给class添加静态变量，因为涉及到继承的问题，还是作为成员吧
 
 import也学了自动生成的每个语句单独写，为了风格统一
 
 Cipher.encrypt()的第一个参数，CipherCfg.mode等确实应该是Function，因为他们传入的是类不是对象
+
+WordArray和X64WordArray是完全不一样的，不可通用，X64WordArray目前唯一的作用就是转换成WordArray，这在库里不会自动调用。

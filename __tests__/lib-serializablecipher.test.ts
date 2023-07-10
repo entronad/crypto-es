@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import C from '../lib/index.js';
 
-const data = {};
+const data: any = {};
 
 beforeAll(() => {
   data.message = C.lib.WordArray.create([0x00010203, 0x04050607, 0x08090a0b, 0x0c0d0e0f]);
@@ -34,9 +34,9 @@ describe('lib-serializablecipher', () => {
     );
 
     expect(actual.toString()).toBe(expected.toString());
-    expect(actual.ciphertext.toString()).toBe(expected.ciphertext.toString());
-    expect(actual.key.toString()).toBe(expected.key.toString());
-    expect(actual.iv.toString()).toBe(expected.iv.toString());
+    expect(actual.ciphertext!.toString()).toBe(expected.ciphertext!.toString());
+    expect(actual.key!.toString()).toBe(expected.key!.toString());
+    expect(actual.iv!.toString()).toBe(expected.iv!.toString());
     expect(actual.algorithm).toBe(expected.algorithm);
     expect(actual.mode).toBe(expected.mode);
     expect(actual.padding).toBe(expected.padding);

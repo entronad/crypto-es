@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import C from '../lib/index.js';
 
-const _data = {};
+const _data: any = {};
 
 beforeAll(() => {
   // Save original random method
@@ -9,9 +9,9 @@ beforeAll(() => {
 
   // Replace random method with one that returns a predictable value
   C.lib.WordArray.random = (nBytes) => {
-    const words = [];
+    const words: number[] = [];
     for (let i = 0; i < nBytes; i += 4) {
-      words.push([0x11223344]);
+      words.push(0x11223344);
     }
 
     return C.lib.WordArray.create(words, nBytes);

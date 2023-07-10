@@ -5,7 +5,7 @@
 export class EvpKDFAlgo extends Base {
     static create(cfg?: KDFCfg): EvpKDFAlgo;
     constructor(cfg?: KDFCfg);
-    compute(password?: WordArray | string, salt?: WordArray | string): WordArray;
+    compute(password: WordArray | string, salt: WordArray | string): WordArray;
 }
 /**
  * Derives a key from a password.

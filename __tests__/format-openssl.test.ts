@@ -2,7 +2,7 @@
 /* eslint-disable max-len */
 import C from '../lib/index.js';
 
-const data = {};
+const data: any = {};
 
 beforeAll(() => {
   data.ciphertext = C.lib.WordArray.create([0x00010203, 0x04050607, 0x08090a0b, 0x0c0d0e0f]);
@@ -24,14 +24,14 @@ describe('format-openssl', () => {
     const openSSLStr = C.format.OpenSSL.stringify(C.lib.CipherParams.create({ ciphertext: data.ciphertext, salt: data.salt }));
     const cipherParams = C.format.OpenSSL.parse(openSSLStr);
 
-    expect(cipherParams.ciphertext.toString()).toBe(data.ciphertext.toString());
-    expect(cipherParams.salt.toString()).toBe(data.salt.toString());
+    expect(cipherParams.ciphertext!.toString()).toBe(data.ciphertext.toString());
+    expect(cipherParams.salt!.toString()).toBe(data.salt.toString());
   });
 
   it('unSalted from string', () => {
     const openSSLStr = C.format.OpenSSL.stringify(C.lib.CipherParams.create({ ciphertext: data.ciphertext }));
     const cipherParams = C.format.OpenSSL.parse(openSSLStr);
 
-    expect(cipherParams.ciphertext.toString()).toBe(data.ciphertext.toString());
+    expect(cipherParams.ciphertext!.toString()).toBe(data.ciphertext.toString());
   });
 });

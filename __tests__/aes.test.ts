@@ -3,17 +3,17 @@ import C from '../lib/index.js';
 
 describe('aes', () => {
   it('encrypt keySize 128', () => {
-    expect(C.AES.encrypt(C.enc.Hex.parse('00112233445566778899aabbccddeeff'), C.enc.Hex.parse('000102030405060708090a0b0c0d0e0f'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext.toString())
+    expect(C.AES.encrypt(C.enc.Hex.parse('00112233445566778899aabbccddeeff'), C.enc.Hex.parse('000102030405060708090a0b0c0d0e0f'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext!.toString())
       .toBe('69c4e0d86a7b0430d8cdb78070b4c55a');
   });
 
   it('encrypt keySize 192', () => {
-    expect(C.AES.encrypt(C.enc.Hex.parse('00112233445566778899aabbccddeeff'), C.enc.Hex.parse('000102030405060708090a0b0c0d0e0f1011121314151617'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext.toString())
+    expect(C.AES.encrypt(C.enc.Hex.parse('00112233445566778899aabbccddeeff'), C.enc.Hex.parse('000102030405060708090a0b0c0d0e0f1011121314151617'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext!.toString())
       .toBe('dda97ca4864cdfe06eaf70a0ec0d7191');
   });
 
   it('encrypt keySize 256', () => {
-    expect(C.AES.encrypt(C.enc.Hex.parse('00112233445566778899aabbccddeeff'), C.enc.Hex.parse('000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext.toString())
+    expect(C.AES.encrypt(C.enc.Hex.parse('00112233445566778899aabbccddeeff'), C.enc.Hex.parse('000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext!.toString())
       .toBe('8ea2b7ca516745bfeafc49904b496089');
   });
 
@@ -65,15 +65,15 @@ describe('aes', () => {
 
     // Replace random method with one that returns a predictable value
     C.lib.WordArray.random = (nBytes) => {
-      const words = [];
+      const words: number[] = [];
       for (let i = 0; i < nBytes; i += 4) {
-        words.push([0x11223344]);
+        words.push(0x11223344);
       }
 
       return C.lib.WordArray.create(words, nBytes);
     };
 
-    expect(C.AES.encrypt('Hi There', C.SHA256('Jefe'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext.toString())
+    expect(C.AES.encrypt('Hi There', C.SHA256('Jefe'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext!.toString())
       .toBe(C.algo.AES.createEncryptor(C.SHA256('Jefe'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).finalize('Hi There').toString());
     expect(C.AES.encrypt('Hi There', C.SHA256('Jefe'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).toString())
       .toBe(C.lib.SerializableCipher.encrypt(C.algo.AES, 'Hi There', C.SHA256('Jefe'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).toString());

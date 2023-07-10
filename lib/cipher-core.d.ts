@@ -7,10 +7,14 @@ export interface CipherCfg {
     format?: Format;
     // PasswordBasedCipher
     kdf?: Kdf;
+    salt?: WordArray | string;
+    hasher?: Function;
+    // RC4Drop
+    drop?: number;
 }
 export interface CipherObj {
-    encrypt(message?: WordArray | string, key?: WordArray | string, cfg?: CipherCfg): CipherParams;
-    decrypt(ciphertext?: CipherParams | CipherParamsCfg | string, key?: WordArray | string, cfg?: CipherCfg): WordArray;
+    encrypt(message: WordArray | string, key: WordArray | string, cfg?: CipherCfg): CipherParams;
+    decrypt(ciphertext: CipherParams | CipherParamsCfg | string, key: WordArray | string, cfg?: CipherCfg): WordArray;
 }
 /**
  * Abstract base cipher template.
@@ -25,6 +29,7 @@ export class Cipher extends BufferedBlockAlgorithm {
     static ivSize: number;
     static _ENC_XFORM_MODE: number;
     static _DEC_XFORM_MODE: number;
+    blockSize: number;
     /**
      * Creates this cipher in encryption mode.
      *
@@ -89,7 +94,7 @@ export class Cipher extends BufferedBlockAlgorithm {
      *
      * @property {WordArray} iv The IV to use for this operation.
      */
-    cfg: Base;
+    cfg: Base & CipherCfg;
     _xformMode: number;
     _key: WordArray;
     /**
@@ -131,7 +136,6 @@ export class Cipher extends BufferedBlockAlgorithm {
 export class StreamCipher extends Cipher {
     static create(...args: Array<any>): StreamCipher;
     constructor(...args: Array<any>);
-    blockSize: number;
     _doFinalize(): WordArray;
 }
 /**
@@ -201,8 +205,8 @@ export class BlockCipherMode extends Base {
 export class CBC extends BlockCipherMode {
 }
 export interface Padding {
-    pad(data?: WordArray, blockSize?: number): void;
-    unpad(data?: WordArray): void;
+    pad(data: WordArray, blockSize: number): void;
+    unpad(data: WordArray): void;
 }
 /**
  * PKCS #5/7 padding strategy.
@@ -216,9 +220,8 @@ export const Pkcs7: Padding;
  *    The number of 32-bit words this cipher operates on. Default: 4 (128 bits)
  */
 export class BlockCipher extends Cipher {
-    static create(xformMode?: number, key?: WordArray, cfg?: CipherCfg): BlockCipher;    
-    constructor(xformMode?: number, key?: WordArray, cfg?: CipherCfg);
-    blockSize: number;
+    static create(xformMode: number, key: WordArray, cfg?: CipherCfg): BlockCipher;    
+    constructor(xformMode: number, key: WordArray, cfg?: CipherCfg);
     _mode: BlockCipherMode;
     _doProcessBlock(words: number[], offset: number): void;
     _doFinalize(): WordArray;
@@ -230,7 +233,7 @@ export interface CipherParamsCfg {
     key?: WordArray;
     iv?: WordArray;
     salt?: WordArray;
-    algorithm?: Cipher;
+    algorithm?: Function;
     mode?: Function;
     padding?: Padding;
     blockSize?: number;
@@ -251,6 +254,15 @@ export interface CipherParamsCfg {
  *    The default formatting strategy to convert this cipher params object to a string.
  */
 export class CipherParams extends Base {
+    ciphertext?: WordArray;
+    key?: WordArray;
+    iv?: WordArray;
+    salt?: WordArray;
+    algorithm?: Function;
+    mode?: Function;
+    padding?: Padding;
+    blockSize?: number;
+    formatter?: Format;
     /**
      * Initializes a newly created cipher params object.
      *
@@ -270,8 +282,8 @@ export class CipherParams extends Base {
      *         formatter: CryptoJS.format.OpenSSL
      *     });
      */
-    static create(cipherParams?: CipherParamsCfg): CipherParams;
-    constructor(cipherParams?: CipherParamsCfg);
+    static create(cipherParams: CipherParams | CipherParamsCfg): CipherParams;
+    constructor(cipherParams: CipherParams | CipherParamsCfg);
     /**
      * Converts this cipher params object to a string.
      *
@@ -290,8 +302,8 @@ export class CipherParams extends Base {
     toString(formatter?: Format): string;
 }
 export interface Format {
-    stringify(cipherParams?: CipherParams): string;
-    parse(str?: string): CipherParams;
+    stringify(cipherParams: CipherParams): string;
+    parse(str: string): CipherParams;
 }
 /**
  * OpenSSL formatting strategy.
@@ -367,7 +379,7 @@ export class SerializableCipher extends Base {
     static _parse(ciphertext: CipherParams | string, format: Format): CipherParams;
 }
 export interface Kdf {
-    execute(password?: string, keySize?: number, ivSize?: number, salt?: WordArray | string): CipherParams;
+    execute(password: string, keySize: number, ivSize: number, salt?: WordArray | string, hasher?: Function): CipherParams;
 }
 /**
  * OpenSSL key derivation function.

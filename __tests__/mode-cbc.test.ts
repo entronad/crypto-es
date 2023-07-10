@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import C from '../lib/index.js';
 
-const data = {};
+const data: any = {};
 
 beforeAll(() => {
   data.message = C.lib.WordArray.create([
@@ -16,7 +16,7 @@ describe('mode-cbc', () => {
   it('encryptor', () => {
     // Compute expected
     const expected = data.message.clone();
-    const aes = C.algo.AES.createEncryptor(data.key);
+    const aes = C.algo.AES.createEncryptor(data.key) as C.algo.AES;
 
     // First block XORed with IV, then encrypted
     for (let i = 0; i < 4; i += 1) {
@@ -37,7 +37,7 @@ describe('mode-cbc', () => {
       { iv: data.iv, mode: C.mode.CBC, padding: C.pad.NoPadding },
     ).ciphertext;
 
-    expect(actual.toString()).toBe(expected.toString());
+    expect(actual!.toString()).toBe(expected.toString());
   });
 
   it('decryptor', () => {

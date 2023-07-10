@@ -50,9 +50,9 @@ describe('sha3', () => {
   it('clone', () => {
     const sha3 = C.algo.SHA3.create();
 
-    expect(sha3.update('a').clone().finalize().toString()).toBe(C.SHA3('a').toString());
-    expect(sha3.update('b').clone().finalize().toString()).toBe(C.SHA3('ab').toString());
-    expect(sha3.update('c').clone().finalize().toString()).toBe(C.SHA3('abc').toString());
+    expect((sha3.update('a').clone() as C.algo.SHA3).finalize().toString()).toBe(C.SHA3('a').toString());
+    expect((sha3.update('b').clone() as C.algo.SHA3).finalize().toString()).toBe(C.SHA3('ab').toString());
+    expect((sha3.update('c').clone() as C.algo.SHA3).finalize().toString()).toBe(C.SHA3('abc').toString());
   });
 
   it('input integrity', () => {

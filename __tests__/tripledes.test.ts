@@ -3,22 +3,22 @@ import C from '../lib/index.js';
 
 describe('triple des', () => {
   it('encrypt 1', () => {
-    expect(C.TripleDES.encrypt(C.enc.Hex.parse('0000000000000000'), C.enc.Hex.parse('800101010101010180010101010101018001010101010101'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext.toString())
+    expect(C.TripleDES.encrypt(C.enc.Hex.parse('0000000000000000'), C.enc.Hex.parse('800101010101010180010101010101018001010101010101'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext!.toString())
       .toBe('95a8d72813daa94d');
   });
 
   it('encrypt 2', () => {
-    expect(C.TripleDES.encrypt(C.enc.Hex.parse('0000000000000000'), C.enc.Hex.parse('010101010101010201010101010101020101010101010102'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext.toString())
+    expect(C.TripleDES.encrypt(C.enc.Hex.parse('0000000000000000'), C.enc.Hex.parse('010101010101010201010101010101020101010101010102'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext!.toString())
       .toBe('869efd7f9f265a09');
   });
 
   it('encrypt 3', () => {
-    expect(C.TripleDES.encrypt(C.enc.Hex.parse('8000000000000000'), C.enc.Hex.parse('010101010101010101010101010101010101010101010101'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext.toString())
+    expect(C.TripleDES.encrypt(C.enc.Hex.parse('8000000000000000'), C.enc.Hex.parse('010101010101010101010101010101010101010101010101'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext!.toString())
       .toBe('95f8a5e5dd31d900');
   });
 
   it('encrypt 4', () => {
-    expect(C.TripleDES.encrypt(C.enc.Hex.parse('0000000000000001'), C.enc.Hex.parse('010101010101010101010101010101010101010101010101'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext.toString())
+    expect(C.TripleDES.encrypt(C.enc.Hex.parse('0000000000000001'), C.enc.Hex.parse('010101010101010101010101010101010101010101010101'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext!.toString())
       .toBe('166b40b44aba4bd6');
   });
 
@@ -50,7 +50,7 @@ describe('triple des', () => {
     const ciphertext4 = des.finalize();
 
     expect(ciphertext1.concat(ciphertext2).concat(ciphertext3).concat(ciphertext4).toString())
-      .toBe(C.TripleDES.encrypt(C.enc.Hex.parse('00112233445566778899aabbccddeeff'), C.enc.Hex.parse('000102030405060708090a0b0c0d0e0f1011121314151617'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext.toString());
+      .toBe(C.TripleDES.encrypt(C.enc.Hex.parse('00112233445566778899aabbccddeeff'), C.enc.Hex.parse('000102030405060708090a0b0c0d0e0f1011121314151617'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext!.toString());
   });
 
   it('input integrity', () => {
@@ -108,15 +108,15 @@ describe('triple des', () => {
 
     // Replace random method with one that returns a predictable value
     C.lib.WordArray.random = (nBytes) => {
-      const words = [];
+      const words: number[] = [];
       for (let i = 0; i < nBytes; i += 4) {
-        words.push([0x11223344]);
+        words.push(0x11223344);
       }
 
       return C.lib.WordArray.create(words, nBytes);
     };
 
-    expect(C.TripleDES.encrypt('Hi There', C.SHA256('Jefe'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext.toString())
+    expect(C.TripleDES.encrypt('Hi There', C.SHA256('Jefe'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).ciphertext!.toString())
       .toBe(C.algo.TripleDES.createEncryptor(C.SHA256('Jefe'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).finalize('Hi There').toString());
     expect(C.TripleDES.encrypt('Hi There', C.SHA256('Jefe'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).toString())
       .toBe(C.lib.SerializableCipher.encrypt(C.algo.TripleDES, 'Hi There', C.SHA256('Jefe'), { mode: C.mode.ECB, padding: C.pad.NoPadding }).toString());

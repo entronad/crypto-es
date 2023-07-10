@@ -45,9 +45,9 @@ describe('sha1', () => {
   it('clone', () => {
     const sha1 = C.algo.SHA1.create();
 
-    expect(sha1.update('a').clone().finalize().toString()).toBe(C.SHA1('a').toString());
-    expect(sha1.update('b').clone().finalize().toString()).toBe(C.SHA1('ab').toString());
-    expect(sha1.update('c').clone().finalize().toString()).toBe(C.SHA1('abc').toString());
+    expect((sha1.update('a').clone() as C.algo.SHA1).finalize().toString()).toBe(C.SHA1('a').toString());
+    expect((sha1.update('b').clone() as C.algo.SHA1).finalize().toString()).toBe(C.SHA1('ab').toString());
+    expect((sha1.update('c').clone() as C.algo.SHA1).finalize().toString()).toBe(C.SHA1('abc').toString());
   });
 
   it('input integrity', () => {

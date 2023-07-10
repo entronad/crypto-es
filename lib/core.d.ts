@@ -26,7 +26,7 @@ export class Base {
      *         field: 'value'
      *     });
      */
-    mixIn(properties?: object): Base;
+    mixIn(properties: object): Base;
     /**
      * Creates a copy of this object.
      *
@@ -58,7 +58,7 @@ export class WordArray extends Base {
      *
      *     var wordArray = CryptoJS.lib.WordArray.random(16);
      */
-    static random(nBytes?: number): WordArray;
+    static random(nBytes: number): WordArray;
     /**
      * Initializes a newly created word array.
      *
@@ -129,8 +129,8 @@ export class WordArray extends Base {
     clone(): WordArray;
 }
 export interface Encoder {
-    stringify(wordArray?: WordArray): string;
-    parse(str?: string): WordArray;
+    stringify(wordArray: WordArray): string;
+    parse(str: string): WordArray;
 }
 export const Hex: Encoder;
 export const Latin1: Encoder;
@@ -199,8 +199,8 @@ export interface HasherCfg {
     // SHA3
     outputLength?: number
 }
-export type HashFn = (message?: WordArray | string, cfg?: HasherCfg) => WordArray;
-export type HMACHashFn = (message?: WordArray | string, key?: WordArray | string) => WordArray;
+export type HashFn = (message: WordArray | string, cfg?: HasherCfg) => WordArray;
+export type HMACHashFn = (message: WordArray | string, key: WordArray | string) => WordArray;
 /**
  * Abstract hasher template.
  *
@@ -291,8 +291,8 @@ export class HMAC extends Base {
      *
      *     var hmacHasher = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, key);
      */
-    static create(SubHasher: Hasher, key: WordArray | string): HMAC;
-    constructor(SubHasher: Hasher, key: WordArray | string);
+    static create(SubHasher: Function, key: WordArray | string): HMAC;
+    constructor(SubHasher: Function, key: WordArray | string);
     _hasher: Hasher;
     _oKey: WordArray;
     _iKey: WordArray;
@@ -336,7 +336,7 @@ export class HMAC extends Base {
 export interface KDFCfg {
     // EvpKDF
     keySize?: number;
-    hasher?: Hasher;
+    hasher?: Function;
     iterations?: number;
 }
-export type KDFFn = (password?: WordArray | string, salt?: WordArray | string, cfg?: KDFCfg) => WordArray;
+export type KDFFn = (password: WordArray | string, salt: WordArray | string, cfg?: KDFCfg) => WordArray;

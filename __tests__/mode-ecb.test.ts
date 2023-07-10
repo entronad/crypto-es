@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import C from '../lib/index.js';
 
-const data = {};
+const data: any = {};
 
 beforeAll(() => {
   data.message = C.lib.WordArray.create([
@@ -15,7 +15,7 @@ describe('mode-ecb', () => {
   it('encryptor', () => {
     // Compute expected
     const expected = data.message.clone();
-    const aes = C.algo.AES.createEncryptor(data.key);
+    const aes = C.algo.AES.createEncryptor(data.key) as C.algo.AES;
     aes.encryptBlock(expected.words, 0);
     aes.encryptBlock(expected.words, 4);
 
@@ -26,7 +26,7 @@ describe('mode-ecb', () => {
       { iv: data.iv, mode: C.mode.ECB, padding: C.pad.NoPadding },
     ).ciphertext;
 
-    expect(actual.toString()).toBe(expected.toString());
+    expect(actual!.toString()).toBe(expected.toString());
   });
 
   it('decryptor', () => {

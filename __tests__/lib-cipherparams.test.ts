@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import C from '../lib/index.js';
 
-const data = {};
+const data: any = {};
 
 beforeAll(() => {
   data.ciphertext = C.enc.Hex.parse('000102030405060708090a0b0c0d0e0f');
@@ -10,7 +10,7 @@ beforeAll(() => {
   data.salt = C.enc.Hex.parse('0123456789abcdef');
   data.algorithm = C.algo.AES;
   data.mode = C.mode.CBC;
-  data.padding = C.pad.PKCS7;
+  data.padding = C.pad.Pkcs7;
   data.blockSize = data.algorithm.blockSize;
   data.formatter = C.format.OpenSSL;
 
