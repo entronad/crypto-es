@@ -26,13 +26,6 @@ In Node.js projects, we recommend you to use ECMAScript Modules insead of Common
 }
 ```
 
-```
-# In same folder as above package.json
-node --experimental-modules my-app.js # Runs as ES module
-```
-
-[See details](<https://nodejs.org/dist/latest-v12.x/docs/api/esm.html>)
-
 ---
 
 Then you can import CryptoES:
@@ -51,19 +44,7 @@ const rst = MD5("Message").toString();
 
 ## TypeScript Usage
 
-Make sure to add this entry to your tsconfig.json:
-
-```
-{
-  "compilerOptions": {
-    ...
-    
-    "skipLibCheck": true,
-    
-    ...
-  }
-}
-```
+Every file in this library has its own .d.ts file now, so it is available to partially import single algorithm files in TypeScript projects.
 
 ## Guide
 
@@ -268,6 +249,19 @@ const encrypted = CryptoES.RC4Drop.encrypt("Message", "Secret Passphrase", { dro
 const decrypted = CryptoES.RC4Drop.decrypt(encrypted, "Secret Passphrase", { drop: 3072/4 });
 ```
 
+**Blowfish**
+
+Blowfish is a symmetric-key block cipher, designed in 1993 by Bruce Schneier and included in many cipher suites and encryption products. Blowfish provides a good encryption rate in software, and no effective cryptanalysis of it has been found to date. However, the Advanced Encryption Standard (AES) now receives more attention, and Schneier recommends Twofish for modern applications.
+
+Schneier designed Blowfish as a general-purpose algorithm, intended as an alternative to the aging DES and free of the problems and constraints associated with other algorithms. At the time Blowfish was released, many other designs were proprietary, encumbered by patents, or were commercial or government secrets. Schneier has stated that "Blowfish is unpatented, and will remain so in all countries. The algorithm is hereby placed in the public domain, and can be freely used by anyone."
+
+Notable features of the design include key-dependent S-boxes and a highly complex key schedule.
+
+```
+const ciphertext = CryptoJS.Blowfish.encrypt(message, key, cfg);
+const plaintext  = CryptoJS.Blowfish.decrypt(ciphertext, key, cfg);
+```
+
 #### Custom Key and IV
 
 ```
@@ -407,6 +401,8 @@ CryptoES can convert from encoding formats such as Base64, Latin1 or Hex to Word
 ```
 const words = CryptoES.enc.Base64.parse('SGVsbG8sIFdvcmxkIQ==');
 const base64 = CryptoES.enc.Base64.stringify(words);
+const words = CryptoES.enc.Base64url.parse('SGVsbG8sIFdvcmxkIQ==');
+const base64url = CryptoES.enc.Base64.stringify(words);
 const words = CryptoES.enc.Latin1.parse('Hello, World!');
 const latin1 = CryptoES.enc.Latin1.stringify(words);
 const words = CryptoES.enc.Hex.parse('48656c6c6f2c20576f726c6421');

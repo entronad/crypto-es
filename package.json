@@ -1,6 +1,6 @@
 {
   "name": "crypto-es",
-  "version": "1.2.7",
+  "version": "2.0.0",
   "description": "A cryptography algorithms library compatible with ES6 and TypeScript",
   "keywords": [
     "typescript",
@@ -31,7 +31,9 @@
     "PBKDF2",
     "HMAC",
     "HEX",
-    "Base64"
+    "Base64",
+    "Base64url",
+    "blowfish"
   ],
   "type": "module",
   "main": "lib/index.js",

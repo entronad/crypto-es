@@ -1,3 +1,14 @@
+## 2.0.0
+
+**2023-07-10**
+
+- Enhance the support of TypeScript. Now every js file has its own d.ts file for partially importing in TypeScript. And all types has been tested.
+- A real random generator from globalThis.crypto is used instead of Math.random. If the environment doesn't support globalThis(or global/window/self/frames), it will rollback to Math.random with a warning log.
+- Fix the TripleDes/Des issue: https://github.com/entronad/crypto-es/issues/22
+- Fix the cipher-core issue of CryptoJS: https://github.com/brix/crypto-js/commit/dcc3848f5de5208bca73f36c0ed77fa192ee2ea8 , https://github.com/brix/crypto-js/commit/09ee2ab282176f235f26d6a2d4e039cbd6eb3494
+- Add base64url algorithm.
+- Add blowfish algorithm.
+
 ## 1.2.6
 
 **2021-02-08**
