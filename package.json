@@ -55,11 +55,12 @@
   "homepage": "https://github.com/entronad/crypto-es#readme",
   "devDependencies": {
     "@types/jest": "^29.5.2",
-    "jest": "29.5.0"
+    "jest": "29.5.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.1.6"
   },
   "jest": {
-    "testRegex": "(/__tests__/.*\\.test\\.js)$",
-    "testEnvironment": "jest-environment-node",
-    "transform": {}
+    "testRegex": "(/__tests__/.*\\.test\\.ts)$",
+    "preset": "ts-jest/presets/default-esm"
   }
 }
