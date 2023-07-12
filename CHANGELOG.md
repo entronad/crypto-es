@@ -1,3 +1,9 @@
+## 2.0.1
+
+**2023-07-12**
+
+- Wrap the global crypto assignment with try/catch: https://github.com/entronad/crypto-es/issues/34
+
 ## 2.0.0
 
 **2023-07-10**
