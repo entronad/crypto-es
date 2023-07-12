@@ -273,3 +273,5 @@ import也学了自动生成的每个语句单独写，为了风格统一
 Cipher.encrypt()的第一个参数，CipherCfg.mode等确实应该是Function，因为他们传入的是类不是对象
 
 WordArray和X64WordArray是完全不一样的，不可通用，X64WordArray目前唯一的作用就是转换成WordArray，这在库里不会自动调用。
+
+js中调用未定义的变量会有referenceerror，但是typeof判断不会，会判断它的类型是 'undefined'；undefined.a也会有referenceerror，但是undefined?.a就没事会返回undefined; 或语句前面取值成功了后面有error也没关系。所以globalThis.crypto的判断要用这几点来规避error，不能trycatch

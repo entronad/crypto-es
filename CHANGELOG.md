@@ -1,3 +1,9 @@
+## 2.0.2
+
+**2023-07-12**
+
+- upgrade global crypto assignment with typeof: https://github.com/entronad/crypto-es/issues/34
+
 ## 2.0.1
 
 **2023-07-12**
