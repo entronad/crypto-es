@@ -1,3 +1,9 @@
+## 2.0.3
+
+**2023-07-17**
+
+- Remove Math.random() runtime console warning. It is not always wanted to show in in the client consle when Math.random() has to be used.
+
 ## 2.0.2
 
 **2023-07-12**
