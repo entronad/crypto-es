@@ -35,6 +35,7 @@
     "Base64url",
     "blowfish"
   ],
+  "sideEffects": false,
   "type": "module",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
