@@ -2,7 +2,7 @@
 
 **2023-07-25**
 
-- Declare no side efects for tree shaking: https://github.com/entronad/crypto-es/pull/37
+- Declare no side effects for tree shaking: https://github.com/entronad/crypto-es/pull/37
 
 ## 2.0.3
 
