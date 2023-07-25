@@ -1,3 +1,9 @@
+## 2.0.4
+
+**2023-07-25**
+
+- Declare no side efects for tree shaking: https://github.com/entronad/crypto-es/pull/37
+
 ## 2.0.3
 
 **2023-07-17**
