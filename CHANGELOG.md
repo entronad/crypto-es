@@ -1,3 +1,9 @@
+## 2.1.0
+
+**2023-10-24**
+
+- Change pbkdf2 default params to enhance security: https://github.com/entronad/crypto-es/security/advisories/GHSA-mpj8-q39x-wq5h
+
 ## 2.0.4
 
 **2023-07-25**
