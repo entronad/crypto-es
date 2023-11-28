@@ -6,11 +6,6 @@
 
 - Change pbkdf2 default params to enhance security: https://github.com/entronad/crypto-es/security/advisories/GHSA-mpj8-q39x-wq5h
 
-**2019-01-19**
-
-- Initial version.
-- Impliment all CryptoJS APIs.
-
 ## 1.0.0
 
 **2019-01-19**
