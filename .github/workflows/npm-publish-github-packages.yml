@@ -31,7 +31,10 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - run: npm publish
+      - run: |
+          npm config set '//registry.npmjs.org/:_authToken' "${{secrets.NPM_AUTH_TOKEN}}"
+          npm publish --access public --tag ${{ github.event.release.tag_name }} --tag latest
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
           NPM_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
+          NPM_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}

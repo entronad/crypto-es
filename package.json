@@ -49,14 +49,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/entronad/crypto-es.git"
+    "url": "git+https://github.com/highcanfly-club/crypto-es.git"
   },
   "author": "LIN Chen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/entronad/crypto-es/issues"
+    "url": "https://github.com/highcanfly-club/crypto-es/issues"
   },
-  "homepage": "https://github.com/entronad/crypto-es#readme",
+  "homepage": "https://github.com/highcanfly-club/crypto-es#readme",
   "devDependencies": {
     "@types/jest": "^29.5.2",
     "jest": "29.5.0",
@@ -66,5 +66,9 @@
   "jest": {
     "testRegex": "(/__tests__/.*\\.test\\.ts)$",
     "preset": "ts-jest/presets/default-esm"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
   }
 }
