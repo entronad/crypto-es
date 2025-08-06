@@ -3,8 +3,8 @@ import {
   Hasher,
   HashFn,
   HMACHashFn,
-} from './core.ts';
-import { X64Word } from './x64-core.ts';
+} from './core';
+import { X64Word } from './x64-core';
 
 // Configuration interface for SHA3
 interface SHA3Config {

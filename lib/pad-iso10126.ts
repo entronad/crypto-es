@@ -1,7 +1,7 @@
 import {
   WordArray,
-} from './core.ts';
-import { Padding } from './cipher-core.ts';
+} from './core';
+import { Padding } from './cipher-core';
 
 /**
  * ISO 10126 padding strategy.

@@ -1,5 +1,5 @@
-import { WordArray } from './core.ts';
-import { Padding } from './cipher-core.ts';
+import { WordArray } from './core';
+import { Padding } from './cipher-core';
 
 /**
  * Zero padding strategy.

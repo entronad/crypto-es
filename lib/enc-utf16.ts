@@ -1,7 +1,7 @@
 import {
   WordArray,
   Encoder,
-} from './core.ts';
+} from './core';
 
 /**
  * Swaps endian of a word

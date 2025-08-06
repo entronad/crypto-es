@@ -1,10 +1,10 @@
 import {
   WordArray,
-} from './core.ts';
-import { Padding } from './cipher-core.ts';
+} from './core';
+import { Padding } from './cipher-core';
 import {
   ZeroPadding,
-} from './pad-zeropadding.ts';
+} from './pad-zeropadding';
 
 /**
  * ISO/IEC 9797-1 Padding Method 2.

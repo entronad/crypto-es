@@ -7,11 +7,11 @@ import {
   BufferedBlockAlgorithm,
   Hasher,
   HMAC,
-} from './core.ts';
+} from './core';
 import {
   X64Word,
   X64WordArray,
-} from './x64-core.ts';
+} from './x64-core';
 import {
   Cipher,
   StreamCipher,
@@ -24,49 +24,49 @@ import {
   SerializableCipher,
   OpenSSLKdf,
   PasswordBasedCipher,
-} from './cipher-core.ts';
+} from './cipher-core';
 
-import { Utf16, Utf16BE, Utf16LE } from './enc-utf16.ts';
-import { Base64 } from './enc-base64.ts';
-import { Base64url } from './enc-base64url.ts';
-import { HMAC as HMACExport } from './hmac.ts';
-import { MD5Algo, MD5, HmacMD5 } from './md5.ts';
-import { SHA1Algo, SHA1, HmacSHA1 } from './sha1.ts';
-import { SHA224Algo, SHA224, HmacSHA224 } from './sha224.ts';
-import { SHA256Algo, SHA256, HmacSHA256 } from './sha256.ts';
-import { SHA384Algo, SHA384, HmacSHA384 } from './sha384.ts';
-import { SHA512Algo, SHA512, HmacSHA512 } from './sha512.ts';
-import { SHA3Algo, SHA3, HmacSHA3 } from './sha3.ts';
-import { RIPEMD160Algo, RIPEMD160, HmacRIPEMD160 } from './ripemd160.ts';
-import { PBKDF2Algo, PBKDF2 } from './pbkdf2.ts';
-import { EvpKDFAlgo, EvpKDF } from './evpkdf.ts';
-import { AESAlgo, AES } from './aes.ts';
+import { Utf16, Utf16BE, Utf16LE } from './enc-utf16';
+import { Base64 } from './enc-base64';
+import { Base64url } from './enc-base64url';
+import { HMAC as HMACExport } from './hmac';
+import { MD5Algo, MD5, HmacMD5 } from './md5';
+import { SHA1Algo, SHA1, HmacSHA1 } from './sha1';
+import { SHA224Algo, SHA224, HmacSHA224 } from './sha224';
+import { SHA256Algo, SHA256, HmacSHA256 } from './sha256';
+import { SHA384Algo, SHA384, HmacSHA384 } from './sha384';
+import { SHA512Algo, SHA512, HmacSHA512 } from './sha512';
+import { SHA3Algo, SHA3, HmacSHA3 } from './sha3';
+import { RIPEMD160Algo, RIPEMD160, HmacRIPEMD160 } from './ripemd160';
+import { PBKDF2Algo, PBKDF2 } from './pbkdf2';
+import { EvpKDFAlgo, EvpKDF } from './evpkdf';
+import { AESAlgo, AES } from './aes';
 import {
   DESAlgo,
   DES,
   TripleDESAlgo,
   TripleDES,
-} from './tripledes.ts';
-import { RabbitAlgo, Rabbit } from './rabbit.ts';
-import { RabbitLegacyAlgo, RabbitLegacy } from './rabbit-legacy.ts';
+} from './tripledes';
+import { RabbitAlgo, Rabbit } from './rabbit';
+import { RabbitLegacyAlgo, RabbitLegacy } from './rabbit-legacy';
 import {
   RC4Algo,
   RC4,
   RC4DropAlgo,
   RC4Drop,
-} from './rc4.ts';
-import { BlowfishAlgo, Blowfish } from './blowfish.ts';
-import { CFB } from './mode-cfb.ts';
-import { CTR } from './mode-ctr.ts';
-import { CTRGladman } from './mode-ctr-gladman.ts';
-import { ECB } from './mode-ecb.ts';
-import { OFB } from './mode-ofb.ts';
-import { AnsiX923 } from './pad-ansix923.ts';
-import { Iso10126 } from './pad-iso10126.ts';
-import { Iso97971 } from './pad-iso97971.ts';
-import { NoPadding } from './pad-nopadding.ts';
-import { ZeroPadding } from './pad-zeropadding.ts';
-import { HexFormatter } from './format-hex.ts';
+} from './rc4';
+import { BlowfishAlgo, Blowfish } from './blowfish';
+import { CFB } from './mode-cfb';
+import { CTR } from './mode-ctr';
+import { CTRGladman } from './mode-ctr-gladman';
+import { ECB } from './mode-ecb';
+import { OFB } from './mode-ofb';
+import { AnsiX923 } from './pad-ansix923';
+import { Iso10126 } from './pad-iso10126';
+import { Iso97971 } from './pad-iso97971';
+import { NoPadding } from './pad-nopadding';
+import { ZeroPadding } from './pad-zeropadding';
+import { HexFormatter } from './format-hex';
 
 export default {
   lib: {

@@ -3,7 +3,7 @@ import {
   Hasher,
   HashFn,
   HMACHashFn,
-} from './core.ts';
+} from './core';
 
 // Constants table
 const T: number[] = [];

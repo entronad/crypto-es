@@ -1,7 +1,7 @@
 import {
   BlockCipherMode,
   Cipher,
-} from './cipher-core.ts';
+} from './cipher-core';
 
 function generateKeystreamAndEncrypt(
   this: BlockCipherMode,

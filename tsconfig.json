@@ -1,8 +1,37 @@
 {
-  "include": ["lib/**/*"],
   "compilerOptions": {
-    "allowJs": true,
+    "target": "ES2015",
+    "module": "ES2015",
+    "lib": ["ES2015", "ES2017.TypedArrays", "DOM"],
     "declaration": true,
-    "emitDeclarationOnly": true
-  }
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./lib",
+    "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "strictBindCallApply": false,
+    "strictPropertyInitialization": false,
+    "noImplicitThis": false,
+    "alwaysStrict": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": false,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noStrictGenericChecks": true,
+    "skipDefaultLibCheck": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": false
+  },
+  "include": ["lib/**/*.ts"],
+  "exclude": ["node_modules", "dist", "__tests__"]
 }

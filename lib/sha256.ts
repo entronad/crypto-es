@@ -3,7 +3,7 @@ import {
   Hasher,
   HashFn,
   HMACHashFn,
-} from './core.ts';
+} from './core';
 
 // Initialization and round constants tables
 const H: number[] = [];

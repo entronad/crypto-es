@@ -25,7 +25,7 @@ import {
   Hasher,
   HashFn,
   HMACHashFn,
-} from './core.ts';
+} from './core';
 
 // Constants table
 const _zl = WordArray.create([

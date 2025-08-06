@@ -1,10 +1,10 @@
 import {
   CipherParams,
   Format,
-} from './cipher-core.ts';
+} from './cipher-core';
 import {
   Hex,
-} from './core.ts';
+} from './core';
 
 /**
  * Hex formatter for cipher params.

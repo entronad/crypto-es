@@ -2,12 +2,12 @@ import {
   WordArray,
   HashFn,
   HMACHashFn,
-} from './core.ts';
+} from './core';
 import {
   X64Word,
   X64WordArray,
-} from './x64-core.ts';
-import { SHA512Algo } from './sha512.ts';
+} from './x64-core';
+import { SHA512Algo } from './sha512';
 
 /**
  * SHA-384 hash algorithm.

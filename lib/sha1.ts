@@ -3,7 +3,7 @@ import {
   Hasher,
   HashFn,
   HMACHashFn,
-} from './core.ts';
+} from './core';
 
 // Reusable object
 const W: number[] = [];

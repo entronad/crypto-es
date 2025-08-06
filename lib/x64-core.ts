@@ -1,7 +1,7 @@
 import {
   Base,
   WordArray,
-} from './core.ts';
+} from './core';
 
 /**
  * A 64-bit word representation.

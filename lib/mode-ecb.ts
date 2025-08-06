@@ -1,6 +1,6 @@
 import {
   BlockCipherMode,
-} from './cipher-core.ts';
+} from './cipher-core';
 
 /**
  * Electronic Codebook block mode.

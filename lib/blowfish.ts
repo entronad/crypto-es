@@ -1,10 +1,10 @@
 import {
   WordArray,
-} from './core.ts';
+} from './core';
 import {
   BlockCipher,
   CipherObj,
-} from './cipher-core.ts';
+} from './cipher-core';
 
 const N = 16;
     

@@ -3,11 +3,11 @@ import {
   WordArray,
   HashFn,
   HMACHashFn,
-} from './core.ts';
+} from './core';
 import {
   X64Word,
   X64WordArray,
-} from './x64-core.ts';
+} from './x64-core';
 
 // Constants
 const K: X64Word[] = [

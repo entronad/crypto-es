@@ -6,9 +6,9 @@ import {
   BufferedBlockAlgorithm,
   Hasher,
   HasherCfg,
-} from './core.ts';
-import { Base64 } from './enc-base64.ts';
-import { EvpKDFAlgo } from './evpkdf.ts';
+} from './core';
+import { Base64 } from './enc-base64';
+import { EvpKDFAlgo } from './evpkdf';
 
 /**
  * Configuration options for ciphers

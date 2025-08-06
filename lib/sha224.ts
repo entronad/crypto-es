@@ -2,8 +2,8 @@ import {
   WordArray,
   HashFn,
   HMACHashFn,
-} from './core.ts';
-import { SHA256Algo } from './sha256.ts';
+} from './core';
+import { SHA256Algo } from './sha256';
 
 /**
  * SHA-224 hash algorithm.
