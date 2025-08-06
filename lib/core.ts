@@ -1,5 +1,7 @@
 /* eslint-disable no-use-before-define */
 
+import type { X64WordArray } from './x64-core.js';
+
 /**
  * Encoder interface for encoding strategies
  */
@@ -631,7 +633,7 @@ export abstract class Hasher extends BufferedBlockAlgorithm {
   cfg: HasherCfg;
   
   /** The hash result */
-  protected _hash!: WordArray;
+  protected _hash!: WordArray | X64WordArray;
 
   /**
    * Initializes a newly created hasher.
