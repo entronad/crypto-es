@@ -1,37 +1,51 @@
+import { WordArray, Hasher, HashFn, HMACHashFn } from './core.js';
+interface SHA3Config {
+    outputLength?: number;
+}
 /**
- * SHA3 hash algorithm.
+ * SHA-3 hash algorithm.
  */
-export class SHA3Algo extends Hasher {}
+export declare class SHA3Algo extends Hasher {
+    cfg: SHA3Config;
+    private _state;
+    /**
+     * Initializes a newly created hasher.
+     *
+     * @param cfg - Configuration options.
+     * @property {number} outputLength - The desired number of bits in the output hash.
+     *   Only values permitted are: 224, 256, 384, 512.
+     *   Default: 512
+     */
+    constructor(cfg?: SHA3Config);
+    _doReset(): void;
+    _doProcessBlock(M: number[], offset: number): void;
+    _doFinalize(): WordArray;
+    clone(): SHA3Algo;
+}
 /**
  * Shortcut function to the hasher's object interface.
  *
- * @param {WordArray|string} message The message to hash.
- *
- * @return {WordArray} The hash.
- *
- * @static
+ * @param message - The message to hash.
+ * @returns The hash.
  *
  * @example
- *
- *     var hash = CryptoJS.SHA3('message');
- *     var hash = CryptoJS.SHA3(wordArray);
+ * ```js
+ * const hash = CryptoJS.SHA3('message');
+ * const hash = CryptoJS.SHA3(wordArray);
+ * ```
  */
-export const SHA3: HashFn;
+export declare const SHA3: HashFn;
 /**
  * Shortcut function to the HMAC's object interface.
  *
- * @param {WordArray|string} message The message to hash.
- * @param {WordArray|string} key The secret key.
- *
- * @return {WordArray} The HMAC.
- *
- * @static
+ * @param message - The message to hash.
+ * @param key - The secret key.
+ * @returns The HMAC.
  *
  * @example
- *
- *     var hmac = CryptoJS.HmacSHA3(message, key);
+ * ```js
+ * const hmac = CryptoJS.HmacSHA3(message, key);
+ * ```
  */
-export const HmacSHA3: HMACHashFn;
-import { Hasher } from './core.js';
-import { HashFn } from './core.js';
-import { HMACHashFn } from './core.js';
+export declare const HmacSHA3: HMACHashFn;
+export {};

@@ -1,73 +1,107 @@
+import { Base, WordArray } from './core.js';
 /**
- * A 64-bit word.
+ * A 64-bit word representation.
+ * Stores a 64-bit value as two 32-bit words due to JavaScript's number limitations.
+ *
+ * @property high - The high 32 bits
+ * @property low - The low 32 bits
  */
-export class X64Word extends Base {
+export declare class X64Word extends Base {
+    /** The high 32 bits of the 64-bit word */
+    high: number;
+    /** The low 32 bits of the 64-bit word */
+    low: number;
     /**
      * Initializes a newly created 64-bit word.
      *
-     * @param {number} high The high 32 bits.
-     * @param {number} low The low 32 bits.
-     *
+     * @param high - The high 32 bits
+     * @param low - The low 32 bits
      * @example
-     *
-     *     var x64Word = CryptoJS.x64.Word.create(0x00010203, 0x04050607);
+     * ```javascript
+     * const x64Word = new X64Word(0x00010203, 0x04050607);
+     * const x64Word = X64Word.create(0x00010203, 0x04050607);
+     * ```
      */
-    static create(high: number, low: number): X64Word;
     constructor(high: number, low: number);
-    high: number;
-    low: number;
+    /**
+     * Creates a copy of this word.
+     *
+     * @returns The cloned 64-bit word
+     * @example
+     * ```javascript
+     * const clone = x64Word.clone();
+     * ```
+     */
+    clone(): X64Word;
 }
 /**
  * An array of 64-bit words.
+ * This is used for algorithms that operate on 64-bit words, such as SHA-512.
  *
- * @property {Array} words The array of CryptoJS.x64.Word objects.
- * @property {number} sigBytes The number of significant bytes in this word array.
+ * @property words - The array of X64Word objects
+ * @property sigBytes - The number of significant bytes in this word array
  */
-export class X64WordArray extends Base {
-    /**
-     * Initializes a newly created word array.
-     *
-     * @param {Array} words (Optional) An array of CryptoJS.x64.Word objects.
-     * @param {number} sigBytes (Optional) The number of significant bytes in the words.
-     *
-     * @example
-     *
-     *     var wordArray = CryptoJS.x64.WordArray.create();
-     *
-     *     var wordArray = CryptoJS.x64.WordArray.create([
-     *         CryptoJS.x64.Word.create(0x00010203, 0x04050607),
-     *         CryptoJS.x64.Word.create(0x18191a1b, 0x1c1d1e1f)
-     *     ]);
-     *
-     *     var wordArray = CryptoJS.x64.WordArray.create([
-     *         CryptoJS.x64.Word.create(0x00010203, 0x04050607),
-     *         CryptoJS.x64.Word.create(0x18191a1b, 0x1c1d1e1f)
-     *     ], 10);
-     */
-    static create(words?: Array<X64Word>, sigBytes?: number): X64WordArray;
-    constructor(words?: Array<X64Word>, sigBytes?: number);
+export declare class X64WordArray extends Base {
+    /** The array of X64Word objects */
     words: X64Word[];
+    /** The number of significant bytes in this word array */
     sigBytes: number;
     /**
-     * Converts this 64-bit word array to a 32-bit word array.
+     * Initializes a newly created 64-bit word array.
      *
-     * @return {CryptoJS.lib.WordArray} This word array's data as a 32-bit word array.
-     *
+     * @param words - An array of X64Word objects
+     * @param sigBytes - The number of significant bytes in the words (defaults to words.length * 8)
      * @example
+     * ```javascript
+     * const wordArray = new X64WordArray();
      *
-     *     var x32WordArray = x64WordArray.toX32();
+     * const wordArray = new X64WordArray([
+     *   new X64Word(0x00010203, 0x04050607),
+     *   new X64Word(0x18191a1b, 0x1c1d1e1f)
+     * ]);
+     *
+     * const wordArray = new X64WordArray([
+     *   new X64Word(0x00010203, 0x04050607),
+     *   new X64Word(0x18191a1b, 0x1c1d1e1f)
+     * ], 10);
+     * ```
+     */
+    constructor(words?: X64Word[], sigBytes?: number);
+    /**
+     * Factory method to create a 64-bit word array.
+     *
+     * @param words - An array of X64Word objects
+     * @param sigBytes - The number of significant bytes
+     * @returns A new X64WordArray instance
+     * @static
+     * @example
+     * ```javascript
+     * const wordArray = X64WordArray.create([
+     *   X64Word.create(0x00010203, 0x04050607)
+     * ]);
+     * ```
+     */
+    static create(words?: X64Word[], sigBytes?: number): X64WordArray;
+    /**
+     * Converts this 64-bit word array to a 32-bit word array.
+     * Each 64-bit word is split into two 32-bit words (high and low).
+     *
+     * @returns This word array's data as a 32-bit word array
+     * @example
+     * ```javascript
+     * const x32WordArray = x64WordArray.toX32();
+     * ```
      */
     toX32(): WordArray;
     /**
-     * Creates a copy of this word array.
+     * Creates a deep copy of this word array.
+     * Clones both the array and each X64Word object within it.
      *
-     * @return {X64WordArray} The clone.
-     *
+     * @returns The cloned X64WordArray
      * @example
-     *
-     *     var clone = x64WordArray.clone();
+     * ```javascript
+     * const clone = x64WordArray.clone();
+     * ```
      */
     clone(): X64WordArray;
 }
-import { Base } from './core.js';
-import { WordArray } from './core.js';

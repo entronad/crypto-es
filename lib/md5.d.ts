@@ -1,37 +1,36 @@
+import { WordArray, Hasher, HashFn, HMACHashFn } from './core.js';
 /**
  * MD5 hash algorithm.
  */
-export class MD5Algo extends Hasher {}
+export declare class MD5Algo extends Hasher {
+    _doReset(): void;
+    _doProcessBlock(M: number[], offset: number): void;
+    _doFinalize(): WordArray;
+    clone(): MD5Algo;
+}
 /**
  * Shortcut function to the hasher's object interface.
  *
- * @param {WordArray|string} message The message to hash.
- *
- * @return {WordArray} The hash.
- *
- * @static
+ * @param message - The message to hash.
+ * @returns The hash.
  *
  * @example
- *
- *     var hash = CryptoJS.MD5('message');
- *     var hash = CryptoJS.MD5(wordArray);
+ * ```js
+ * const hash = CryptoJS.MD5('message');
+ * const hash = CryptoJS.MD5(wordArray);
+ * ```
  */
-export const MD5: HashFn;
+export declare const MD5: HashFn;
 /**
  * Shortcut function to the HMAC's object interface.
  *
- * @param {WordArray|string} message The message to hash.
- * @param {WordArray|string} key The secret key.
- *
- * @return {WordArray} The HMAC.
- *
- * @static
+ * @param message - The message to hash.
+ * @param key - The secret key.
+ * @returns The HMAC.
  *
  * @example
- *
- *     var hmac = CryptoJS.HmacMD5(message, key);
+ * ```js
+ * const hmac = CryptoJS.HmacMD5(message, key);
+ * ```
  */
-export const HmacMD5: HMACHashFn;
-import { Hasher } from './core.js';
-import { HashFn } from './core.js';
-import { HMACHashFn } from './core.js';
+export declare const HmacMD5: HMACHashFn;

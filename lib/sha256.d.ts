@@ -1,37 +1,36 @@
+import { WordArray, Hasher, HashFn, HMACHashFn } from './core.js';
 /**
- * SHA256 hash algorithm.
+ * SHA-256 hash algorithm.
  */
-export class SHA256Algo extends Hasher {}
+export declare class SHA256Algo extends Hasher {
+    _doReset(): void;
+    _doProcessBlock(M: number[], offset: number): void;
+    _doFinalize(): WordArray;
+    clone(): SHA256Algo;
+}
 /**
  * Shortcut function to the hasher's object interface.
  *
- * @param {WordArray|string} message The message to hash.
- *
- * @return {WordArray} The hash.
- *
- * @static
+ * @param message - The message to hash.
+ * @returns The hash.
  *
  * @example
- *
- *     var hash = CryptoJS.SHA256('message');
- *     var hash = CryptoJS.SHA256(wordArray);
+ * ```js
+ * const hash = CryptoJS.SHA256('message');
+ * const hash = CryptoJS.SHA256(wordArray);
+ * ```
  */
-export const SHA256: HashFn;
+export declare const SHA256: HashFn;
 /**
  * Shortcut function to the HMAC's object interface.
  *
- * @param {WordArray|string} message The message to hash.
- * @param {WordArray|string} key The secret key.
- *
- * @return {WordArray} The HMAC.
- *
- * @static
+ * @param message - The message to hash.
+ * @param key - The secret key.
+ * @returns The HMAC.
  *
  * @example
- *
- *     var hmac = CryptoJS.HmacSHA256(message, key);
+ * ```js
+ * const hmac = CryptoJS.HmacSHA256(message, key);
+ * ```
  */
-export const HmacSHA256: HMACHashFn;
-import { Hasher } from './core.js';
-import { HashFn } from './core.js';
-import { HMACHashFn } from './core.js';
+export declare const HmacSHA256: HMACHashFn;
