@@ -1,7 +1,7 @@
 import {
   WordArray,
   Encoder,
-} from './core.js';
+} from './core.ts';
 
 /**
  * Parses a Base64 string to a WordArray.

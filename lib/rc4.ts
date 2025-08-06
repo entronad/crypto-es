@@ -1,7 +1,7 @@
 import {
   StreamCipher,
   CipherObj,
-} from './cipher-core.js';
+} from './cipher-core.ts';
 
 function generateKeystreamWord(this: RC4Algo): number {
   // Shortcuts

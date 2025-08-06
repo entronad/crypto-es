@@ -2,7 +2,7 @@ import {
   BlockCipher,
   CipherObj,
   WordArray,
-} from './cipher-core.js';
+} from './cipher-core.ts';
 
 // Lookup tables
 const _SBOX: number[] = [];

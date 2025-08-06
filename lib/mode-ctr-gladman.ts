@@ -1,6 +1,6 @@
 import {
   BlockCipherMode,
-} from './cipher-core.js';
+} from './cipher-core.ts';
 
 const incWord = (word: number): number => {
   let _word = word;

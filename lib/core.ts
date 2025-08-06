@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 
-import type { X64WordArray } from './x64-core.js';
+import type { X64WordArray } from './x64-core.ts';
 
 /**
  * Encoder interface for encoding strategies

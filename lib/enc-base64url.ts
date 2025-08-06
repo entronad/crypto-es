@@ -1,10 +1,10 @@
 import {
   WordArray,
   Encoder,
-} from './core.js';
+} from './core.ts';
 import {
   parseLoop,
-} from './enc-base64.js';
+} from './enc-base64.ts';
 
 /**
  * Extended encoder interface for Base64url with URL-safe option

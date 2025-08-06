@@ -2,9 +2,9 @@ import {
   Base,
   WordArray,
   Hasher,
-} from './core.js';
-import { SHA256Algo } from './sha256.js';
-import { HMAC } from './hmac.js';
+} from './core.ts';
+import { SHA256Algo } from './sha256.ts';
+import { HMAC } from './hmac.ts';
 
 interface PBKDF2Cfg {
   keySize?: number;

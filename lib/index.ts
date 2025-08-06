@@ -7,11 +7,11 @@ import {
   BufferedBlockAlgorithm,
   Hasher,
   HMAC,
-} from './core.js';
+} from './core.ts';
 import {
   X64Word,
   X64WordArray,
-} from './x64-core.js';
+} from './x64-core.ts';
 import {
   Cipher,
   StreamCipher,
@@ -24,49 +24,49 @@ import {
   SerializableCipher,
   OpenSSLKdf,
   PasswordBasedCipher,
-} from './cipher-core.js';
+} from './cipher-core.ts';
 
-import { Utf16, Utf16BE, Utf16LE } from './enc-utf16.js';
-import { Base64 } from './enc-base64.js';
-import { Base64url } from './enc-base64url.js';
-import { HMAC as HMACExport } from './hmac.js';
-import { MD5Algo, MD5, HmacMD5 } from './md5.js';
-import { SHA1Algo, SHA1, HmacSHA1 } from './sha1.js';
-import { SHA224Algo, SHA224, HmacSHA224 } from './sha224.js';
-import { SHA256Algo, SHA256, HmacSHA256 } from './sha256.js';
-import { SHA384Algo, SHA384, HmacSHA384 } from './sha384.js';
-import { SHA512Algo, SHA512, HmacSHA512 } from './sha512.js';
-import { SHA3Algo, SHA3, HmacSHA3 } from './sha3.js';
-import { RIPEMD160Algo, RIPEMD160, HmacRIPEMD160 } from './ripemd160.js';
-import { PBKDF2Algo, PBKDF2 } from './pbkdf2.js';
-import { EvpKDFAlgo, EvpKDF } from './evpkdf.js';
-import { AESAlgo, AES } from './aes.js';
+import { Utf16, Utf16BE, Utf16LE } from './enc-utf16.ts';
+import { Base64 } from './enc-base64.ts';
+import { Base64url } from './enc-base64url.ts';
+import { HMAC as HMACExport } from './hmac.ts';
+import { MD5Algo, MD5, HmacMD5 } from './md5.ts';
+import { SHA1Algo, SHA1, HmacSHA1 } from './sha1.ts';
+import { SHA224Algo, SHA224, HmacSHA224 } from './sha224.ts';
+import { SHA256Algo, SHA256, HmacSHA256 } from './sha256.ts';
+import { SHA384Algo, SHA384, HmacSHA384 } from './sha384.ts';
+import { SHA512Algo, SHA512, HmacSHA512 } from './sha512.ts';
+import { SHA3Algo, SHA3, HmacSHA3 } from './sha3.ts';
+import { RIPEMD160Algo, RIPEMD160, HmacRIPEMD160 } from './ripemd160.ts';
+import { PBKDF2Algo, PBKDF2 } from './pbkdf2.ts';
+import { EvpKDFAlgo, EvpKDF } from './evpkdf.ts';
+import { AESAlgo, AES } from './aes.ts';
 import {
   DESAlgo,
   DES,
   TripleDESAlgo,
   TripleDES,
-} from './tripledes.js';
-import { RabbitAlgo, Rabbit } from './rabbit.js';
-import { RabbitLegacyAlgo, RabbitLegacy } from './rabbit-legacy.js';
+} from './tripledes.ts';
+import { RabbitAlgo, Rabbit } from './rabbit.ts';
+import { RabbitLegacyAlgo, RabbitLegacy } from './rabbit-legacy.ts';
 import {
   RC4Algo,
   RC4,
   RC4DropAlgo,
   RC4Drop,
-} from './rc4.js';
-import { BlowfishAlgo, Blowfish } from './blowfish.js';
-import { CFB } from './mode-cfb.js';
-import { CTR } from './mode-ctr.js';
-import { CTRGladman } from './mode-ctr-gladman.js';
-import { ECB } from './mode-ecb.js';
-import { OFB } from './mode-ofb.js';
-import { AnsiX923 } from './pad-ansix923.js';
-import { Iso10126 } from './pad-iso10126.js';
-import { Iso97971 } from './pad-iso97971.js';
-import { NoPadding } from './pad-nopadding.js';
-import { ZeroPadding } from './pad-zeropadding.js';
-import { HexFormatter } from './format-hex.js';
+} from './rc4.ts';
+import { BlowfishAlgo, Blowfish } from './blowfish.ts';
+import { CFB } from './mode-cfb.ts';
+import { CTR } from './mode-ctr.ts';
+import { CTRGladman } from './mode-ctr-gladman.ts';
+import { ECB } from './mode-ecb.ts';
+import { OFB } from './mode-ofb.ts';
+import { AnsiX923 } from './pad-ansix923.ts';
+import { Iso10126 } from './pad-iso10126.ts';
+import { Iso97971 } from './pad-iso97971.ts';
+import { NoPadding } from './pad-nopadding.ts';
+import { ZeroPadding } from './pad-zeropadding.ts';
+import { HexFormatter } from './format-hex.ts';
 
 export default {
   lib: {

@@ -1,7 +1,7 @@
 import {
   StreamCipher,
   CipherObj,
-} from './cipher-core.js';
+} from './cipher-core.ts';
 
 // Reusable objects
 const S: number[] = [];

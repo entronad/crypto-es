@@ -2,8 +2,8 @@ import {
   Base,
   WordArray,
   Hasher,
-} from './core.js';
-import { MD5Algo } from './md5.js';
+} from './core.ts';
+import { MD5Algo } from './md5.ts';
 
 interface EvpKDFCfg {
   keySize?: number;
