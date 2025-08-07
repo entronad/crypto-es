@@ -1,6 +1,8 @@
 import {
   StreamCipher,
   CipherObj,
+  CipherCfg,
+  WordArray,
 } from './cipher-core';
 
 // Reusable objects
@@ -60,15 +62,16 @@ function nextState(this: RabbitAlgo): void {
  * Rabbit stream cipher algorithm
  */
 export class RabbitAlgo extends StreamCipher {
-  private _X!: number[];
-  private _C!: number[];
-  private _b!: number;
+  protected _X!: number[];
+  protected _C!: number[];
+  protected _b!: number;
+  
+  static readonly ivSize = 64 / 32;
 
-  constructor(...args: any[]) {
-    super(...args);
+  constructor(xformMode: number, key: WordArray, cfg?: CipherCfg) {
+    super(xformMode, key, cfg);
 
     this.blockSize = 128 / 32;
-    this.ivSize = 64 / 32;
   }
 
   _doReset(): void {

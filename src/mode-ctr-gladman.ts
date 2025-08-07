@@ -54,7 +54,7 @@ const incCounter = (counter: number[]): number[] => {
  */
 export class CTRGladman extends BlockCipherMode {
   /** Counter for CTR Gladman mode */
-  protected _counter?: number[];
+  _counter?: number[];
 
   static readonly Encryptor = class extends CTRGladman {
     processBlock(words: number[], offset: number): void {

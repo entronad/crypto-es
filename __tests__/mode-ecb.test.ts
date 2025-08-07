@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import C from '../src/index';
+import { AESAlgo } from '../src/aes';
 
 const data: any = {};
 
@@ -15,7 +16,7 @@ describe('mode-ecb', () => {
   it('encryptor', () => {
     // Compute expected
     const expected = data.message.clone();
-    const aes = C.algo.AES.createEncryptor(data.key) as C.algo.AES;
+    const aes = C.algo.AES.createEncryptor(data.key) as AESAlgo;
     aes.encryptBlock(expected.words, 0);
     aes.encryptBlock(expected.words, 4);
 

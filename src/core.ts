@@ -500,7 +500,7 @@ export abstract class BufferedBlockAlgorithm extends Base {
 
   constructor() {
     super();
-    this.reset();
+    // Don't call reset() here - let subclasses do it after they've initialized their properties
   }
 
   /**
@@ -746,6 +746,37 @@ export abstract class Hasher extends BufferedBlockAlgorithm {
 }
 
 /**
+ * Base class for 32-bit hash algorithms.
+ * Hash algorithms that operate on 32-bit words should extend this class.
+ */
+export abstract class Hasher32 extends Hasher {
+  /** The hash result (always WordArray for 32-bit hashers) */
+  protected _hash!: WordArray;
+
+  /**
+   * Finalizes the hash computation.
+   * Must be implemented by concrete subclasses.
+   */
+  protected abstract _doFinalize(): WordArray;
+}
+
+/**
+ * Base class for 64-bit hash algorithms.
+ * Hash algorithms that operate on 64-bit words should extend this class.
+ */
+export abstract class Hasher64 extends Hasher {
+  /** The hash result (always X64WordArray for 64-bit hashers) */
+  protected _hash!: X64WordArray;
+
+  /**
+   * Finalizes the hash computation.
+   * Must be implemented by concrete subclasses.
+   * @returns The hash result as a 32-bit WordArray
+   */
+  protected abstract _doFinalize(): WordArray;
+}
+
+/**
  * HMAC (Hash-based Message Authentication Code) algorithm.
  * Provides message authentication using a cryptographic hash function and a secret key.
  */
@@ -829,7 +860,10 @@ export class HMAC extends Base {
    * const hmac = HMAC.create(SHA256Algo, key);
    * ```
    */
-  static create(SubHasher: new (cfg?: HasherCfg) => Hasher, key: WordArray | string): HMAC {
+  static create(SubHasher: new (cfg?: HasherCfg) => Hasher, key: WordArray | string): HMAC;
+  static create<T extends HMAC>(this: new (...args: any[]) => T, ...args: any[]): T;
+  static create(...args: any[]): any {
+    const [SubHasher, key] = args;
     return new HMAC(SubHasher, key);
   }
 

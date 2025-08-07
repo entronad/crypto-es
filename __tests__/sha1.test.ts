@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import C from '../src/index';
+import C, { SHA1Algo } from '../src/index';
 
 describe('sha1', () => {
   it('vector 1', () => {
@@ -45,9 +45,9 @@ describe('sha1', () => {
   it('clone', () => {
     const sha1 = C.algo.SHA1.create();
 
-    expect((sha1.update('a').clone() as C.algo.SHA1).finalize().toString()).toBe(C.SHA1('a').toString());
-    expect((sha1.update('b').clone() as C.algo.SHA1).finalize().toString()).toBe(C.SHA1('ab').toString());
-    expect((sha1.update('c').clone() as C.algo.SHA1).finalize().toString()).toBe(C.SHA1('abc').toString());
+    expect((sha1.update('a').clone() as SHA1Algo).finalize().toString()).toBe(C.SHA1('a').toString());
+    expect((sha1.update('b').clone() as SHA1Algo).finalize().toString()).toBe(C.SHA1('ab').toString());
+    expect((sha1.update('c').clone() as SHA1Algo).finalize().toString()).toBe(C.SHA1('abc').toString());
   });
 
   it('input integrity', () => {

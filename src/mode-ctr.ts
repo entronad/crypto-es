@@ -7,7 +7,7 @@ import {
  */
 export class CTR extends BlockCipherMode {
   /** Counter for CTR mode */
-  protected _counter?: number[];
+  _counter?: number[];
 
   static readonly Encryptor = class extends CTR {
     processBlock(words: number[], offset: number): void {

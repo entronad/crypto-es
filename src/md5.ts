@@ -1,6 +1,7 @@
 import {
   WordArray,
   Hasher,
+  Hasher32,
   HashFn,
   HMACHashFn,
 } from './core';
@@ -48,7 +49,7 @@ const II = (a: number, b: number, c: number, d: number, x: number, s: number, t:
 /**
  * MD5 hash algorithm.
  */
-export class MD5Algo extends Hasher {
+export class MD5Algo extends Hasher32 {
   _doReset(): void {
     this._hash = new WordArray([
       0x67452301,

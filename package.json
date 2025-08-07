@@ -51,8 +51,7 @@
     "prebuild": "npm run clean",
     "prepublishOnly": "npm run build",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:verbose": "sh -c 'node --experimental-vm-modules node_modules/jest/bin/jest.js 2>&1'",
-    "debug": "node --experimental-modules __tests__/debug.js"
+    "test:verbose": "sh -c 'node --experimental-vm-modules node_modules/jest/bin/jest.js 2>&1'"
   },
   "repository": {
     "type": "git",

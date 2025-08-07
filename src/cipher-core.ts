@@ -10,6 +10,9 @@ import {
 import { Base64 } from './enc-base64';
 import { EvpKDFAlgo } from './evpkdf';
 
+// Re-export WordArray for convenience
+export { WordArray } from './core';
+
 /**
  * Configuration options for ciphers
  */
@@ -54,6 +57,8 @@ export interface CipherParamsCfg {
   blockSize?: number;
   /** The default formatting strategy */
   formatter?: Format;
+  /** Allow additional properties */
+  [key: string]: unknown;
 }
 
 /**
@@ -148,7 +153,7 @@ export interface Kdf {
  * @property _ENC_XFORM_MODE - A constant representing encryption mode
  * @property _DEC_XFORM_MODE - A constant representing decryption mode
  */
-export class Cipher extends BufferedBlockAlgorithm {
+export abstract class Cipher extends BufferedBlockAlgorithm {
   /** Encryption mode constant */
   static readonly _ENC_XFORM_MODE: number = 1;
   
@@ -211,7 +216,7 @@ export class Cipher extends BufferedBlockAlgorithm {
     key: WordArray,
     cfg?: CipherCfg
   ): T {
-    return this.create(this._ENC_XFORM_MODE, key, cfg);
+    return (this as any).create(Cipher._ENC_XFORM_MODE, key, cfg);
   }
 
   /**
@@ -231,7 +236,7 @@ export class Cipher extends BufferedBlockAlgorithm {
     key: WordArray,
     cfg?: CipherCfg
   ): T {
-    return this.create(this._DEC_XFORM_MODE, key, cfg);
+    return (this as any).create(Cipher._DEC_XFORM_MODE, key, cfg);
   }
 
   /**
@@ -248,8 +253,18 @@ export class Cipher extends BufferedBlockAlgorithm {
     xformMode: number,
     key: WordArray,
     cfg?: CipherCfg
-  ): T {
-    return new this(xformMode, key, cfg);
+  ): T;
+  static create<T extends Base>(this: new (...args: any[]) => T, ...args: any[]): T;
+  static create(this: any, ...args: any[]): any {
+    // Handle both Cipher and Base cases
+    if (args.length >= 2 && typeof args[0] === 'number') {
+      // Cipher case: xformMode, key, cfg
+      const [xformMode, key, cfg] = args;
+      return new this(xformMode, key, cfg);
+    } else {
+      // Base case: pass all arguments
+      return new this(...args);
+    }
   }
 
   /**
@@ -372,7 +387,7 @@ export class Cipher extends BufferedBlockAlgorithm {
  * 
  * @property blockSize - The number of 32-bit words this cipher operates on (default: 1 = 32 bits)
  */
-export class StreamCipher extends Cipher {
+export abstract class StreamCipher extends Cipher {
   blockSize: number = 1;
 
   constructor(xformMode: number, key: WordArray, cfg?: CipherCfg) {
@@ -393,13 +408,13 @@ export class StreamCipher extends Cipher {
  */
 export class BlockCipherMode extends Base {
   /** The cipher instance */
-  protected _cipher: Cipher;
+  _cipher: Cipher;
   
   /** The initialization vector */
-  protected _iv?: number[];
+  _iv?: number[];
   
   /** The previous block (for chaining modes) */
-  protected _prevBlock?: number[];
+  _prevBlock?: number[];
 
   /**
    * Initializes a newly created mode.
@@ -712,6 +727,7 @@ export class CipherParams extends Base implements CipherParamsCfg {
   padding?: Padding;
   blockSize?: number;
   formatter?: Format;
+  [key: string]: unknown;
 
   /**
    * Initializes a newly created cipher params object.
@@ -746,7 +762,10 @@ export class CipherParams extends Base implements CipherParamsCfg {
    * @returns A new CipherParams instance
    * @static
    */
-  static create(cipherParams?: CipherParamsCfg): CipherParams {
+  static create(cipherParams?: CipherParamsCfg): CipherParams;
+  static create<T extends CipherParams>(this: new (...args: any[]) => T, ...args: any[]): T;
+  static create(...args: any[]): any {
+    const [cipherParams] = args;
     return new CipherParams(cipherParams);
   }
 
@@ -868,7 +887,7 @@ export class SerializableCipher extends Base {
     const _cfg = Object.assign({}, this.cfg, cfg);
 
     // Encrypt
-    const encryptor = cipher.createEncryptor(key as WordArray, _cfg);
+    const encryptor = (cipher as any).createEncryptor(key as WordArray, _cfg);
     const ciphertext = encryptor.finalize(message);
 
     // Shortcut
@@ -915,7 +934,7 @@ export class SerializableCipher extends Base {
     const _ciphertext = this._parse(ciphertext, _cfg.format);
 
     // Decrypt
-    const plaintext = cipher.createDecryptor(key as WordArray, _cfg).finalize(_ciphertext.ciphertext!);
+    const plaintext = (cipher as any).createDecryptor(key as WordArray, _cfg).finalize(_ciphertext.ciphertext!);
 
     return plaintext;
   }

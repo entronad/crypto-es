@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import C from '../src/index';
+import { AESAlgo } from '../src/aes';
 
 const data: any = {};
 
@@ -16,7 +17,7 @@ describe('mode-cfb', () => {
   it('encryptor', () => {
     // Compute expected
     const expected = data.message.clone();
-    const aes = C.algo.AES.createEncryptor(data.key) as C.algo.AES;
+    const aes = C.algo.AES.createEncryptor(data.key) as AESAlgo;
 
     // First block XORed with encrypted IV
     let keystream = data.iv.words.slice(0);

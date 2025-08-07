@@ -1,13 +1,15 @@
 import {
   WordArray,
   Hasher,
+  Hasher32,
+  HasherCfg,
   HashFn,
   HMACHashFn,
 } from './core';
 import { X64Word } from './x64-core';
 
 // Configuration interface for SHA3
-interface SHA3Config {
+interface SHA3Config extends HasherCfg {
   outputLength?: number;
 }
 
@@ -73,9 +75,9 @@ for (let i = 0; i < 25; i += 1) {
 /**
  * SHA-3 hash algorithm.
  */
-export class SHA3Algo extends Hasher {
+export class SHA3Algo extends Hasher32 {
   declare cfg: SHA3Config;
-  private _state: X64Word[];
+  private _state: X64Word[] = [];
 
   /**
    * Initializes a newly created hasher.
@@ -90,20 +92,24 @@ export class SHA3Algo extends Hasher {
       { outputLength: 512 },
       cfg,
     ));
-    this._state = [];
   }
 
   _doReset(): void {
+    // Clear and reinitialize state array
     this._state = [];
-    const state = this._state;
     for (let i = 0; i < 25; i += 1) {
-      state[i] = new X64Word();
+      this._state[i] = new X64Word();
     }
 
     this.blockSize = (1600 - 2 * this.cfg.outputLength!) / 32;
   }
 
   _doProcessBlock(M: number[], offset: number): void {
+    // Ensure state is initialized
+    if (this._state.length === 0) {
+      this._doReset();
+    }
+    
     // Shortcuts
     const state = this._state;
     const nBlockSizeLanes = this.blockSize / 2;
@@ -263,10 +269,10 @@ export class SHA3Algo extends Hasher {
   clone(): this {
     const clone = super.clone.call(this);
 
-    clone._state = this._state.slice(0);
-    const state = clone._state;
-    for (let i = 0; i < 25; i += 1) {
-      state[i] = state[i].clone();
+    // Clone the state array
+    clone._state = [];
+    for (let i = 0; i < this._state.length; i += 1) {
+      clone._state[i] = this._state[i].clone();
     }
 
     return clone;

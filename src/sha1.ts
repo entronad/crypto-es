@@ -1,6 +1,7 @@
 import {
   WordArray,
   Hasher,
+  Hasher32,
   HashFn,
   HMACHashFn,
 } from './core';
@@ -11,7 +12,7 @@ const W: number[] = [];
 /**
  * SHA-1 hash algorithm.
  */
-export class SHA1Algo extends Hasher {
+export class SHA1Algo extends Hasher32 {
   _doReset(): void {
     this._hash = new WordArray([
       0x67452301,

@@ -20,15 +20,15 @@ export class X64Word extends Base {
   /**
    * Initializes a newly created 64-bit word.
    * 
-   * @param high - The high 32 bits
-   * @param low - The low 32 bits
+   * @param high - The high 32 bits (default: 0)
+   * @param low - The low 32 bits (default: 0)
    * @example
    * ```javascript
    * const x64Word = new X64Word(0x00010203, 0x04050607);
    * const x64Word = X64Word.create(0x00010203, 0x04050607);
    * ```
    */
-  constructor(high: number, low: number) {
+  constructor(high: number = 0, low: number = 0) {
     super();
     this.high = high;
     this.low = low;
@@ -105,7 +105,10 @@ export class X64WordArray extends Base {
    * ]);
    * ```
    */
-  static create(words?: X64Word[], sigBytes?: number): X64WordArray {
+  static create(words?: X64Word[], sigBytes?: number): X64WordArray;
+  static create<T extends X64WordArray>(this: new (...args: any[]) => T, ...args: any[]): T;
+  static create(...args: any[]): any {
+    const [words, sigBytes] = args;
     return new X64WordArray(words, sigBytes);
   }
 

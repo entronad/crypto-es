@@ -23,6 +23,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 import {
   WordArray,
   Hasher,
+  Hasher32,
   HashFn,
   HMACHashFn,
 } from './core';
@@ -89,7 +90,7 @@ const rotl = (x: number, n: number): number => (x << n) | (x >>> (32 - n));
 /**
  * RIPEMD160 hash algorithm.
  */
-export class RIPEMD160Algo extends Hasher {
+export class RIPEMD160Algo extends Hasher32 {
   _doReset(): void {
     this._hash = WordArray.create([0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]);
   }

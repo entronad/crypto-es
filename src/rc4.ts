@@ -1,6 +1,8 @@
 import {
   StreamCipher,
   CipherObj,
+  CipherCfg,
+  WordArray,
 } from './cipher-core';
 
 function generateKeystreamWord(this: RC4Algo): number {
@@ -93,8 +95,8 @@ export const RC4: CipherObj = StreamCipher._createHelper(RC4Algo);
  * Modified RC4 stream cipher algorithm.
  */
 export class RC4DropAlgo extends RC4Algo {
-  constructor(...args: any[]) {
-    super(...args);
+  constructor(xformMode: number, key: WordArray, cfg?: CipherCfg) {
+    super(xformMode, key, cfg);
 
     /**
      * Configuration options.

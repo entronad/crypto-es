@@ -1,8 +1,10 @@
 import {
   Hasher,
+  Hasher64,
   WordArray,
   HashFn,
   HMACHashFn,
+  HasherCfg,
 } from './core';
 import {
   X64Word,
@@ -102,11 +104,11 @@ for (let i = 0; i < 80; i += 1) {
 /**
  * SHA-512 hash algorithm.
  */
-export class SHA512Algo extends Hasher {
+export class SHA512Algo extends Hasher64 {
   declare _hash: X64WordArray;
   
-  constructor() {
-    super();
+  constructor(cfg?: HasherCfg) {
+    super(cfg);
     this.blockSize = 1024 / 32;
   }
 

@@ -7,7 +7,7 @@ import {
  */
 export class OFB extends BlockCipherMode {
   /** Keystream for OFB mode */
-  protected _keystream?: number[];
+  _keystream?: number[];
 
   static readonly Encryptor = class extends OFB {
     processBlock(words: number[], offset: number): void {
