@@ -1,11 +1,10 @@
-# CryptoES
+<p align="center">
+<img src="https://raw.githubusercontent.com/entronad/crypto-es/next/devdoc/logo.png" />
+</p>
+<p align="center">
+A cryptography algorithms library
+</p>
 
-*A cryptography algorithms library compatible with ES6 and TypeScript*
-
-- Inspired by and has the same API with [CryptoJS](https://code.google.com/archive/p/crypto-js/) 
-- With types for TypeScript usage
-- Witten in latest ECMAScript Standard
-- Support ES6 module import and partially import
 
 ## Usage
 
@@ -14,19 +13,6 @@ Installation:
 ```
 yarn add crypto-es
 ```
-
----
-
-In Node.js projects, we recommend you to use ECMAScript Modules insead of CommonJS:
-
-```
-// package.json
-{
-  "type": "module"
-}
-```
-
----
 
 Then you can import CryptoES:
 
@@ -42,15 +28,7 @@ import { MD5 } from 'crypto-es/lib/md5.js';
 const rst = MD5("Message").toString();
 ```
 
-## TypeScript Usage
-
-Every file in this library has its own .d.ts file now, so it is available to partially import single algorithm files in TypeScript projects.
-
 ## Guide
-
-> Just the same as [CryptoJS](https://code.google.com/archive/p/crypto-js/)
-
----
 
 - [Hashers](###Hashers)
 - [HMAC](#HMAC)
@@ -440,11 +418,3 @@ reader.onload = function () {
   ...
 };
 ```
-
-## Change Log
-
-[Change Log](https://github.com/entronad/crypto-es/blob/master/CHANGELOG.md)
-
-## Blogs
-
-[Refactoring CryptoJS in Modern ECMAScript](https://medium.com/front-end-weekly/refactoring-cryptojs-in-modern-ecmascript-1d4e1837c272) 

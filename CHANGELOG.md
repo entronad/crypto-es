@@ -1,3 +1,10 @@
+## 3.0.0
+
+**2025-08-07**
+
+- Completely refactored into native TypeScript source code, while maintaining compatibility with the existing API.
+- Starting from this version, crypto-es will no longer aim to be a complete replica of crypto-js, but will instead focus on evolving into a modern and powerful cryptographic library.
+
 ## 2.1.0
 
 **2023-10-24**
