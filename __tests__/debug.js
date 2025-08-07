@@ -1,4 +1,4 @@
-import C from '../lib/index.js';
+import C from '../src/index';
 
 // const data = {};
 // data.saltA = C.enc.Hex.parse('AA00000000000000');

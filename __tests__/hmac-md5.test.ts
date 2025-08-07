@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import C from '../lib/index.js';
+import C from '../src/index';
 
 describe('hmac-md5', () => {
   it('vector 1', () => {

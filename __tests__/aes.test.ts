@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import C from '../lib/index.js';
+import C from '../src/index.js';
 
 describe('aes', () => {
   it('encrypt keySize 128', () => {

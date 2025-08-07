@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable max-len */
-import C from '../lib/index.js';
+import C from '../src/index';
 
 const data: any = {};
 
