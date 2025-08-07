@@ -43,8 +43,8 @@ export class X64Word extends Base {
    * const clone = x64Word.clone();
    * ```
    */
-  clone(): X64Word {
-    const clone = super.clone() as X64Word;
+  clone(): this {
+    const clone = super.clone();
     clone.high = this.high;
     clone.low = this.low;
     return clone;
@@ -144,8 +144,8 @@ export class X64WordArray extends Base {
    * const clone = x64WordArray.clone();
    * ```
    */
-  clone(): X64WordArray {
-    const clone = super.clone() as X64WordArray;
+  clone(): this {
+    const clone = super.clone();
 
     // Clone the words array
     clone.words = this.words.slice(0);

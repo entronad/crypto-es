@@ -132,8 +132,8 @@ export class SHA256Algo extends Hasher {
     return this._hash;
   }
 
-  clone(): SHA256Algo {
-    const clone = super.clone.call(this) as SHA256Algo;
+  clone(): this {
+    const clone = super.clone.call(this);
     clone._hash = this._hash.clone();
 
     return clone;

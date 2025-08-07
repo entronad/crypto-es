@@ -24,8 +24,6 @@
     "allowSyntheticDefaultImports": true,
     "removeComments": false,
     "preserveConstEnums": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noStrictGenericChecks": true,
     "skipDefaultLibCheck": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,

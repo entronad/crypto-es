@@ -260,8 +260,8 @@ export class SHA3Algo extends Hasher {
     return new WordArray(hashWords, outputLengthBytes);
   }
 
-  clone(): SHA3Algo {
-    const clone = super.clone.call(this) as SHA3Algo;
+  clone(): this {
+    const clone = super.clone.call(this);
 
     clone._state = this._state.slice(0);
     const state = clone._state;

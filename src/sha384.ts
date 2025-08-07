@@ -34,8 +34,8 @@ export class SHA384Algo extends SHA512Algo {
     return hash;
   }
 
-  clone(): SHA384Algo {
-    const clone = super.clone.call(this) as SHA384Algo;
+  clone(): this {
+    const clone = super.clone.call(this);
     return clone;
   }
 }

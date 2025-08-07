@@ -219,8 +219,8 @@ export class MD5Algo extends Hasher {
     return hash;
   }
 
-  clone(): MD5Algo {
-    const clone = super.clone.call(this) as MD5Algo;
+  clone(): this {
+    const clone = super.clone.call(this);
     clone._hash = this._hash.clone();
 
     return clone;

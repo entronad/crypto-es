@@ -221,8 +221,8 @@ export class RIPEMD160Algo extends Hasher {
     return hash;
   }
 
-  clone(): RIPEMD160Algo {
-    const clone = super.clone.call(this) as RIPEMD160Algo;
+  clone(): this {
+    const clone = super.clone.call(this);
     clone._hash = this._hash.clone();
 
     return clone;

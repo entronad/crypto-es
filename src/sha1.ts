@@ -89,8 +89,8 @@ export class SHA1Algo extends Hasher {
     return this._hash;
   }
 
-  clone(): SHA1Algo {
-    const clone = super.clone.call(this) as SHA1Algo;
+  clone(): this {
+    const clone = super.clone.call(this);
     clone._hash = this._hash.clone();
 
     return clone;

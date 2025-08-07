@@ -30,8 +30,8 @@ export class SHA224Algo extends SHA256Algo {
     return hash;
   }
 
-  clone(): SHA224Algo {
-    const clone = super.clone.call(this) as SHA224Algo;
+  clone(): this {
+    const clone = super.clone.call(this);
     return clone;
   }
 }

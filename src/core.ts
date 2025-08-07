@@ -334,8 +334,8 @@ export class WordArray extends Base {
    * const clone = wordArray.clone();
    * ```
    */
-  clone(): WordArray {
-    const clone = super.clone() as WordArray;
+  clone(): this {
+    const clone = super.clone();
     clone.words = this.words.slice(0);
     return clone;
   }

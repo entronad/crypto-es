@@ -334,8 +334,8 @@ export class SHA512Algo extends Hasher {
     return hash;
   }
 
-  clone(): SHA512Algo {
-    const clone = super.clone.call(this) as SHA512Algo;
+  clone(): this {
+    const clone = super.clone.call(this);
     clone._hash = this._hash.clone();
 
     return clone;

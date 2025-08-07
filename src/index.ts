@@ -68,7 +68,107 @@ import { NoPadding } from './pad-nopadding';
 import { ZeroPadding } from './pad-zeropadding';
 import { HexFormatter } from './format-hex';
 
-export default {
+interface CryptoES {
+  lib: {
+    Base: typeof Base;
+    WordArray: typeof WordArray;
+    BufferedBlockAlgorithm: typeof BufferedBlockAlgorithm;
+    Hasher: typeof Hasher;
+    Cipher: typeof Cipher;
+    StreamCipher: typeof StreamCipher;
+    BlockCipherMode: typeof BlockCipherMode;
+    BlockCipher: typeof BlockCipher;
+    CipherParams: typeof CipherParams;
+    SerializableCipher: typeof SerializableCipher;
+    PasswordBasedCipher: typeof PasswordBasedCipher;
+  };
+  x64: {
+    Word: typeof X64Word;
+    WordArray: typeof X64WordArray;
+  };
+  enc: {
+    Hex: typeof Hex;
+    Latin1: typeof Latin1;
+    Utf8: typeof Utf8;
+    Utf16: typeof Utf16;
+    Utf16BE: typeof Utf16BE;
+    Utf16LE: typeof Utf16LE;
+    Base64: typeof Base64;
+    Base64url: typeof Base64url;
+  };
+  algo: {
+    HMAC: typeof HMAC;
+    MD5: typeof MD5Algo;
+    SHA1: typeof SHA1Algo;
+    SHA224: typeof SHA224Algo;
+    SHA256: typeof SHA256Algo;
+    SHA384: typeof SHA384Algo;
+    SHA512: typeof SHA512Algo;
+    SHA3: typeof SHA3Algo;
+    RIPEMD160: typeof RIPEMD160Algo;
+    PBKDF2: typeof PBKDF2Algo;
+    EvpKDF: typeof EvpKDFAlgo;
+    AES: typeof AESAlgo;
+    DES: typeof DESAlgo;
+    TripleDES: typeof TripleDESAlgo;
+    Rabbit: typeof RabbitAlgo;
+    RabbitLegacy: typeof RabbitLegacyAlgo;
+    RC4: typeof RC4Algo;
+    RC4Drop: typeof RC4DropAlgo;
+    Blowfish: typeof BlowfishAlgo;
+  };
+  mode: {
+    CBC: typeof CBC;
+    CFB: typeof CFB;
+    CTR: typeof CTR;
+    CTRGladman: typeof CTRGladman;
+    ECB: typeof ECB;
+    OFB: typeof OFB;
+  };
+  pad: {
+    Pkcs7: typeof Pkcs7;
+    AnsiX923: typeof AnsiX923;
+    Iso10126: typeof Iso10126;
+    Iso97971: typeof Iso97971;
+    NoPadding: typeof NoPadding;
+    ZeroPadding: typeof ZeroPadding;
+  };
+  format: {
+    OpenSSL: typeof OpenSSLFormatter;
+    Hex: typeof HexFormatter;
+  };
+  kdf: {
+    OpenSSL: typeof OpenSSLKdf;
+  };
+  MD5: typeof MD5;
+  HmacMD5: typeof HmacMD5;
+  SHA1: typeof SHA1;
+  HmacSHA1: typeof HmacSHA1;
+  SHA224: typeof SHA224;
+  HmacSHA224: typeof HmacSHA224;
+  SHA256: typeof SHA256;
+  HmacSHA256: typeof HmacSHA256;
+  SHA384: typeof SHA384;
+  HmacSHA384: typeof HmacSHA384;
+  SHA512: typeof SHA512;
+  HmacSHA512: typeof HmacSHA512;
+  SHA3: typeof SHA3;
+  HmacSHA3: typeof HmacSHA3;
+  RIPEMD160: typeof RIPEMD160;
+  HmacRIPEMD160: typeof HmacRIPEMD160;
+  PBKDF2: typeof PBKDF2;
+  EvpKDF: typeof EvpKDF;
+  AES: typeof AES;
+  DES: typeof DES;
+  TripleDES: typeof TripleDES;
+  Rabbit: typeof Rabbit;
+  RabbitLegacy: typeof RabbitLegacy;
+  RC4: typeof RC4;
+  RC4Drop: typeof RC4Drop;
+  Blowfish: typeof Blowfish;
+}
+
+const CryptoES: CryptoES = {
   lib: {
     Base,
     WordArray,
@@ -179,6 +279,9 @@ export default {
   RC4Drop,
   Blowfish,
 };
+
+export default CryptoES;
+export type { CryptoES };
 
 // Named exports for better tree-shaking
 export {
