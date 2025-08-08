@@ -1,6 +1,6 @@
 {
-  "name": "crypto-es",
-  "version": "2.1.0",
+  "name": "@highcanfly/crypto-es",
+  "version": "2.1.1",
   "description": "A cryptography algorithms library compatible with ES6 and TypeScript",
   "keywords": [
     "typescript",
@@ -43,19 +43,20 @@
     "lib"
   ],
   "scripts": {
+    "build": "exit 0",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "debug": "node --experimental-modules __tests__/debug.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/entronad/crypto-es.git"
+    "url": "git+https://github.com/highcanfly-club/crypto-es.git"
   },
   "author": "LIN Chen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/entronad/crypto-es/issues"
+    "url": "https://github.com/highcanfly-club/crypto-es/issues"
   },
-  "homepage": "https://github.com/entronad/crypto-es#readme",
+  "homepage": "https://github.com/highcanfly-club/crypto-es#readme",
   "devDependencies": {
     "@types/jest": "^29.5.2",
     "jest": "29.5.0",
@@ -65,5 +66,9 @@
   "jest": {
     "testRegex": "(/__tests__/.*\\.test\\.ts)$",
     "preset": "ts-jest/presets/default-esm"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
   }
 }
