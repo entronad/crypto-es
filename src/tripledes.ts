@@ -604,16 +604,16 @@ export class DESAlgo extends BlockCipher {
   declare blockSize: number;
   
   /** Subkeys for encryption */
-  private _subKeys?: number[][];
+  private _subKeys!: number[][];
   
   /** Inverse subkeys for decryption */
-  private _invSubKeys?: number[][];
+  private _invSubKeys!: number[][];
   
   /** Left block for processing */
-  protected _lBlock?: number;
+  protected _lBlock!: number;
   
   /** Right block for processing */
-  protected _rBlock?: number;
+  protected _rBlock!: number;
 
   constructor(xformMode: number, key: WordArray, cfg?: CipherCfg) {
     super(xformMode, key, cfg);
@@ -755,13 +755,13 @@ export class TripleDESAlgo extends BlockCipher {
   declare blockSize: number;
   
   /** First DES instance */
-  private _des1?: DESAlgo;
+  private _des1!: DESAlgo;
   
   /** Second DES instance */
-  private _des2?: DESAlgo;
+  private _des2!: DESAlgo;
   
   /** Third DES instance */
-  private _des3?: DESAlgo;
+  private _des3!: DESAlgo;
 
   protected _doReset(): void {
     // Shortcuts

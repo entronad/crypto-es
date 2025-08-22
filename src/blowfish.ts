@@ -415,7 +415,7 @@ export class BlowfishAlgo extends BlockCipher {
     this.blockSize = 64 / 32;
   }
 
-  _doReset(): void {
+  protected _doReset(): void {
     // Skip reset of nRounds has been set before and key did not change
     if (this._keyPriorReset === this._key) {
       return;

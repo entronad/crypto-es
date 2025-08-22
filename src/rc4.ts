@@ -48,7 +48,7 @@ export class RC4Algo extends StreamCipher {
     return keystreamWord;
   }
 
-  _doReset(): void {
+  protected _doReset(): void {
     // Shortcuts
     const key = this._key;
     const keyWords = key.words;
@@ -79,7 +79,7 @@ export class RC4Algo extends StreamCipher {
     this._i = this._j;
   }
 
-  _doProcessBlock(M: number[], offset: number): void {
+  protected _doProcessBlock(M: number[], offset: number): void {
     const _M = M;
 
     _M[offset] ^= this.generateKeystreamWord();
@@ -110,10 +110,13 @@ export class RC4DropAlgo extends RC4Algo {
      *
      * @property {number} drop The number of keystream words to drop. Default 192
      */
-    Object.assign(this.cfg, { drop: 192 });
+    // Only set default drop if not provided in cfg
+    if (this.cfg.drop === undefined) {
+      this.cfg.drop = 192;
+    }
   }
 
-  _doReset(): void {
+  protected _doReset(): void {
     super._doReset();
 
     // Drop

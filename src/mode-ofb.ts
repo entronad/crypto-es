@@ -25,6 +25,10 @@ class OFBMode extends BlockCipherMode {
 
       // Remove IV for subsequent blocks
       this._iv = undefined;
+    } else if (!keystream) {
+      // If no IV and no existing keystream, initialize with zeros
+      this._keystream = new Array(blockSize).fill(0);
+      keystream = this._keystream;
     }
     cipher.encryptBlock!(keystream!, 0);
 

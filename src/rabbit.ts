@@ -74,7 +74,7 @@ export class RabbitAlgo extends StreamCipher {
     this.blockSize = 128 / 32;
   }
 
-  _doReset(): void {
+  protected _doReset(): void {
     // Shortcuts
     const K = this._key.words;
     const { iv } = this.cfg;
@@ -148,7 +148,7 @@ export class RabbitAlgo extends StreamCipher {
     }
   }
 
-  _doProcessBlock(M: number[], offset: number): void {
+  protected _doProcessBlock(M: number[], offset: number): void {
     const _M = M;
 
     // Shortcut

@@ -6,6 +6,7 @@ import {
   BufferedBlockAlgorithm,
   Hasher,
   HasherCfg,
+  Hex,
 } from './core';
 import { Base64 } from './enc-base64';
 import { EvpKDFAlgo } from './evpkdf';
@@ -196,7 +197,7 @@ export abstract class Cipher extends BufferedBlockAlgorithm {
     this.cfg = Object.assign({}, cfg);
     this._xformMode = xformMode;
     this._key = key;
-    this.reset();
+    // Note: reset() is called by subclasses after initialization
   }
 
   /**
@@ -260,7 +261,10 @@ export abstract class Cipher extends BufferedBlockAlgorithm {
     if (args.length >= 2 && typeof args[0] === 'number') {
       // Cipher case: xformMode, key, cfg
       const [xformMode, key, cfg] = args;
-      return new this(xformMode, key, cfg);
+      const instance = new this(xformMode, key, cfg);
+      // Call reset after construction to properly initialize
+      instance.reset();
+      return instance;
     } else {
       // Base case: pass all arguments
       return new this(...args);
@@ -355,18 +359,13 @@ export abstract class Cipher extends BufferedBlockAlgorithm {
    * Reset implementation for concrete cipher
    * Must be implemented by subclasses
    */
-  protected _doReset(): void {
-    // Abstract method
-  }
+  protected abstract _doReset(): void;
 
   /**
    * Finalize implementation for concrete cipher
    * Must be implemented by subclasses
    */
-  protected _doFinalize(): WordArray {
-    // Abstract method
-    return new WordArray();
-  }
+  protected abstract _doFinalize(): WordArray;
 
   /**
    * Encrypt a block of data
@@ -393,6 +392,8 @@ export abstract class StreamCipher extends Cipher {
   constructor(xformMode: number, key: WordArray, cfg?: CipherCfg) {
     super(xformMode, key, cfg);
     this.blockSize = 1;
+    // Don't call reset() here - let it be called after construction
+    // to avoid field initialization issues
   }
 
   protected _doFinalize(): WordArray {
@@ -633,7 +634,7 @@ export const Pkcs7: Padding = {
  * 
  * @property blockSize - The number of 32-bit words this cipher operates on (default: 4 = 128 bits)
  */
-export class BlockCipher extends Cipher {
+export abstract class BlockCipher extends Cipher {
   /** Block mode instance */
   protected _mode?: BlockCipherMode & { __creator?: Function };
 
@@ -653,6 +654,8 @@ export class BlockCipher extends Cipher {
       cfg
     ));
     this.blockSize = 128 / 32;
+    // Don't call reset() here - let it be called after construction
+    // to avoid field initialization issues
   }
 
   reset(): void {
@@ -683,6 +686,18 @@ export class BlockCipher extends Cipher {
   protected _doProcessBlock(words: number[], offset: number): void {
     this._mode?.processBlock(words, offset);
   }
+
+  /**
+   * Encrypt a block of data
+   * Must be implemented by block ciphers
+   */
+  abstract encryptBlock(words: number[], offset: number): void;
+
+  /**
+   * Decrypt a block of data
+   * Must be implemented by block ciphers
+   */
+  abstract decryptBlock(words: number[], offset: number): void;
 
   protected _doFinalize(): WordArray {
     let finalProcessedBlocks: WordArray;
@@ -763,6 +778,10 @@ export class CipherParams extends Base implements CipherParamsCfg {
     if (cipherParams) {
       this.mixIn(cipherParams);
     }
+    // Set default formatter if not provided
+    if (!this.formatter) {
+      this.formatter = OpenSSLFormatter;
+    }
   }
 
   /**
@@ -822,10 +841,13 @@ export const OpenSSLFormatter: Format = {
     const { ciphertext, salt } = cipherParams;
 
     // Format
-    if (salt) {
-      wordArray = WordArray.create([0x53616c74, 0x65645f5f]).concat(salt).concat(ciphertext!);
+    if (salt && ciphertext) {
+      wordArray = WordArray.create([0x53616c74, 0x65645f5f]).concat(salt).concat(ciphertext);
+    } else if (ciphertext) {
+      wordArray = ciphertext;
     } else {
-      wordArray = ciphertext!;
+      // No ciphertext, return empty
+      wordArray = new WordArray();
     }
 
     return wordArray.toString(Base64);
@@ -912,7 +934,7 @@ export class SerializableCipher extends Base {
       mode: cipherCfg.mode,
       padding: cipherCfg.padding,
       blockSize: encryptor.blockSize,
-      formatter: _cfg.format,
+      formatter: _cfg.format || OpenSSLFormatter,
     });
   }
 
@@ -1008,7 +1030,8 @@ export const OpenSSLKdf: Kdf = {
     if (!salt) {
       _salt = WordArray.random(64 / 8);
     } else if (typeof salt === 'string') {
-      _salt = WordArray.create([]);  // Convert string salt if needed
+      // Parse string salt as hex or utf8
+      _salt = Hex.parse(salt);
     } else {
       _salt = salt;
     }
@@ -1086,8 +1109,8 @@ export class PasswordBasedCipher extends SerializableCipher {
       _cfg
     );
 
-    // Mix in derived params
-    ciphertext.mixIn(derivedParams);
+    // Mix in derived params (only salt, not the whole object to avoid overwriting ciphertext)
+    ciphertext.salt = derivedParams.salt;
 
     return ciphertext;
   }

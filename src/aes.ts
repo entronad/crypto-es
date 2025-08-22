@@ -75,16 +75,16 @@ const RCON = [0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36];
  */
 export class AESAlgo extends BlockCipher {
   /** Number of rounds for this key size */
-  private _nRounds?: number;
+  private _nRounds!: number;
   
   /** Previous key for optimization */
   private _keyPriorReset?: WordArray;
   
   /** Key schedule for encryption */
-  private _keySchedule?: number[];
+  private _keySchedule!: number[];
   
   /** Inverse key schedule for decryption */
-  private _invKeySchedule?: number[];
+  private _invKeySchedule!: number[];
 
   /** Key size in 32-bit words */
   static keySize = 256 / 32;
