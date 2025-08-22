@@ -37,36 +37,21 @@
   ],
   "sideEffects": false,
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.cts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
-    },
-    "./package.json": "./package.json"
-  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsdown",
-    "build:verbose": "sh -c 'tsdown 2>&1'",
-    "build:watch": "tsdown --watch",
+    "build": "tsc",
+    "build:verbose": "sh -c 'tsc 2>&1'",
     "typecheck": "tsc --noEmit",
     "typecheck:verbose": "sh -c 'tsc --noEmit 2>&1'",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean",
-    "prepublishOnly": "npm run test && npm run build",
-    "test": "vitest run",
-    "test:watch": "vitest watch",
-    "test:ui": "vitest --ui",
-    "test:coverage": "vitest run --coverage",
-    "test:verbose": "sh -c 'vitest run 2>&1'",
-    "dev": "npm run build:watch",
-    "lint": "npm run typecheck",
-    "check": "npm run typecheck && npm run test"
+    "prepublishOnly": "npm run build",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:verbose": "sh -c 'node --experimental-vm-modules node_modules/jest/bin/jest.js 2>&1'"
   },
   "repository": {
     "type": "git",
@@ -79,14 +64,13 @@
   },
   "homepage": "https://github.com/entronad/crypto-es#readme",
   "devDependencies": {
-    "@vitest/ui": "^3.2.4",
-    "publint": "^0.3.12",
-    "tsdown": "^0.14.1",
-    "typescript": "^5.9.2",
-    "vitest": "^3.2.4"
+    "@types/jest": "^29.5.2",
+    "jest": "29.5.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.1.6"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "packageManager": "npm@10.0.0"
+  "jest": {
+    "testRegex": "(/__tests__/.*\\.test\\.ts)$",
+    "preset": "ts-jest/presets/default-esm"
+  }
 }

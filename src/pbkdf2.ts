@@ -1,7 +1,6 @@
 import {
   Base,
   WordArray,
-  Hasher,
 } from './core';
 import { SHA256Algo } from './sha256';
 import { HMAC } from './hmac';

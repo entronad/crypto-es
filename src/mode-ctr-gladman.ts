@@ -47,6 +47,43 @@ const incCounter = (counter: number[]): number[] => {
   return _counter;
 };
 
+/**
+ * CTRGladman Encryptor/Decryptor (same operation)
+ */
+class CTRGladmanMode extends BlockCipherMode {
+  /** Counter for CTR Gladman mode */
+  _counter?: number[];
+
+  processBlock(words: number[], offset: number): void {
+    const _words = words;
+
+    // Shortcuts
+    const cipher = this._cipher;
+    const blockSize = cipher.blockSize!;
+    const iv = this._iv;
+    let counter = this._counter;
+
+    // Generate keystream
+    if (iv) {
+      this._counter = iv.slice(0);
+      counter = this._counter;
+
+      // Remove IV for subsequent blocks
+      this._iv = undefined;
+    }
+
+    incCounter(counter!);
+
+    const keystream = counter!.slice(0);
+    cipher.encryptBlock!(keystream, 0);
+
+    // Encrypt
+    for (let i = 0; i < blockSize; i += 1) {
+      _words[offset + i] ^= keystream[i];
+    }
+  }
+}
+
 /** @preserve
  * Counter block mode compatible with  Dr Brian Gladman fileenc.c
  * derived from CryptoJS.mode.CTR
@@ -56,36 +93,6 @@ export class CTRGladman extends BlockCipherMode {
   /** Counter for CTR Gladman mode */
   _counter?: number[];
 
-  static readonly Encryptor = class extends CTRGladman {
-    processBlock(words: number[], offset: number): void {
-      const _words = words;
-
-      // Shortcuts
-      const cipher = this._cipher;
-      const blockSize = cipher.blockSize!;
-      const iv = this._iv;
-      let counter = this._counter;
-
-      // Generate keystream
-      if (iv) {
-        this._counter = iv.slice(0);
-        counter = this._counter;
-
-        // Remove IV for subsequent blocks
-        this._iv = undefined;
-      }
-
-      incCounter(counter!);
-
-      const keystream = counter!.slice(0);
-      cipher.encryptBlock!(keystream, 0);
-
-      // Encrypt
-      for (let i = 0; i < blockSize; i += 1) {
-        _words[offset + i] ^= keystream[i];
-      }
-    }
-  };
-
-  static readonly Decryptor = CTRGladman.Encryptor;
+  static readonly Encryptor = CTRGladmanMode;
+  static readonly Decryptor = CTRGladmanMode;
 }

@@ -468,7 +468,7 @@ export class BlockCipherMode extends Base {
    * Process a block of data
    * Must be implemented by concrete modes
    */
-  processBlock(words: number[], offset: number): void {
+  processBlock(_words: number[], _offset: number): void {
     // Abstract method
   }
 }
@@ -502,62 +502,72 @@ function xorBlock(this: BlockCipherMode, words: number[], offset: number, blockS
 }
 
 /**
+ * CBC Encryptor
+ */
+class CBCEncryptor extends BlockCipherMode {
+  /**
+   * Processes the data block at offset.
+   * 
+   * @param words - The data words to operate on
+   * @param offset - The offset where the block starts
+   * @example
+   * ```javascript
+   * mode.processBlock(data.words, offset);
+   * ```
+   */
+  processBlock(words: number[], offset: number): void {
+    const cipher = this._cipher;
+    const blockSize = cipher.blockSize;
+
+    // XOR and encrypt
+    xorBlock.call(this, words, offset, blockSize);
+    cipher.encryptBlock!(words, offset);
+
+    // Remember this block to use with next block
+    this._prevBlock = words.slice(offset, offset + blockSize);
+  }
+}
+
+/**
+ * CBC Decryptor
+ */
+class CBCDecryptor extends BlockCipherMode {
+  /**
+   * Processes the data block at offset.
+   * 
+   * @param words - The data words to operate on
+   * @param offset - The offset where the block starts
+   * @example
+   * ```javascript
+   * mode.processBlock(data.words, offset);
+   * ```
+   */
+  processBlock(words: number[], offset: number): void {
+    const cipher = this._cipher;
+    const blockSize = cipher.blockSize;
+
+    // Remember this block to use with next block
+    const thisBlock = words.slice(offset, offset + blockSize);
+
+    // Decrypt and XOR
+    cipher.decryptBlock!(words, offset);
+    xorBlock.call(this, words, offset, blockSize);
+
+    // This block becomes the previous block
+    this._prevBlock = thisBlock;
+  }
+}
+
+/**
  * Cipher Block Chaining mode.
  * Each block is XORed with the previous ciphertext block before encryption.
  */
 export class CBC extends BlockCipherMode {
   /** CBC Encryptor */
-  static Encryptor = class extends CBC {
-    /**
-     * Processes the data block at offset.
-     * 
-     * @param words - The data words to operate on
-     * @param offset - The offset where the block starts
-     * @example
-     * ```javascript
-     * mode.processBlock(data.words, offset);
-     * ```
-     */
-    processBlock(words: number[], offset: number): void {
-      const cipher = this._cipher;
-      const blockSize = cipher.blockSize;
-
-      // XOR and encrypt
-      xorBlock.call(this, words, offset, blockSize);
-      cipher.encryptBlock!(words, offset);
-
-      // Remember this block to use with next block
-      this._prevBlock = words.slice(offset, offset + blockSize);
-    }
-  };
+  static Encryptor = CBCEncryptor;
 
   /** CBC Decryptor */
-  static Decryptor = class extends CBC {
-    /**
-     * Processes the data block at offset.
-     * 
-     * @param words - The data words to operate on
-     * @param offset - The offset where the block starts
-     * @example
-     * ```javascript
-     * mode.processBlock(data.words, offset);
-     * ```
-     */
-    processBlock(words: number[], offset: number): void {
-      const cipher = this._cipher;
-      const blockSize = cipher.blockSize;
-
-      // Remember this block to use with next block
-      const thisBlock = words.slice(offset, offset + blockSize);
-
-      // Decrypt and XOR
-      cipher.decryptBlock!(words, offset);
-      xorBlock.call(this, words, offset, blockSize);
-
-      // This block becomes the previous block
-      this._prevBlock = thisBlock;
-    }
-  };
+  static Decryptor = CBCDecryptor;
 }
 
 /**

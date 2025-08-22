@@ -55,6 +55,7 @@ type WordArrayInput = number[] | ArrayBuffer | TypedArray;
 /**
  * Get global crypto object across different environments
  */
+declare const global: any;
 const crypto: Crypto | undefined =
   (typeof globalThis !== 'undefined' ? globalThis : void 0)?.crypto ||
   (typeof global !== 'undefined' ? (global as any) : void 0)?.crypto ||
@@ -170,10 +171,10 @@ export class Base {
  */
 export class WordArray extends Base {
   /** The array of 32-bit words */
-  words: number[];
+  words!: number[];
   
   /** The number of significant bytes in this word array */
-  sigBytes: number;
+  sigBytes!: number;
 
   /**
    * Initializes a newly created word array.
@@ -751,7 +752,7 @@ export abstract class Hasher extends BufferedBlockAlgorithm {
  */
 export abstract class Hasher32 extends Hasher {
   /** The hash result (always WordArray for 32-bit hashers) */
-  protected _hash!: WordArray;
+  declare protected _hash: WordArray;
 
   /**
    * Finalizes the hash computation.
@@ -766,7 +767,7 @@ export abstract class Hasher32 extends Hasher {
  */
 export abstract class Hasher64 extends Hasher {
   /** The hash result (always X64WordArray for 64-bit hashers) */
-  protected _hash!: X64WordArray;
+  declare protected _hash: X64WordArray;
 
   /**
    * Finalizes the hash computation.

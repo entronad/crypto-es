@@ -1,7 +1,6 @@
 import {
   Base,
   WordArray,
-  Hasher,
 } from './core';
 import { MD5Algo } from './md5';
 

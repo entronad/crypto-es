@@ -29,7 +29,6 @@ import {
 import { Utf16, Utf16BE, Utf16LE } from './enc-utf16';
 import { Base64 } from './enc-base64';
 import { Base64url } from './enc-base64url';
-import { HMAC as HMACExport } from './hmac';
 import { MD5Algo, MD5, HmacMD5 } from './md5';
 import { SHA1Algo, SHA1, HmacSHA1 } from './sha1';
 import { SHA224Algo, SHA224, HmacSHA224 } from './sha224';

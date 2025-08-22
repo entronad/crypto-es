@@ -23,6 +23,9 @@ export const HexFormatter: Format = {
    * ```
    */
   stringify(cipherParams: CipherParams): string {
+    if (!cipherParams.ciphertext) {
+      throw new Error('Ciphertext is required');
+    }
     return cipherParams.ciphertext.toString(Hex);
   },
 

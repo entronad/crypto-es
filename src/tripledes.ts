@@ -573,12 +573,18 @@ const SBOX_MASK = [
 
 // Swap bits across the left and right words
 function exchangeLR(this: DESAlgo, offset: number, mask: number): void {
+  if (this._lBlock === undefined || this._rBlock === undefined) {
+    throw new Error('Block values not initialized');
+  }
   const t = ((this._lBlock >>> offset) ^ this._rBlock) & mask;
   this._rBlock ^= t;
   this._lBlock ^= t << offset;
 }
 
 function exchangeRL(this: DESAlgo, offset: number, mask: number): void {
+  if (this._lBlock === undefined || this._rBlock === undefined) {
+    throw new Error('Block values not initialized');
+  }
   const t = ((this._rBlock >>> offset) ^ this._lBlock) & mask;
   this._lBlock ^= t;
   this._rBlock ^= t << offset;
@@ -695,8 +701,8 @@ export class DESAlgo extends BlockCipher {
     for (let round = 0; round < 16; round += 1) {
       // Shortcuts
       const subKey = subKeys[round];
-      const lBlock = this._lBlock!;
-      const rBlock = this._rBlock!;
+      const lBlock: number = this._lBlock!;
+      const rBlock: number = this._rBlock!;
 
       // Feistel function
       let f = 0;

@@ -34,35 +34,44 @@ function generateKeystreamAndEncrypt(
 }
 
 /**
+ * CFB Encryptor
+ */
+class CFBEncryptor extends BlockCipherMode {
+  processBlock(words: number[], offset: number): void {
+    // Shortcuts
+    const cipher = this._cipher;
+    const blockSize = cipher.blockSize!;
+
+    generateKeystreamAndEncrypt.call(this, words, offset, blockSize, cipher);
+
+    // Remember this block to use with next block
+    this._prevBlock = words.slice(offset, offset + blockSize);
+  }
+}
+
+/**
+ * CFB Decryptor
+ */
+class CFBDecryptor extends BlockCipherMode {
+  processBlock(words: number[], offset: number): void {
+    // Shortcuts
+    const cipher = this._cipher;
+    const blockSize = cipher.blockSize!;
+
+    // Remember this block to use with next block
+    const thisBlock = words.slice(offset, offset + blockSize);
+
+    generateKeystreamAndEncrypt.call(this, words, offset, blockSize, cipher);
+
+    // This block becomes the previous block
+    this._prevBlock = thisBlock;
+  }
+}
+
+/**
  * Cipher Feedback block mode.
  */
 export class CFB extends BlockCipherMode {
-  static readonly Encryptor = class extends CFB {
-    processBlock(words: number[], offset: number): void {
-      // Shortcuts
-      const cipher = this._cipher;
-      const blockSize = cipher.blockSize!;
-
-      generateKeystreamAndEncrypt.call(this, words, offset, blockSize, cipher);
-
-      // Remember this block to use with next block
-      this._prevBlock = words.slice(offset, offset + blockSize);
-    }
-  };
-
-  static readonly Decryptor = class extends CFB {
-    processBlock(words: number[], offset: number): void {
-      // Shortcuts
-      const cipher = this._cipher;
-      const blockSize = cipher.blockSize!;
-
-      // Remember this block to use with next block
-      const thisBlock = words.slice(offset, offset + blockSize);
-
-      generateKeystreamAndEncrypt.call(this, words, offset, blockSize, cipher);
-
-      // This block becomes the previous block
-      this._prevBlock = thisBlock;
-    }
-  };
+  static readonly Encryptor = CFBEncryptor;
+  static readonly Decryptor = CFBDecryptor;
 }

@@ -5,32 +5,10 @@ import {
   WordArray,
 } from './cipher-core';
 
-function generateKeystreamWord(this: RC4Algo): number {
-  // Shortcuts
-  const S = this._S;
-  let i = this._i;
-  let j = this._j;
-
-  // Generate keystream word
-  let keystreamWord = 0;
-  for (let n = 0; n < 4; n += 1) {
-    i = (i + 1) % 256;
-    j = (j + S[i]) % 256;
-
-    // Swap
-    const t = S[i];
-    S[i] = S[j];
-    S[j] = t;
-
-    keystreamWord |= S[(S[i] + S[j]) % 256] << (24 - n * 8);
-  }
-
-  // Update counters
-  this._i = i;
-  this._j = j;
-
-  return keystreamWord;
+interface RC4DropCfg extends CipherCfg {
+  drop?: number;
 }
+
 
 /**
  * RC4 stream cipher algorithm.
@@ -42,6 +20,33 @@ export class RC4Algo extends StreamCipher {
   protected _S!: number[];
   protected _i!: number;
   protected _j!: number;
+
+  protected generateKeystreamWord(): number {
+    // Shortcuts
+    const S = this._S;
+    let i = this._i;
+    let j = this._j;
+
+    // Generate keystream word
+    let keystreamWord = 0;
+    for (let n = 0; n < 4; n += 1) {
+      i = (i + 1) % 256;
+      j = (j + S[i]) % 256;
+
+      // Swap
+      const t = S[i];
+      S[i] = S[j];
+      S[j] = t;
+
+      keystreamWord |= S[(S[i] + S[j]) % 256] << (24 - n * 8);
+    }
+
+    // Update counters
+    this._i = i;
+    this._j = j;
+
+    return keystreamWord;
+  }
 
   _doReset(): void {
     // Shortcuts
@@ -77,7 +82,7 @@ export class RC4Algo extends StreamCipher {
   _doProcessBlock(M: number[], offset: number): void {
     const _M = M;
 
-    _M[offset] ^= generateKeystreamWord.call(this);
+    _M[offset] ^= this.generateKeystreamWord();
   }
 }
 
@@ -95,7 +100,9 @@ export const RC4: CipherObj = StreamCipher._createHelper(RC4Algo);
  * Modified RC4 stream cipher algorithm.
  */
 export class RC4DropAlgo extends RC4Algo {
-  constructor(xformMode: number, key: WordArray, cfg?: CipherCfg) {
+  declare cfg: RC4DropCfg;
+  
+  constructor(xformMode: number, key: WordArray, cfg?: RC4DropCfg) {
     super(xformMode, key, cfg);
 
     /**
@@ -107,11 +114,12 @@ export class RC4DropAlgo extends RC4Algo {
   }
 
   _doReset(): void {
-    super._doReset.call(this);
+    super._doReset();
 
     // Drop
-    for (let i = this.cfg.drop; i > 0; i -= 1) {
-      generateKeystreamWord.call(this);
+    const dropCount = this.cfg.drop || 192;
+    for (let i = dropCount; i > 0; i -= 1) {
+      this.generateKeystreamWord();
     }
   }
 }
