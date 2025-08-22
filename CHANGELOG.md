@@ -1,3 +1,10 @@
+## 3.0.1
+
+**2025-08-22**
+
+- Upgrade tool chain.
+- Use strict TypeScript.
+
 ## 3.0.0
 
 **2025-08-07**
