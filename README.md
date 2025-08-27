@@ -24,7 +24,7 @@ const rst = CryptoES.MD5("Message").toString();
 Or partially import the function to reduce the package weight:
 
 ```
-import { MD5 } from 'crypto-es/lib/md5.js';
+import { MD5 } from 'crypto-es/dist/md5';
 const rst = MD5("Message").toString();
 ```
 

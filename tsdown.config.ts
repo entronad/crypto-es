@@ -50,7 +50,7 @@ export default defineConfig({
   outExtension({ format }) {
     if (format === 'esm') {
       return {
-        js: '.js',
+        js: '.mjs',
       };
     }
     if (format === 'cjs') {

@@ -42,10 +42,16 @@
   "types": "./dist/index.d.cts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./dist/*": {
+      "types": "./dist/*.d.mts",
+      "import": "./dist/*.mjs",
+      "require": "./dist/*.cjs"
+    }
   },
   "files": [
     "dist"
