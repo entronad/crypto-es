@@ -1,6 +1,6 @@
 {
   "name": "crypto-es",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "A cryptography algorithms library compatible with ES6 and TypeScript",
   "keywords": [
     "typescript",
@@ -42,16 +42,10 @@
   "types": "./dist/index.d.cts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
-    "./package.json": "./package.json",
-    "./dist/*": {
-      "types": "./dist/*.d.mts",
-      "import": "./dist/*.mjs",
-      "require": "./dist/*.cjs"
-    }
+    "./package.json": "./package.json"
   },
   "files": [
     "dist"

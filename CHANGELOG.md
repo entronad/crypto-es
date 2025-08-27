@@ -1,3 +1,10 @@
+## 3.0.2
+
+**2025-08-27**
+
+- Fix exports settings: https://github.com/entronad/crypto-es/issues/54#issuecomment-3219827146
+- Fix README.md import instruction: https://github.com/entronad/crypto-es/issues/54#issuecomment-3219827146
+
 ## 3.0.1
 
 **2025-08-22**
