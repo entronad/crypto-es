@@ -1,3 +1,9 @@
+## 3.0.3
+
+**2025-08-28**
+
+- Fix the wrong reverting: https://github.com/entronad/crypto-es/issues/54#issuecomment-3228140653
+
 ## 3.0.2
 
 **2025-08-27**
