@@ -1,3 +1,9 @@
+## 3.0.4
+
+**2025-08-31**
+
+- Fix the reverting exports bug of tsdown.
+
 ## 3.0.3
 
 **2025-08-28**
