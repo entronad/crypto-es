@@ -41,7 +41,8 @@ export default defineConfig({
   fixedExtension: true,
   
   // Validate exports field in package.json
-  exports: true,
+  // Disabled to manually manage package.json exports
+  exports: false,
   
   // Publint validation
   publint: true,
