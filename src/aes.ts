@@ -17,55 +17,56 @@ const INV_SUB_MIX_2: number[] = [];
 const INV_SUB_MIX_3: number[] = [];
 
 // Compute lookup tables
-
-// Compute double table
-const d: number[] = [];
-for (let i = 0; i < 256; i += 1) {
-  if (i < 128) {
-    d[i] = i << 1;
-  } else {
-    d[i] = (i << 1) ^ 0x11b;
+/* @__PURE__ */ (() => {
+  // Compute double table
+  const d: number[] = [];
+  for (let i = 0; i < 256; i += 1) {
+    if (i < 128) {
+      d[i] = i << 1;
+    } else {
+      d[i] = (i << 1) ^ 0x11b;
+    }
   }
-}
 
-// Walk GF(2^8)
-let x = 0;
-let xi = 0;
-for (let i = 0; i < 256; i += 1) {
-  // Compute sbox
-  let sx = xi ^ (xi << 1) ^ (xi << 2) ^ (xi << 3) ^ (xi << 4);
-  sx = (sx >>> 8) ^ (sx & 0xff) ^ 0x63;
-  _SBOX[x] = sx;
-  INV_SBOX[sx] = x;
+  // Walk GF(2^8)
+  let x = 0;
+  let xi = 0;
+  for (let i = 0; i < 256; i += 1) {
+    // Compute sbox
+    let sx = xi ^ (xi << 1) ^ (xi << 2) ^ (xi << 3) ^ (xi << 4);
+    sx = (sx >>> 8) ^ (sx & 0xff) ^ 0x63;
+    _SBOX[x] = sx;
+    INV_SBOX[sx] = x;
 
-  // Compute multiplication
-  const x2 = d[x];
-  const x4 = d[x2];
-  const x8 = d[x4];
+    // Compute multiplication
+    const x2 = d[x];
+    const x4 = d[x2];
+    const x8 = d[x4];
 
-  // Compute sub bytes, mix columns tables
-  let t = (d[sx] * 0x101) ^ (sx * 0x1010100);
-  _SUB_MIX_0[x] = (t << 24) | (t >>> 8);
-  _SUB_MIX_1[x] = (t << 16) | (t >>> 16);
-  _SUB_MIX_2[x] = (t << 8) | (t >>> 24);
-  _SUB_MIX_3[x] = t;
+    // Compute sub bytes, mix columns tables
+    let t = (d[sx] * 0x101) ^ (sx * 0x1010100);
+    _SUB_MIX_0[x] = (t << 24) | (t >>> 8);
+    _SUB_MIX_1[x] = (t << 16) | (t >>> 16);
+    _SUB_MIX_2[x] = (t << 8) | (t >>> 24);
+    _SUB_MIX_3[x] = t;
 
-  // Compute inv sub bytes, inv mix columns tables
-  t = (x8 * 0x1010101) ^ (x4 * 0x10001) ^ (x2 * 0x101) ^ (x * 0x1010100);
-  INV_SUB_MIX_0[sx] = (t << 24) | (t >>> 8);
-  INV_SUB_MIX_1[sx] = (t << 16) | (t >>> 16);
-  INV_SUB_MIX_2[sx] = (t << 8) | (t >>> 24);
-  INV_SUB_MIX_3[sx] = t;
+    // Compute inv sub bytes, inv mix columns tables
+    t = (x8 * 0x1010101) ^ (x4 * 0x10001) ^ (x2 * 0x101) ^ (x * 0x1010100);
+    INV_SUB_MIX_0[sx] = (t << 24) | (t >>> 8);
+    INV_SUB_MIX_1[sx] = (t << 16) | (t >>> 16);
+    INV_SUB_MIX_2[sx] = (t << 8) | (t >>> 24);
+    INV_SUB_MIX_3[sx] = t;
 
-  // Compute next counter
-  if (!x) {
-    xi = 1;
-    x = xi;
-  } else {
-    x = x2 ^ d[d[d[x8 ^ x2]]];
-    xi ^= d[d[xi]];
+    // Compute next counter
+    if (!x) {
+      xi = 1;
+      x = xi;
+    } else {
+      x = x2 ^ d[d[d[x8 ^ x2]]];
+      xi ^= d[d[xi]];
+    }
   }
-}
+})();
 
 // Precomputed Rcon lookup
 const RCON = [0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36];

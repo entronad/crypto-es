@@ -7,12 +7,13 @@ import {
 } from './core';
 
 // Constants table
-const T: number[] = [];
-
-// Compute constants
-for (let i = 0; i < 64; i += 1) {
-  T[i] = (Math.abs(Math.sin(i + 1)) * 0x100000000) | 0;
-}
+const T = /* @__PURE__ */ (() => {
+  const a: number[] = [];
+  for (let i = 0; i < 64; i += 1) {
+    a[i] = (Math.abs(Math.sin(i + 1)) * 0x100000000) | 0;
+  }
+  return a;
+})();
 
 /**
  * MD5 round function F

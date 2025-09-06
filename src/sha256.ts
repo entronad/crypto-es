@@ -7,37 +7,38 @@ import {
 } from './core';
 
 // Initialization and round constants tables
-const H: number[] = [];
-const K: number[] = [];
-
-// Compute constants
-const isPrime = (n: number): boolean => {
-  const sqrtN = Math.sqrt(n);
-  for (let factor = 2; factor <= sqrtN; factor += 1) {
-    if (!(n % factor)) {
-      return false;
+const { H, K } = /* @__PURE__ */ (() => {
+  const _H: number[] = [];
+  const _K: number[] = [];
+  
+  // Compute constants
+  const isPrime = (n: number): boolean => {
+    const sqrtN = Math.sqrt(n);
+    for (let factor = 2; factor <= sqrtN; factor += 1) {
+      if (!(n % factor)) {
+        return false;
+      }
     }
-  }
+    return true;
+  };
 
-  return true;
-};
+  const getFractionalBits = (n: number): number => ((n - (n | 0)) * 0x100000000) | 0;
 
-const getFractionalBits = (n: number): number => ((n - (n | 0)) * 0x100000000) | 0;
-
-let n = 2;
-let nPrime = 0;
-while (nPrime < 64) {
-  if (isPrime(n)) {
-    if (nPrime < 8) {
-      H[nPrime] = getFractionalBits(n ** (1 / 2));
+  let n = 2;
+  let nPrime = 0;
+  while (nPrime < 64) {
+    if (isPrime(n)) {
+      if (nPrime < 8) {
+        _H[nPrime] = getFractionalBits(n ** (1 / 2));
+      }
+      _K[nPrime] = getFractionalBits(n ** (1 / 3));
+      nPrime += 1;
     }
-    K[nPrime] = getFractionalBits(n ** (1 / 3));
-
-    nPrime += 1;
+    n += 1;
   }
-
-  n += 1;
-}
+  
+  return { H: _H, K: _K };
+})();
 
 // Reusable object
 const W: number[] = [];

@@ -96,10 +96,13 @@ const K: X64Word[] = [
 ];
 
 // Reusable objects
-const W: X64Word[] = [];
-for (let i = 0; i < 80; i += 1) {
-  W[i] = new X64Word();
-}
+const W = /* @__PURE__ */ (() => {
+  const a: X64Word[] = [];
+  for (let i = 0; i < 80; i += 1) {
+    a[i] = new X64Word();
+  }
+  return a;
+})();
 
 /**
  * SHA-512 hash algorithm.

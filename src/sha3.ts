@@ -19,58 +19,63 @@ const PI_INDEXES: number[] = [];
 const ROUND_CONSTANTS: X64Word[] = [];
 
 // Compute Constants
-// Compute rho offset constants
-let _x = 1;
-let _y = 0;
-for (let t = 0; t < 24; t += 1) {
-  RHO_OFFSETS[_x + 5 * _y] = ((t + 1) * (t + 2) / 2) % 64;
+/* @__PURE__ */ (() => {
+  // Compute rho offset constants
+  let _x = 1;
+  let _y = 0;
+  for (let t = 0; t < 24; t += 1) {
+    RHO_OFFSETS[_x + 5 * _y] = ((t + 1) * (t + 2) / 2) % 64;
 
-  const newX = _y % 5;
-  const newY = (2 * _x + 3 * _y) % 5;
-  _x = newX;
-  _y = newY;
-}
-
-// Compute pi index constants
-for (let x = 0; x < 5; x += 1) {
-  for (let y = 0; y < 5; y += 1) {
-    PI_INDEXES[x + 5 * y] = y + ((2 * x + 3 * y) % 5) * 5;
+    const newX = _y % 5;
+    const newY = (2 * _x + 3 * _y) % 5;
+    _x = newX;
+    _y = newY;
   }
-}
 
-// Compute round constants
-let LFSR = 0x01;
-for (let i = 0; i < 24; i += 1) {
-  let roundConstantMsw = 0;
-  let roundConstantLsw = 0;
+  // Compute pi index constants
+  for (let x = 0; x < 5; x += 1) {
+    for (let y = 0; y < 5; y += 1) {
+      PI_INDEXES[x + 5 * y] = y + ((2 * x + 3 * y) % 5) * 5;
+    }
+  }
 
-  for (let j = 0; j < 7; j += 1) {
-    if (LFSR & 0x01) {
-      const bitPosition = (1 << j) - 1;
-      if (bitPosition < 32) {
-        roundConstantLsw ^= 1 << bitPosition;
-      } else /* if (bitPosition >= 32) */ {
-        roundConstantMsw ^= 1 << (bitPosition - 32);
+  // Compute round constants
+  let LFSR = 0x01;
+  for (let i = 0; i < 24; i += 1) {
+    let roundConstantMsw = 0;
+    let roundConstantLsw = 0;
+
+    for (let j = 0; j < 7; j += 1) {
+      if (LFSR & 0x01) {
+        const bitPosition = (1 << j) - 1;
+        if (bitPosition < 32) {
+          roundConstantLsw ^= 1 << bitPosition;
+        } else /* if (bitPosition >= 32) */ {
+          roundConstantMsw ^= 1 << (bitPosition - 32);
+        }
+      }
+
+      // Compute next LFSR
+      if (LFSR & 0x80) {
+        // Primitive polynomial over GF(2): x^8 + x^6 + x^5 + x^4 + 1
+        LFSR = (LFSR << 1) ^ 0x71;
+      } else {
+        LFSR <<= 1;
       }
     }
 
-    // Compute next LFSR
-    if (LFSR & 0x80) {
-      // Primitive polynomial over GF(2): x^8 + x^6 + x^5 + x^4 + 1
-      LFSR = (LFSR << 1) ^ 0x71;
-    } else {
-      LFSR <<= 1;
-    }
+    ROUND_CONSTANTS[i] = X64Word.create(roundConstantMsw, roundConstantLsw);
   }
-
-  ROUND_CONSTANTS[i] = X64Word.create(roundConstantMsw, roundConstantLsw);
-}
+})();
 
 // Reusable objects for temporary values
-const T: X64Word[] = [];
-for (let i = 0; i < 25; i += 1) {
-  T[i] = X64Word.create();
-}
+const T = /* @__PURE__ */ (() => {
+  const a: X64Word[] = [];
+  for (let i = 0; i < 25; i += 1) {
+    a[i] = X64Word.create();
+  }
+  return a;
+})();
 
 /**
  * SHA-3 hash algorithm.
