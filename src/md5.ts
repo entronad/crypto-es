@@ -237,8 +237,8 @@ export class MD5Algo extends Hasher32 {
  *
  * @example
  * ```js
- * const hash = CryptoJS.MD5('message');
- * const hash = CryptoJS.MD5(wordArray);
+ * const hash = MD5('message');
+ * const hash = MD5(wordArray);
  * ```
  */
 export const MD5: HashFn = Hasher._createHelper(MD5Algo);
@@ -252,7 +252,7 @@ export const MD5: HashFn = Hasher._createHelper(MD5Algo);
  *
  * @example
  * ```js
- * const hmac = CryptoJS.HmacMD5(message, key);
+ * const hmac = HmacMD5(message, key);
  * ```
  */
 export const HmacMD5: HMACHashFn = Hasher._createHmacHelper(MD5Algo);

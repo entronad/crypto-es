@@ -355,8 +355,8 @@ export class SHA512Algo extends Hasher64 {
  *
  * @example
  * ```js
- * const hash = CryptoJS.SHA512('message');
- * const hash = CryptoJS.SHA512(wordArray);
+ * const hash = SHA512('message');
+ * const hash = SHA512(wordArray);
  * ```
  */
 export const SHA512: HashFn = Hasher._createHelper(SHA512Algo);
@@ -370,7 +370,7 @@ export const SHA512: HashFn = Hasher._createHelper(SHA512Algo);
  *
  * @example
  * ```js
- * const hmac = CryptoJS.HmacSHA512(message, key);
+ * const hmac = HmacSHA512(message, key);
  * ```
  */
 export const HmacSHA512: HMACHashFn = Hasher._createHmacHelper(SHA512Algo);

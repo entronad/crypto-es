@@ -19,7 +19,7 @@ export const HexFormatter: Format = {
    *
    * @example
    * ```js
-   * const hexString = CryptoJS.format.Hex.stringify(cipherParams);
+   * const hexString = HexFormatter.stringify(cipherParams);
    * ```
    */
   stringify(cipherParams: CipherParams): string {
@@ -37,7 +37,7 @@ export const HexFormatter: Format = {
    *
    * @example
    * ```js
-   * const cipherParams = CryptoJS.format.Hex.parse(hexString);
+   * const cipherParams = HexFormatter.parse(hexString);
    * ```
    */
   parse(input: string): CipherParams {

@@ -24,9 +24,9 @@ export class EvpKDFAlgo extends Base {
    *
    * @example
    *
-   *     const kdf = CryptoJS.algo.EvpKDF.create();
-   *     const kdf = CryptoJS.algo.EvpKDF.create({ keySize: 8 });
-   *     const kdf = CryptoJS.algo.EvpKDF.create({ keySize: 8, iterations: 1000 });
+   *     const kdf = new EvpKDFAlgo();
+   *     const kdf = new EvpKDFAlgo({ keySize: 8 });
+   *     const kdf = new EvpKDFAlgo({ keySize: 8, iterations: 1000 });
    */
   constructor(cfg?: EvpKDFCfg) {
     super();
@@ -112,8 +112,8 @@ export class EvpKDFAlgo extends Base {
  *
  * @example
  *
- *     var key = CryptoJS.EvpKDF(password, salt);
- *     var key = CryptoJS.EvpKDF(password, salt, { keySize: 8 });
- *     var key = CryptoJS.EvpKDF(password, salt, { keySize: 8, iterations: 1000 });
+ *     var key = EvpKDF(password, salt);
+ *     var key = EvpKDF(password, salt, { keySize: 8 });
+ *     var key = EvpKDF(password, salt, { keySize: 8, iterations: 1000 });
  */
 export const EvpKDF = (password: WordArray | string, salt: WordArray | string, cfg?: EvpKDFCfg): WordArray => new EvpKDFAlgo(cfg).compute(password, salt);

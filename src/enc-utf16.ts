@@ -22,7 +22,7 @@ export const Utf16BE: Encoder = {
    *
    * @example
    * ```js
-   * const utf16String = CryptoJS.enc.Utf16.stringify(wordArray);
+   * const utf16String = Utf16.stringify(wordArray);
    * ```
    */
   stringify(wordArray: WordArray): string {
@@ -47,7 +47,7 @@ export const Utf16BE: Encoder = {
    *
    * @example
    * ```js
-   * const wordArray = CryptoJS.enc.Utf16.parse(utf16String);
+   * const wordArray = Utf16.parse(utf16String);
    * ```
    */
   parse(utf16Str: string): WordArray {
@@ -81,7 +81,7 @@ export const Utf16LE: Encoder = {
    *
    * @example
    * ```js
-   * const utf16Str = CryptoJS.enc.Utf16LE.stringify(wordArray);
+   * const utf16Str = Utf16LE.stringify(wordArray);
    * ```
    */
   stringify(wordArray: WordArray): string {
@@ -106,7 +106,7 @@ export const Utf16LE: Encoder = {
    *
    * @example
    * ```js
-   * const wordArray = CryptoJS.enc.Utf16LE.parse(utf16Str);
+   * const wordArray = Utf16LE.parse(utf16Str);
    * ```
    */
   parse(utf16Str: string): WordArray {

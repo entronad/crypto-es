@@ -106,8 +106,8 @@ export class SHA1Algo extends Hasher32 {
  *
  * @example
  * ```js
- * const hash = CryptoJS.SHA1('message');
- * const hash = CryptoJS.SHA1(wordArray);
+ * const hash = SHA1('message');
+ * const hash = SHA1(wordArray);
  * ```
  */
 export const SHA1: HashFn = Hasher._createHelper(SHA1Algo);
@@ -121,7 +121,7 @@ export const SHA1: HashFn = Hasher._createHelper(SHA1Algo);
  *
  * @example
  * ```js
- * const hmac = CryptoJS.HmacSHA1(message, key);
+ * const hmac = HmacSHA1(message, key);
  * ```
  */
 export const HmacSHA1: HMACHashFn = Hasher._createHmacHelper(SHA1Algo);

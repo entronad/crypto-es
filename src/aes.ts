@@ -298,7 +298,7 @@ export class AESAlgo extends BlockCipher {
  *
  * @example
  *
- *     var ciphertext = CryptoJS.AES.encrypt(message, key, cfg);
- *     var plaintext  = CryptoJS.AES.decrypt(ciphertext, key, cfg);
+ *     var ciphertext = AES.encrypt(message, key, cfg);
+ *     var plaintext  = AES.decrypt(ciphertext, key, cfg);
  */
 export const AES: CipherObj = BlockCipher._createHelper(AESAlgo);

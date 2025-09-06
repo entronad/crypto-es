@@ -86,7 +86,7 @@ class CTRGladmanMode extends BlockCipherMode {
 
 /** @preserve
  * Counter block mode compatible with  Dr Brian Gladman fileenc.c
- * derived from CryptoJS.mode.CTR
+ * derived from CTR mode
  * Jan Hruby jhruby.web@gmail.com
  */
 export class CTRGladman extends BlockCipherMode {

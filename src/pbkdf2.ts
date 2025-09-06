@@ -24,9 +24,9 @@ export class PBKDF2Algo extends Base {
    *
    * @example
    *
-   *     const kdf = CryptoJS.algo.PBKDF2.create();
-   *     const kdf = CryptoJS.algo.PBKDF2.create({ keySize: 8 });
-   *     const kdf = CryptoJS.algo.PBKDF2.create({ keySize: 8, iterations: 1000 });
+   *     const kdf = new PBKDF2Algo();
+   *     const kdf = new PBKDF2Algo({ keySize: 8 });
+   *     const kdf = new PBKDF2Algo({ keySize: 8, iterations: 1000 });
    */
   constructor(cfg?: PBKDF2Cfg) {
     super();
@@ -126,8 +126,8 @@ export class PBKDF2Algo extends Base {
  *
  * @example
  *
- *     var key = CryptoJS.PBKDF2(password, salt);
- *     var key = CryptoJS.PBKDF2(password, salt, { keySize: 8 });
- *     var key = CryptoJS.PBKDF2(password, salt, { keySize: 8, iterations: 1000 });
+ *     var key = PBKDF2(password, salt);
+ *     var key = PBKDF2(password, salt, { keySize: 8 });
+ *     var key = PBKDF2(password, salt, { keySize: 8, iterations: 1000 });
  */
 export const PBKDF2 = (password: WordArray | string, salt: WordArray | string, cfg?: PBKDF2Cfg): WordArray => new PBKDF2Algo(cfg).compute(password, salt);

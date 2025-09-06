@@ -44,8 +44,8 @@ export class SHA224Algo extends SHA256Algo {
  *
  * @example
  * ```js
- * const hash = CryptoJS.SHA224('message');
- * const hash = CryptoJS.SHA224(wordArray);
+ * const hash = SHA224('message');
+ * const hash = SHA224(wordArray);
  * ```
  */
 export const SHA224: HashFn = SHA256Algo._createHelper(SHA224Algo);
@@ -59,7 +59,7 @@ export const SHA224: HashFn = SHA256Algo._createHelper(SHA224Algo);
  *
  * @example
  * ```js
- * const hmac = CryptoJS.HmacSHA224(message, key);
+ * const hmac = HmacSHA224(message, key);
  * ```
  */
 export const HmacSHA224: HMACHashFn = SHA256Algo._createHmacHelper(SHA224Algo);

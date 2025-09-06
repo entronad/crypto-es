@@ -448,7 +448,7 @@ export class BlowfishAlgo extends BlockCipher {
  *
  * @example
  *
- *     var ciphertext = CryptoJS.Blowfish.encrypt(message, key, cfg);
- *     var plaintext  = CryptoJS.Blowfish.decrypt(ciphertext, key, cfg);
+ *     var ciphertext = Blowfish.encrypt(message, key, cfg);
+ *     var plaintext  = Blowfish.decrypt(ciphertext, key, cfg);
  */
 export const Blowfish: CipherObj = BlockCipher._createHelper(BlowfishAlgo);

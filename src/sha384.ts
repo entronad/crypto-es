@@ -48,8 +48,8 @@ export class SHA384Algo extends SHA512Algo {
  *
  * @example
  * ```js
- * const hash = CryptoJS.SHA384('message');
- * const hash = CryptoJS.SHA384(wordArray);
+ * const hash = SHA384('message');
+ * const hash = SHA384(wordArray);
  * ```
  */
 export const SHA384: HashFn = SHA512Algo._createHelper(SHA384Algo);
@@ -63,7 +63,7 @@ export const SHA384: HashFn = SHA512Algo._createHelper(SHA384Algo);
  *
  * @example
  * ```js
- * const hmac = CryptoJS.HmacSHA384(message, key);
+ * const hmac = HmacSHA384(message, key);
  * ```
  */
 export const HmacSHA384: HMACHashFn = SHA512Algo._createHmacHelper(SHA384Algo);

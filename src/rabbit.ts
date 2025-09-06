@@ -179,7 +179,7 @@ export class RabbitAlgo extends StreamCipher {
  *
  * @example
  *
- *     var ciphertext = CryptoJS.Rabbit.encrypt(message, key, cfg);
- *     var plaintext  = CryptoJS.Rabbit.decrypt(ciphertext, key, cfg);
+ *     var ciphertext = Rabbit.encrypt(message, key, cfg);
+ *     var plaintext  = Rabbit.decrypt(ciphertext, key, cfg);
  */
 export const Rabbit: CipherObj = StreamCipher._createHelper(RabbitAlgo);
