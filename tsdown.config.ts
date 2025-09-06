@@ -42,7 +42,7 @@ export default defineConfig({
   
   // Validate exports field in package.json
   // Disabled to manually manage package.json exports
-  exports: false,
+  exports: true,
   
   // Publint validation
   publint: true,
