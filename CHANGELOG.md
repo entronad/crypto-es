@@ -1,3 +1,11 @@
+## 3.1.0
+
+**2025-09-06**
+
+- Optimize tree-shakability: https://github.com/entronad/crypto-es/issues/54#issuecomment-3241540002
+- Only allow partially importing from index: https://github.com/entronad/crypto-es/issues/54#issuecomment-3241394269
+- A new README.
+
 ## 3.0.4
 
 **2025-08-31**
