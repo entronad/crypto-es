@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
-import C from '../src/index';
+import { Hex, WordArray } from '../src/index';
 
 describe('enc-hex', () => {
   it('stringify', () => {
-    expect(C.enc.Hex.stringify(C.lib.WordArray.create([0x12345678]))).toBe('12345678');
+    expect(Hex.stringify(WordArray.create([0x12345678]))).toBe('12345678');
   });
 
   it('parse', () => {
-    expect(C.enc.Hex.parse('12345678').toString()).toBe(C.lib.WordArray.create([0x12345678]).toString());
+    expect(Hex.parse('12345678').toString()).toBe(WordArray.create([0x12345678]).toString());
   });
 });

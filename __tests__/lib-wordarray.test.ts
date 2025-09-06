@@ -1,56 +1,56 @@
 /* eslint-disable no-undef */
-import C from '../src/index';
+import { Latin1, WordArray } from '../src/index';
 
 describe('lib-wordarray', () => {
   it('init 0', () => {
-    expect(C.lib.WordArray.create().toString()).toBe('');
+    expect(WordArray.create().toString()).toBe('');
   });
 
   it('init 1', () => {
-    expect(C.lib.WordArray.create([0x12345678]).toString()).toBe('12345678');
+    expect(WordArray.create([0x12345678]).toString()).toBe('12345678');
   });
 
   it('init 2', () => {
-    expect(C.lib.WordArray.create([0x12345678], 2).toString()).toBe('1234');
+    expect(WordArray.create([0x12345678], 2).toString()).toBe('1234');
   });
 
   it('toString passed encoder', () => {
-    expect(C.lib.WordArray.create([0x12345678]).toString(C.enc.Latin1)).toBe('\x12\x34\x56\x78');
+    expect(WordArray.create([0x12345678]).toString(Latin1)).toBe('\x12\x34\x56\x78');
   });
 
   it('toString default encoder', () => {
-    expect(C.lib.WordArray.create([0x12345678]).toString()).toBe('12345678');
+    expect(WordArray.create([0x12345678]).toString()).toBe('12345678');
   });
 
   it('concat 3', () => {
-    const wordArray1 = C.lib.WordArray.create([0x12345678], 3);
-    const wordArray2 = C.lib.WordArray.create([0x12345678], 3);
+    const wordArray1 = WordArray.create([0x12345678], 3);
+    const wordArray2 = WordArray.create([0x12345678], 3);
 
     expect(wordArray1.concat(wordArray2).toString()).toBe('123456123456');
     expect(wordArray1.toString()).toBe('123456123456');
   });
 
   it('concat 4', () => {
-    const wordArray1 = C.lib.WordArray.create([0x12345678], 4);
-    const wordArray2 = C.lib.WordArray.create([0x12345678], 3);
+    const wordArray1 = WordArray.create([0x12345678], 4);
+    const wordArray2 = WordArray.create([0x12345678], 3);
 
     expect(wordArray1.concat(wordArray2).toString()).toBe('12345678123456');
     expect(wordArray1.toString()).toBe('12345678123456');
   });
 
   it('concat 5', () => {
-    const wordArray1 = C.lib.WordArray.create([0x12345678], 5);
-    const wordArray2 = C.lib.WordArray.create([0x12345678], 3);
+    const wordArray1 = WordArray.create([0x12345678], 5);
+    const wordArray2 = WordArray.create([0x12345678], 3);
 
     expect(wordArray1.concat(wordArray2).toString()).toBe('1234567800123456');
     expect(wordArray1.toString()).toBe('1234567800123456');
   });
 
   it('concat long', () => {
-    const wordArray1 = C.lib.WordArray.create();
+    const wordArray1 = WordArray.create();
 
-    const wordArray2 = C.lib.WordArray.create();
-    const wordArray3 = C.lib.WordArray.create();
+    const wordArray2 = WordArray.create();
+    const wordArray3 = WordArray.create();
     for (let i = 0; i < 500000; i += 1) {
       wordArray2.words[i] = i;
       wordArray3.words[i] = i;
@@ -64,14 +64,14 @@ describe('lib-wordarray', () => {
   });
 
   it('clamp', () => {
-    const wordArray = C.lib.WordArray.create([0x12345678, 0x12345678], 3);
+    const wordArray = WordArray.create([0x12345678, 0x12345678], 3);
     wordArray.clamp();
 
     expect(wordArray.words.toString()).toBe([0x12345600].toString());
   });
 
   it('clone', () => {
-    const wordArray = C.lib.WordArray.create([0x12345678]);
+    const wordArray = WordArray.create([0x12345678]);
     const clone = wordArray.clone();
     clone.words[0] = 0;
 
@@ -79,7 +79,7 @@ describe('lib-wordarray', () => {
   });
 
   it('random', () => {
-    expect(C.lib.WordArray.random(8).toString()).not.toBe(C.lib.WordArray.random(8).toString());
-    expect(C.lib.WordArray.random(8).sigBytes).toBe(8);
+    expect(WordArray.random(8).toString()).not.toBe(WordArray.random(8).toString());
+    expect(WordArray.random(8).sigBytes).toBe(8);
   });
 });

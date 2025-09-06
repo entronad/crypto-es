@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import C from '../src/index';
+import { Base } from '../src/index';
 
 const data: any = {};
 
@@ -8,7 +8,7 @@ beforeAll(() => {
     mixinMethod: () => {},
   };
 
-  data.Obj = class Obj extends C.lib.Base {
+  data.Obj = class Obj extends Base {
     initFired;
     initArg;
     constructor(arg) {
@@ -32,13 +32,13 @@ beforeAll(() => {
 describe('lib-base', () => {
   it('class inheritance', () => {
     /* eslint-disable no-proto */
-    expect(data.Obj.__proto__).toBe(C.lib.Base);
+    expect(data.Obj.__proto__).toBe(Base);
     /* eslint-enable no-proto */
   });
 
   it('object inheritance', () => {
     /* eslint-disable no-proto */
-    expect(data.obj.__proto__.__proto__).toBe(C.lib.Base.prototype);
+    expect(data.obj.__proto__.__proto__).toBe(Base.prototype);
     /* eslint-enable no-proto */
   });
 

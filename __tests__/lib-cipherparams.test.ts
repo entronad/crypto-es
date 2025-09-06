@@ -1,20 +1,20 @@
 /* eslint-disable no-undef */
-import C from '../src/index';
+import { AESAlgo, CBC, CipherParams, Hex, OpenSSLFormatter, Pkcs7 } from '../src/index';
 
 const data: any = {};
 
 beforeAll(() => {
-  data.ciphertext = C.enc.Hex.parse('000102030405060708090a0b0c0d0e0f');
-  data.key = C.enc.Hex.parse('101112131415161718191a1b1c1d1e1f');
-  data.iv = C.enc.Hex.parse('202122232425262728292a2b2c2d2e2f');
-  data.salt = C.enc.Hex.parse('0123456789abcdef');
-  data.algorithm = C.algo.AES;
-  data.mode = C.mode.CBC;
-  data.padding = C.pad.Pkcs7;
+  data.ciphertext = Hex.parse('000102030405060708090a0b0c0d0e0f');
+  data.key = Hex.parse('101112131415161718191a1b1c1d1e1f');
+  data.iv = Hex.parse('202122232425262728292a2b2c2d2e2f');
+  data.salt = Hex.parse('0123456789abcdef');
+  data.algorithm = AESAlgo;
+  data.mode = CBC;
+  data.padding = Pkcs7;
   data.blockSize = data.algorithm.blockSize;
-  data.formatter = C.format.OpenSSL;
+  data.formatter = OpenSSLFormatter;
 
-  data.cipherParams = C.lib.CipherParams.create({
+  data.cipherParams = CipherParams.create({
     ciphertext: data.ciphertext,
     key: data.key,
     iv: data.iv,
@@ -42,7 +42,7 @@ describe('lib-cipherparams', () => {
 
   it('toString 0', () => {
     expect(data.cipherParams.toString())
-      .toBe(C.format.OpenSSL.stringify(data.cipherParams));
+      .toBe(OpenSSLFormatter.stringify(data.cipherParams));
   });
 
   it('toString 1', () => {

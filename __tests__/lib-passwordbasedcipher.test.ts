@@ -1,22 +1,22 @@
 /* eslint-disable no-undef */
-import C from '../src/index';
+import { AESAlgo, PasswordBasedCipher, Utf8 } from '../src/index';
 
 describe('lib-passwordbasedcipher', () => {
   it('encrypt', () => {
     // Compute actual
-    const actual = C.lib.PasswordBasedCipher.encrypt(C.algo.AES, 'Hello, World!', 'password');
+    const actual = PasswordBasedCipher.encrypt(AESAlgo, 'Hello, World!', 'password');
 
     // Compute expected
-    const aes = C.algo.AES.createEncryptor(actual.key!, { iv: actual.iv });
+    const aes = AESAlgo.createEncryptor(actual.key!, { iv: actual.iv });
     const expected = aes.finalize('Hello, World!');
 
     expect(actual.ciphertext!.toString()).toBe(expected.toString());
   });
 
   it('decrypt', () => {
-    const ciphertext = C.lib.PasswordBasedCipher.encrypt(C.algo.AES, 'Hello, World!', 'password');
-    const plaintext = C.lib.PasswordBasedCipher.decrypt(C.algo.AES, ciphertext, 'password');
+    const ciphertext = PasswordBasedCipher.encrypt(AESAlgo, 'Hello, World!', 'password');
+    const plaintext = PasswordBasedCipher.decrypt(AESAlgo, ciphertext, 'password');
 
-    expect(plaintext.toString(C.enc.Utf8)).toBe('Hello, World!');
+    expect(plaintext.toString(Utf8)).toBe('Hello, World!');
   });
 });

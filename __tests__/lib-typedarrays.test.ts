@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import C from '../src/index';
+import { WordArray } from '../src/index';
 
 const data: any = {};
 
@@ -19,34 +19,34 @@ beforeAll(() => {
 
 describe('lib-typedarrays-test', () => {
   it('Int8Array', () => {
-    expect(C.lib.WordArray.create(new Int8Array(data.buffer)).toString()).toBe('0123456789abcdef');
+    expect(WordArray.create(new Int8Array(data.buffer)).toString()).toBe('0123456789abcdef');
   });
 
   it('Uint8Array', () => {
-    expect(C.lib.WordArray.create(new Uint8Array(data.buffer)).toString()).toBe('0123456789abcdef');
+    expect(WordArray.create(new Uint8Array(data.buffer)).toString()).toBe('0123456789abcdef');
   });
 
   it('Uint8ClampedArray', () => {
-    expect(C.lib.WordArray.create(new Uint8ClampedArray(data.buffer)).toString()).toBe('0123456789abcdef');
+    expect(WordArray.create(new Uint8ClampedArray(data.buffer)).toString()).toBe('0123456789abcdef');
   });
 
   it('Int16Array', () => {
-    expect(C.lib.WordArray.create(new Int16Array(data.buffer)).toString()).toBe('0123456789abcdef');
+    expect(WordArray.create(new Int16Array(data.buffer)).toString()).toBe('0123456789abcdef');
   });
 
   it('Uint16Array', () => {
-    expect(C.lib.WordArray.create(new Uint16Array(data.buffer)).toString()).toBe('0123456789abcdef');
+    expect(WordArray.create(new Uint16Array(data.buffer)).toString()).toBe('0123456789abcdef');
   });
 
   it('Int32Array', () => {
-    expect(C.lib.WordArray.create(new Int32Array(data.buffer)).toString()).toBe('0123456789abcdef');
+    expect(WordArray.create(new Int32Array(data.buffer)).toString()).toBe('0123456789abcdef');
   });
 
   it('Uint32Array', () => {
-    expect(C.lib.WordArray.create(new Uint32Array(data.buffer)).toString()).toBe('0123456789abcdef');
+    expect(WordArray.create(new Uint32Array(data.buffer)).toString()).toBe('0123456789abcdef');
   });
 
   it('Int16Array', () => {
-    expect(C.lib.WordArray.create(new Int16Array(data.buffer, 2, 2)).toString()).toBe('456789ab');
+    expect(WordArray.create(new Int16Array(data.buffer, 2, 2)).toString()).toBe('456789ab');
   });
 });
