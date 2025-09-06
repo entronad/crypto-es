@@ -1,17 +1,11 @@
 {
   "name": "crypto-es",
   "version": "3.0.4",
-  "description": "A cryptography algorithms library compatible with ES6 and TypeScript",
+  "description": "A cryptography algorithms library",
   "keywords": [
-    "typescript",
     "security",
     "crypto",
     "cipher",
-    "ArrayBuffer",
-    "TypedArray",
-    "file",
-    "ECMAScript",
-    "ES6",
     "Hash",
     "MD5",
     "SHA1",
