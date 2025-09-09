@@ -844,7 +844,8 @@ export const OpenSSLFormatter: Format = {
     if (salt && ciphertext) {
       wordArray = WordArray.create([0x53616c74, 0x65645f5f]).concat(salt).concat(ciphertext);
     } else if (ciphertext) {
-      wordArray = ciphertext;
+      // Use a clone to avoid mutating the original ciphertext when encoding (which clamps)
+      wordArray = ciphertext.clone();
     } else {
       // No ciphertext, return empty
       wordArray = new WordArray();
@@ -921,6 +922,8 @@ export class SerializableCipher extends Base {
     // Encrypt
     const encryptor = (cipher as any).createEncryptor(key as WordArray, _cfg);
     const ciphertext = encryptor.finalize(message);
+    // Ensure ciphertext has a stable representation (no growth on stringify)
+    ciphertext.clamp();
 
     // Shortcut
     const cipherCfg = encryptor.cfg;
