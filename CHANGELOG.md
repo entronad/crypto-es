@@ -1,3 +1,9 @@
+## 3.1.1
+
+**2025-09-09**
+
+- Fix toString bug: https://github.com/entronad/crypto-es/issues/52
+
 ## 3.1.0
 
 **2025-09-06**
