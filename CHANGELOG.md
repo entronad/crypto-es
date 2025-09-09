@@ -1,3 +1,9 @@
+## 3.1.2
+
+**2025-09-09**
+
+- Fix the PURE annotation bug, the fix in 3.1.1 is not the real problem, so it is reversed: https://github.com/entronad/crypto-es/issues/52
+
 ## 3.1.1
 
 **2025-09-09**
