@@ -19,7 +19,7 @@ const PI_INDEXES: number[] = [];
 const ROUND_CONSTANTS: X64Word[] = [];
 
 // Compute Constants
-/* @__PURE__ */ (() => {
+(() => {
   // Compute rho offset constants
   let _x = 1;
   let _y = 0;
@@ -69,7 +69,7 @@ const ROUND_CONSTANTS: X64Word[] = [];
 })();
 
 // Reusable objects for temporary values
-const T = /* @__PURE__ */ (() => {
+const T = (() => {
   const a: X64Word[] = [];
   for (let i = 0; i < 25; i += 1) {
     a[i] = X64Word.create();

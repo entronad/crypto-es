@@ -17,7 +17,7 @@ const INV_SUB_MIX_2: number[] = [];
 const INV_SUB_MIX_3: number[] = [];
 
 // Compute lookup tables
-/* @__PURE__ */ (() => {
+(() => {
   // Compute double table
   const d: number[] = [];
   for (let i = 0; i < 256; i += 1) {
