@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { CipherParams, ECB, Hex, NoPadding, PasswordBasedCipher, SHA256, SerializableCipher, TripleDES, TripleDESAlgo, WordArray } from '../src/index';
+import { CipherParams, ECB, Hex, NoPadding, Pkcs7, PasswordBasedCipher, SHA256, SerializableCipher, TripleDES, TripleDESAlgo, Utf8, WordArray } from '../src/index';
 
 describe('triple des', () => {
   it('encrypt 1', () => {
@@ -100,6 +100,48 @@ describe('triple des', () => {
     const output2 = TripleDES.encrypt(message, truncatedKey, { mode: ECB }).toString();
 
     expect(output1).toBe(output2);
+  });
+
+  it('multi block encrypt with no padding', () => {
+    const key = Hex.parse('000102030405060708090a0b0c0d0e0f1011121314151617');
+    const plaintext = Hex.parse('00112233445566778899aabbccddeeff0011223344556677');
+
+    expect(TripleDES.encrypt(plaintext, key, { mode: ECB, padding: NoPadding }).ciphertext!.toString())
+      .toBe('97a25ba82b564f4c6142886a2ca8d53b97a25ba82b564f4c');
+  });
+
+  it('multi block decrypt with no padding', () => {
+    const key = Hex.parse('000102030405060708090a0b0c0d0e0f1011121314151617');
+    const ciphertext = Hex.parse('97a25ba82b564f4c6142886a2ca8d53b97a25ba82b564f4c');
+
+    expect(TripleDES.decrypt(CipherParams.create({ ciphertext }), key, { mode: ECB, padding: NoPadding }).toString())
+      .toBe('00112233445566778899aabbccddeeff0011223344556677');
+  });
+
+  it('multi block encrypt with pkcs7 padding', () => {
+    const key = Hex.parse('000102030405060708090a0b0c0d0e0f1011121314151617');
+    const plaintext = 'Hi There';
+
+    expect(TripleDES.encrypt(plaintext, key, { mode: ECB, padding: Pkcs7 }).ciphertext!.toString())
+      .toBe('74f8bcab6c1722eaa3cf6ec88bd97d73');
+  });
+
+  it('multi block decrypt with pkcs7 padding', () => {
+    const key = Hex.parse('000102030405060708090a0b0c0d0e0f1011121314151617');
+    const ciphertext = Hex.parse('74f8bcab6c1722eaa3cf6ec88bd97d73');
+
+    expect(TripleDES.decrypt(CipherParams.create({ ciphertext }), key, { mode: ECB, padding: Pkcs7 }).toString(Utf8))
+      .toBe('Hi There');
+  });
+
+  it('multi block round trip', () => {
+    const key = Hex.parse('000102030405060708090a0b0c0d0e0f1011121314151617');
+    const plaintext = 'The quick brown fox jumps over the lazy dog';
+
+    const encrypted = TripleDES.encrypt(plaintext, key, { mode: ECB });
+    const decrypted = TripleDES.decrypt(encrypted, key, { mode: ECB });
+
+    expect(decrypted.toString(Utf8)).toBe(plaintext);
   });
 
   it('test helper', () => {
