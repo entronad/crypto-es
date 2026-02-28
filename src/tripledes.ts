@@ -763,6 +763,14 @@ export class TripleDESAlgo extends BlockCipher {
   /** Third DES instance */
   private _des3!: DESAlgo;
 
+  constructor(xformMode: number, key: WordArray, cfg?: CipherCfg) {
+    super(xformMode, key, cfg);
+    
+    // blockSize is an instance field and should set in constructor.
+    // Both DESAlgo and TripleDESAlgo.
+    this.blockSize = 64 / 32;
+  }
+
   protected _doReset(): void {
     // Shortcuts
     const key = this._key;
