@@ -4,8 +4,8 @@ export default defineConfig({
   // Entry points for the library
   entry: ['./src/index.ts'],
   
-  // Output formats: ESM and CommonJS for maximum compatibility
-  format: ['esm', 'cjs'],
+  // Output formats: ESM only
+  format: 'esm',
   
   // Clean output directory before building
   clean: true,
@@ -31,8 +31,8 @@ export default defineConfig({
   // Minification disabled for library code (let consumers handle this)
   minify: false,
   
-  // Generate source maps for better debugging
-  sourcemap: true,
+  // Disable source maps for smaller bundle size
+  sourcemap: false,
   
   // Treeshaking to remove unused code
   treeshake: true,
@@ -47,28 +47,8 @@ export default defineConfig({
   // Publint validation
   publint: true,
   
-  // Custom output configuration for different formats
-  outExtension({ format }) {
-    if (format === 'esm') {
-      return {
-        js: '.mjs',
-      };
-    }
-    if (format === 'cjs') {
-      return {
-        js: '.cjs',
-      };
-    }
-    return {};
-  },
-  
   // Success callback
   onSuccess() {
     console.info('✅ Build succeeded!');
-  },
-  
-  // Failure callback
-  onFailure(error) {
-    console.error('❌ Build failed:', error);
   },
 });
